@@ -16,6 +16,21 @@ class DashboardHooks extends APIServer {
 
 		this.origin = options.origin;
 
+		this.router.get('api/stats', this.setHeaders.bind(this), (request, response) => response.end(JSON.stringify({
+			users: this.client.users.size,
+			guilds: this.client.guilds.size,
+			channels: this.client.channels.size,
+			memory: process.memoryUsage().heapUsed / 1024 / 1024
+		})));
+
+		this.router.get('api/users', this.setHeaders.bind(this), (request, response) => response.end(JSON.stringify(this.client.users.keyArray())));
+
+		this.router.get('api/users/:userID', this.setHeaders.bind(this), (request, response, { userID }) => {
+			const user = this.client.users.get(userID);
+			if (!user) response.end('{}');
+			return response.end(JSON.stringify(user));
+		});
+
 		this.router.get('api/guilds', this.setHeaders.bind(this), (request, response) => response.end(JSON.stringify(this.client.guilds.keyArray())));
 
 		this.router.get('api/guilds/:guildID', this.setHeaders.bind(this), (request, response, { guildID }) => {
@@ -70,6 +85,7 @@ class DashboardHooks extends APIServer {
 			this.router.get(`api/${name}`, this.setHeaders.bind(this), (request, response) => response.end(JSON.stringify(store.keyArray())));
 
 			this.router.get(`api/${name}/:id`, this.setHeaders.bind(this), (request, response, { id }) => {
+				if (id === 'all') return response.end(JSON.stringify(store.array()));
 				const piece = store.get(id);
 				if (!piece) response.end('{}');
 				return response.end(JSON.stringify(piece));
