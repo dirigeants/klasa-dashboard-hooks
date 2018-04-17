@@ -1,51 +1,60 @@
-const { APIServer } = require('http-nextra');
+const Polka = require('polka')().constructor;
+// Fuck polka for this export, btw
+const { Duration } = require('klasa');
 
-class DashboardHooks extends APIServer {
+class DashboardHooks extends Polka {
 
 	constructor(client, options = {
 		port: 3000,
 		origin: '*'
 	}) {
-		super(async (request, response) => {
-			if (!await this.router.runPath(request.url.slice(1).split('/'), request, response, {})) {
-				response.end('Hello!');
-			}
-		});
+		super();
 
 		this.client = client;
 
 		this.origin = options.origin;
 
-		this.router.get('api/stats', this.setHeaders.bind(this), (request, response) => response.end(JSON.stringify({
+		this.use(this.setHeaders.bind(this));
+
+		this.get('api/application', (request, response) => response.end(JSON.stringify({
 			users: this.client.users.size,
 			guilds: this.client.guilds.size,
 			channels: this.client.channels.size,
-			memory: process.memoryUsage().heapUsed / 1024 / 1024
+			shards: this.client.options.shardCount,
+			uptime: Duration.toNow(Date.now() - (process.uptime() * 1000)),
+			latency: this.client.ping.toFixed(0),
+			memory: process.memoryUsage().heapUsed / 1024 / 1024,
+			invite: this.client.invite,
+			...this.client.application
 		})));
 
-		this.router.get('api/users', this.setHeaders.bind(this), (request, response) => response.end(JSON.stringify(this.client.users.keyArray())));
+		this.get('api/users', (request, response) => response.end(JSON.stringify(this.client.users.keyArray())));
 
-		this.router.get('api/users/:userID', this.setHeaders.bind(this), (request, response, { userID }) => {
+		this.get('api/users/:userID', (request, response) => {
+			const { userID } = request.params;
 			const user = this.client.users.get(userID);
 			if (!user) response.end('{}');
 			return response.end(JSON.stringify(user));
 		});
 
-		this.router.get('api/guilds', this.setHeaders.bind(this), (request, response) => response.end(JSON.stringify(this.client.guilds.keyArray())));
+		this.get('api/guilds', (request, response) => response.end(JSON.stringify(this.client.guilds.keyArray())));
 
-		this.router.get('api/guilds/:guildID', this.setHeaders.bind(this), (request, response, { guildID }) => {
+		this.get('api/guilds/:guildID', (request, response) => {
+			const { guildID } = request.params;
 			const guild = this.client.guilds.get(guildID);
 			if (!guild) response.end('{}');
 			return response.end(JSON.stringify(guild));
 		});
 
-		this.router.get('api/guilds/:guildID/members', this.setHeaders.bind(this), (request, response, { guildID }) => {
+		this.get('api/guilds/:guildID/members', (request, response) => {
+			const { guildID } = request.params;
 			const guild = this.client.guilds.get(guildID);
 			if (!guild) response.end('[]');
 			return response.end(JSON.stringify(guild.members.keyArray()));
 		});
 
-		this.router.get('api/guilds/:guildID/members/:memberID', this.setHeaders.bind(this), (request, response, { guildID, memberID }) => {
+		this.get('api/guilds/:guildID/members/:memberID', (request, response) => {
+			const { guildID, memberID } = request.params;
 			const guild = this.client.guilds.get(guildID);
 			if (!guild) return response.end('{}');
 			const member = guild.members.get(memberID);
@@ -53,13 +62,15 @@ class DashboardHooks extends APIServer {
 			return response.end(JSON.stringify(member));
 		});
 
-		this.router.get('api/guilds/:guildID/roles', this.setHeaders.bind(this), (request, response, { guildID }) => {
+		this.get('api/guilds/:guildID/roles', (request, response) => {
+			const { guildID } = request.params;
 			const guild = this.client.guilds.get(guildID);
 			if (!guild) response.end('[]');
 			return response.end(JSON.stringify(guild.roles.keyArray()));
 		});
 
-		this.router.get('api/guilds/:guildID/roles/:roleID', this.setHeaders.bind(this), (request, response, { guildID, roleID }) => {
+		this.get('api/guilds/:guildID/roles/:roleID', (request, response) => {
+			const { guildID, roleID } = request.params;
 			const guild = this.client.guilds.get(guildID);
 			if (!guild) return response.end('{}');
 			const role = guild.members.get(roleID);
@@ -67,13 +78,15 @@ class DashboardHooks extends APIServer {
 			return response.end(JSON.stringify(role));
 		});
 
-		this.router.get('api/guilds/:guildID/channels', this.setHeaders.bind(this), (request, response, { guildID }) => {
+		this.get('api/guilds/:guildID/channels', (request, response) => {
+			const { guildID } = request.params;
 			const guild = this.client.guilds.get(guildID);
 			if (!guild) response.end('[]');
 			return response.end(JSON.stringify(guild.channels.keyArray()));
 		});
 
-		this.router.get('api/guilds/:guildID/channels/:channelID', this.setHeaders.bind(this), (request, response, { guildID, channelID }) => {
+		this.get('api/guilds/:guildID/channels/:channelID', (request, response) => {
+			const { guildID, channelID } = request.params;
 			const guild = this.client.guilds.get(guildID);
 			if (!guild) return response.end('{}');
 			const channel = guild.members.get(channelID);
@@ -82,9 +95,10 @@ class DashboardHooks extends APIServer {
 		});
 
 		for (const [name, store] of this.client.pieceStores) {
-			this.router.get(`api/${name}`, this.setHeaders.bind(this), (request, response) => response.end(JSON.stringify(store.keyArray())));
+			this.get(`api/${name}`, (request, response) => response.end(JSON.stringify(store.keyArray())));
 
-			this.router.get(`api/${name}/:id`, this.setHeaders.bind(this), (request, response, { id }) => {
+			this.get(`api/${name}/:id`, (request, response) => {
+				const { id } = request.params;
 				if (id === 'all') return response.end(JSON.stringify(store.array()));
 				const piece = store.get(id);
 				if (!piece) response.end('{}');
@@ -95,10 +109,10 @@ class DashboardHooks extends APIServer {
 		this.listen(options.port);
 	}
 
-	setHeaders(req, res) {
-		res.setHeader('Access-Control-Allow-Origin', this.origin);
-		res.setHeader('Content-Type', 'application/json');
-		return true;
+	setHeaders(request, response, next) {
+		response.setHeader('Access-Control-Allow-Origin', this.origin);
+		response.setHeader('Content-Type', 'application/json');
+		next();
 	}
 
 }
