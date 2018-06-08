@@ -1,4 +1,4 @@
-const httpmethods = require('http').METHODS.map(str => str.toLowerCase());
+const { METHODS } = require('http');
 const { Piece } = require('klasa');
 const { parse } = require('matchit');
 
@@ -64,8 +64,8 @@ class Route extends Piece {
 	 */
 	enable() {
 		const { routes, handlers } = this.client.router;
-		for (const method of httpmethods) {
-			if (!this[method]) continue;
+		for (const method of METHODS) {
+			if (!this[method.toLowerCase()]) continue;
 			// Save decoded pattern info
 			if (!routes[method]) routes[method] = [];
 			routes[method].push(parse(this.route));
