@@ -24,8 +24,7 @@ class MiddlewareStore extends Store {
 	 * @readonly
 	 */
 	get coreDir() {
-		console.log(this.client.hookBaseDir, this.name);
-		return join(this.client.hookBaseDir, this.name);
+		return join(this.client.hooksBaseDir, this.name);
 	}
 
 	/**

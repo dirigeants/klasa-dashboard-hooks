@@ -20,7 +20,7 @@ class RouteStore extends Store {
 	 * @readonly
 	 */
 	get coreDir() {
-		return join(this.client.hookBaseDir, this.name);
+		return join(this.client.hooksBaseDir, this.name);
 	}
 
 	/**
