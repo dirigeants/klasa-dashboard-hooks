@@ -35,7 +35,7 @@ class DashboardClient extends Client {
 	 */
 	constructor(config) {
 		super(config);
-		mergeDefault(this.options, OPTIONS);
+		mergeDefault(OPTIONS, this.options);
 
 		/**
 		 * The directory to the node_modules folder where Klasa-Dashboard-Hooks exists
