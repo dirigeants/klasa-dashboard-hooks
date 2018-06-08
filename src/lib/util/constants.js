@@ -5,6 +5,9 @@ module.exports = {
 			origin: '*',
 			port: 4000
 		},
-		pieceDefaults: { routes: { enabled: true } }
+		pieceDefaults: {
+			routes: { enabled: true },
+			middlewares: { enabled: true }
+		}
 	}
 };
