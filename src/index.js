@@ -8,6 +8,10 @@ module.exports = {
 };
 
 /**
+ * @external KlasaClient
+ * @see {@link https://klasa.js.org/#/docs/main/master/class/KlasaClient}
+ */
+/**
  * @external Piece
  * @see {@link https://klasa.js.org/#/docs/main/master/class/Piece}
  */
