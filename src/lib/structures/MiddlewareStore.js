@@ -14,7 +14,7 @@ class MiddlewareStore extends Store {
 	 * @param {DashboardClient} client The Klasa client
 	 */
 	constructor(client) {
-		super(client, 'routes', Middleware);
+		super(client, 'middlewares', Middleware);
 	}
 
 	/**
@@ -24,6 +24,7 @@ class MiddlewareStore extends Store {
 	 * @readonly
 	 */
 	get coreDir() {
+		console.log(this.client.hookBaseDir, this.name);
 		return join(this.client.hookBaseDir, this.name);
 	}
 
