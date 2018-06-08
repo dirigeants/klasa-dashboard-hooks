@@ -36,9 +36,6 @@ build/Release
 node_modules/
 jspm_packages/
 
-# Typescript v1 declaration files
-typings/
-
 # Optional npm cache directory
 .npm
 
@@ -57,5 +54,10 @@ typings/
 # dotenv environment variables file
 .env
 
+.vscode
+package-lock.json
+docs
 
-package-lock\.json
+\.vscode/
+\.idea/
+desktop.ini
