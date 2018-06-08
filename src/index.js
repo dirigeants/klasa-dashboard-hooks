@@ -19,4 +19,11 @@ module.exports = {
  * @external Store
  * @see {@link https://klasa.js.org/#/docs/main/master/class/Store}
  */
-
+/**
+ * @external KlasaClientOptions
+ * @see {@link https://klasa.js.org/#/docs/main/master/typedef/KlasaClientOptions}
+ */
+/**
+ * @external Polka
+ * @see {@link https://github.com/lukeed/polka/tree/master/packages/polka}
+ */
