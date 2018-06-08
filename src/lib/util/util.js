@@ -27,8 +27,6 @@ class Util {
 
 }
 
-module.exports = Util;
-
 /**
  * Add all the elements of the array
  * @since 0.0.1-dev
@@ -36,3 +34,5 @@ module.exports = Util;
  * @returns {number} The sum
  */
 Util.arraySum = array => array.reduce((partialSum, element) => partialSum + element, 0);
+
+module.exports = Util;
