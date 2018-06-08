@@ -71,7 +71,7 @@ class Route extends Piece {
 			routes[method].push(parse(this.route));
 			// Save route handler
 			if (!handlers[method]) handlers[method] = {};
-			handlers[method][this.route] = this[method].bind(this);
+			handlers[method][this.route] = this[method.toLowerCase()].bind(this);
 		}
 		return super.enable();
 	}
