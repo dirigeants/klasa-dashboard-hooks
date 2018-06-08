@@ -53,7 +53,7 @@ class MiddlewareStore extends Store {
 	 * Sets up an middleware in our store.
 	 * @since 0.0.1
 	 * @param {Middleware} piece The middleware piece we are setting up
-	 * @returns {?Event}
+	 * @returns {?Middleware}
 	 */
 	set(piece) {
 		const middleware = super.set(piece);
