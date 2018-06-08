@@ -10,13 +10,14 @@ class Util {
 		throw new Error('This class may not be initiated with new');
 	}
 
-	async toShard(expression, client, combine = false) {
+	static toShard(expression, client, combine = false, force = false) {
 		if (!expression) throw new Error('Please provide an expression');
 
 		const { shard } = client;
 
 		if (combine) {
 			if (!shard) throw new Error('You cannot combine a non sharded expression');
+			if (force) return expression;
 			return shard.broadcastEval(expression).then(Util.arraySum);
 		} else {
 			if (!shard) return expression;
