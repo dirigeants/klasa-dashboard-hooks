@@ -5,7 +5,7 @@ const Route = require('./Route');
 
 /**
  * Stores all the routes that are part of Klasa-dashboard-hooks
- * @extends Store
+ * @extends external:Store
  */
 class RouteStore extends Store {
 

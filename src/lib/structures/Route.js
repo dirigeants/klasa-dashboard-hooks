@@ -6,7 +6,7 @@ const { parse } = require('matchit');
  * Base class for all Klasa Routes. See {@tutorial CreatingRoutes} for more information how to use this class
  * to build custom events.
  * @tutorial CreatingRoutes
- * @extends Piece
+ * @extends external:Piece
  */
 class Route extends Piece {
 

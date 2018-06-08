@@ -5,7 +5,7 @@ const Middleware = require('./Middleware');
 
 /**
  * Stores all the middlewares that are part of Klasa-dashboard-hooks
- * @extends Store
+ * @extends external:Store
  */
 class MiddlewareStore extends Store {
 

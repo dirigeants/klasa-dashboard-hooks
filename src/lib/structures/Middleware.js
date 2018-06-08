@@ -4,7 +4,7 @@ const { Piece } = require('klasa');
  * Base class for all Klasa Middleware. See {@tutorial CreatingMiddleware} for more information how to use this class
  * to build custom events.
  * @tutorial CreatingMiddleware
- * @extends Piece
+ * @extends external:Piece
  */
 class Middleware extends Piece {
 
