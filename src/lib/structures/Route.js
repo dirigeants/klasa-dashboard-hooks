@@ -30,6 +30,16 @@ class Route extends Piece {
 	}
 
 	/**
+	 * Reloads this piece
+	 * @since 0.0.1
+	 * @returns {Piece} The newly loaded piece
+	 */
+	reload() {
+		this.disable();
+		return super.reload();
+	}
+
+	/**
 	 * Disables this Middleware
 	 * @since 0.0.1
 	 * @returns {this}
