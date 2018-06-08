@@ -11,14 +11,14 @@ class MiddlewareStore extends Store {
 
 	/**
 	 * @since 0.0.1
-	 * @param {KlasaDashboardHooksClient} client The Klasa client
+	 * @param {DashboardClient} client The Klasa client
 	 */
 	constructor(client) {
 		super(client, 'routes', Middleware);
 	}
 
 	/**
-	 * The directory of commands in Klasa relative to where its installed.
+	 * The directory of pieces in Klasa relative to where its installed.
 	 * @since 0.0.1
 	 * @type {string}
 	 * @readonly
@@ -28,7 +28,7 @@ class MiddlewareStore extends Store {
 	}
 
 	/**
-	 * Clears the events from the store and removes the listeners.
+	 * Clears the middlewares from the store and removes the listeners.
 	 * @since 0.0.1
 	 * @returns {void}
 	 */
@@ -37,9 +37,9 @@ class MiddlewareStore extends Store {
 	}
 
 	/**
-	 * Deletes an event from the store.
+	 * Deletes an middleware from the store.
 	 * @since 0.0.1
-	 * @param {Event|string} name An event object or a string representing the event name.
+	 * @param {Middleware|string} name An event object or a string representing the event name.
 	 * @returns {boolean} whether or not the delete was successful.
 	 */
 	delete(name) {
@@ -50,9 +50,9 @@ class MiddlewareStore extends Store {
 	}
 
 	/**
-	 * Sets up an event in our store.
+	 * Sets up an middleware in our store.
 	 * @since 0.0.1
-	 * @param {Event} piece The event piece we are setting up
+	 * @param {Middleware} piece The middleware piece we are setting up
 	 * @returns {?Event}
 	 */
 	set(piece) {

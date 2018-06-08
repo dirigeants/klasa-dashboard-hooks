@@ -1,9 +1,9 @@
 const { Piece } = require('klasa');
 
 /**
- * Base class for all Klasa Middleware. See {@tutorial CreatingMiddleware} for more information how to use this class
+ * Base class for all Klasa Middleware. See {@tutorial CreatingMiddlewares} for more information how to use this class
  * to build custom events.
- * @tutorial CreatingMiddleware
+ * @tutorial CreatingMiddlewares
  * @extends external:Piece
  */
 class Middleware extends Piece {
@@ -43,9 +43,9 @@ class Middleware extends Piece {
 	}
 
 	/**
-	 * Reloads this piece
+	 * Reloads this middleware
 	 * @since 0.0.1
-	 * @returns {Piece} The newly loaded piece
+	 * @returns {Middleware} The newly loaded middleware
 	 */
 	reload() {
 		this.disable();

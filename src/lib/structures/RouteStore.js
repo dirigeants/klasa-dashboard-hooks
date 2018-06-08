@@ -14,7 +14,7 @@ class RouteStore extends Store {
 	}
 
 	/**
-	 * The directory of commands in Klasa relative to where its installed.
+	 * The directory of pieces in Klasa relative to where its installed.
 	 * @since 0.0.1
 	 * @type {string}
 	 * @readonly
@@ -24,7 +24,7 @@ class RouteStore extends Store {
 	}
 
 	/**
-	 * Clears the events from the store and removes the listeners.
+	 * Clears the routes from the store and removes the listeners.
 	 * @since 0.0.1
 	 * @returns {void}
 	 */
@@ -33,9 +33,9 @@ class RouteStore extends Store {
 	}
 
 	/**
-	 * Deletes an event from the store.
+	 * Deletes an routes from the store.
 	 * @since 0.0.1
-	 * @param {Event|string} name An event object or a string representing the event name.
+	 * @param {Route|string} name An route object or a string representing the event name.
 	 * @returns {boolean} whether or not the delete was successful.
 	 */
 	delete(name) {
@@ -46,10 +46,10 @@ class RouteStore extends Store {
 	}
 
 	/**
-	 * Sets up an event in our store.
+	 * Sets up an route in our store.
 	 * @since 0.0.1
-	 * @param {Event} piece The event piece we are setting up
-	 * @returns {?Event}
+	 * @param {Route} piece The route piece we are setting up
+	 * @returns {?Route}
 	 */
 	set(piece) {
 		const route = super.set(piece);

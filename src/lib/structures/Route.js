@@ -12,11 +12,11 @@ class Route extends Piece {
 
 	/**
 	 * @since 0.0.1
-	 * @param {KlasaDashboardHooksClient} client The Klasa client
-	 * @param {MiddlewareStore} store The Middleware Store
+	 * @param {DashboardClient} client The Klasa client
+	 * @param {RouteStore} store The Route Store
 	 * @param {string} file The path from the pieces folder to the middleware file
 	 * @param {boolean} core If the piece is in the core directory or not
-	 * @param {MiddlewareOptions} [options={}] Optional Middleware settings
+	 * @param {RouteOptions} [options={}] Optional Route settings
 	 */
 	constructor(client, store, file, core, options = {}) {
 		super(client, store, file, core, options);
@@ -30,9 +30,9 @@ class Route extends Piece {
 	}
 
 	/**
-	 * Reloads this piece
+	 * Reloads this route
 	 * @since 0.0.1
-	 * @returns {Piece} The newly loaded piece
+	 * @returns {Route} The newly loaded route
 	 */
 	reload() {
 		this.disable();
@@ -40,7 +40,7 @@ class Route extends Piece {
 	}
 
 	/**
-	 * Disables this Middleware
+	 * Disables this Route
 	 * @since 0.0.1
 	 * @returns {this}
 	 * @chainable
@@ -57,7 +57,7 @@ class Route extends Piece {
 	}
 
 	/**
-	 * Enables this Middleware
+	 * Enables this Route
 	 * @since 0.0.1
 	 * @returns {this}
 	 * @chainable
