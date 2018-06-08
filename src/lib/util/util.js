@@ -17,7 +17,7 @@ class Util {
 
 		if (combine) {
 			if (!shard) throw new Error('You cannot combine a non sharded expression');
-			if (force) return expression;
+			if (force && !shard) return expression;
 			return shard.broadcastEval(expression).then(Util.arraySum);
 		} else {
 			if (!shard) return expression;
