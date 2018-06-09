@@ -14,6 +14,7 @@ class Util {
 
 	static split(url) {
 		if (url.length === 1 && url.charCodeAt(0) === SLASH) return [url];
+		else if (url.charCodeAt(0) === SLASH) url = url.substring(1);
 		return url.split('/');
 	}
 

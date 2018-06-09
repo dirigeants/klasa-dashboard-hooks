@@ -21,7 +21,6 @@ class Server {
 
 	async handler(request, response) {
 		const info = parseURL(request.url);
-		console.log(info);
 		const splitURL = split(info.pathname);
 		const route = this.client.routes.find(rt => rt.matches(splitURL));
 
