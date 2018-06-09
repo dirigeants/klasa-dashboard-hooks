@@ -13,10 +13,11 @@ class Middleware extends Piece {
 	 * @since 0.0.1
 	 * @param {HttpRequest} request The http request
 	 * @param {HttpResponse} response The http response
+	 * @param {?Route} route The route being run
 	 * @returns {void}
 	 * @abstract
 	 */
-	async run(request, response) { // eslint-disable-line
+	async run(request, response, route) { // eslint-disable-line
 		// Defined in extension Classes
 		throw new Error(`The run method has not been implemented by ${this.type}:${this.name}.`);
 	}
