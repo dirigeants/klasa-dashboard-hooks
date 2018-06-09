@@ -27,11 +27,11 @@ declare module 'klasa-dashboard-hooks' {
 	}
 
 	export class Middleware extends Piece {
-		public abstract run(request: KlasaIncomingMessage, response: ServerResponse): Promise<void>;
+		public abstract run(request: KlasaIncomingMessage, response: ServerResponse, route?: Route): Promise<void>;
 	}
 
 	export class MiddlewareStore extends Store<string, Middleware, typeof Middleware> {
-		public run(request: KlasaIncomingMessage, response: ServerResponse): Promise<void>;
+		public run(request: KlasaIncomingMessage, response: ServerResponse, route?: Route): Promise<void>;
 	}
 
 	export class Route extends Piece {
