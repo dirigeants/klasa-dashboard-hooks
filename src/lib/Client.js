@@ -68,7 +68,7 @@ class DashboardClient extends Client {
 			.registerStore(this.routes)
 			.registerStore(this.middlewares);
 
-		this.router.listen(this.options.dashboardHooks.port);
+		this.server.listen(this.options.dashboardHooks.port);
 	}
 
 }
