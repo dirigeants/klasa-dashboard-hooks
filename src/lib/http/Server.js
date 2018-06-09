@@ -82,7 +82,7 @@ class Server {
 		request.query = parseQuery(info.query);
 
 		try {
-			await this.client.middlewares.run(request, response);
+			await this.client.middlewares.run(request, response, route);
 			const method = request.method.toLowerCase();
 			await (route && method in route ? route[method](request, response) : this.onNoMatch(request, response));
 		} catch (err) {
