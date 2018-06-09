@@ -15,6 +15,11 @@ class Route extends Piece {
 	 */
 
 	/**
+	 * @typedef {external:PieceOptions} RouteOptions
+	 * @property {string} [route]
+	 */
+
+	/**
 	 * @since 0.0.1
 	 * @param {DashboardClient} client The Klasa client
 	 * @param {RouteStore} store The Route Store

@@ -11,8 +11,8 @@ class Middleware extends Piece {
 	/**
 	 * The run method to be overwritten in actual event handlers
 	 * @since 0.0.1
-	 * @param {http.IncomingMessage} request The http request
-	 * @param {http.ServerResponse} response The http response
+	 * @param {external:IncomingMessage} request The http request
+	 * @param {external:ServerResponse} response The http response
 	 * @returns {void}
 	 * @abstract
 	 */

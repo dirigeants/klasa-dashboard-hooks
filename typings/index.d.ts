@@ -3,6 +3,8 @@ import { Server as HTTPServer, IncomingMessage, ServerResponse } from 'http';
 
 declare module 'klasa-dashboard-hooks' {
 
+//#region Classes
+
 
 	export class DashboardClient extends KlasaClient {
 		public constructor(config: DashboardClientOptions);
@@ -32,6 +34,7 @@ declare module 'klasa-dashboard-hooks' {
 	}
 
 	export class Route extends Piece {
+		public constructor(client: DashboardClient, store: RouteStore, file: string, core: boolean, options?: RouteOptions);
 		public route: string;
 		public parsed: ParsedRoute;
 		public matches(split: string[]): boolean;
@@ -51,6 +54,9 @@ declare module 'klasa-dashboard-hooks' {
 
 	export { Util as util };
 
+//#endregion Classes
+//#region Types
+
 	export type KlasaDashboardHooksOptions = {
 		apiPrefix?: string;
 		origin?: string;
@@ -60,6 +66,10 @@ declare module 'klasa-dashboard-hooks' {
 	export type DashboardClientOptions = {
 		dashboardHooks?: KlasaDashboardHooksOptions;
 	} & KlasaClientOptions;
+
+	export type RouteOptions = {
+		route?: string;
+	} & PieceOptions;
 
 	type ErrorLike = {
 		code?: number;
@@ -84,5 +94,7 @@ declare module 'klasa-dashboard-hooks' {
 	}
 
 	type ObjectLiteral<T> = { [key: string]: T };
+
+//#endregion Types
 
 }

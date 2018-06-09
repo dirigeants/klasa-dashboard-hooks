@@ -27,3 +27,19 @@ module.exports = {
  * @external KlasaClientOptions
  * @see {@link https://klasa.js.org/#/docs/main/master/typedef/KlasaClientOptions}
  */
+/**
+ * @external PieceOptions
+ * @see {@link https://klasa.js.org/#/docs/main/master/typedef/PieceOptions}
+ */
+/**
+ * @external HTTPServer
+ * @see {@link https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_server}
+ */
+/**
+ * @external IncomingMessage
+ * @see {@link https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_incomingmessage}
+ */
+/**
+ * @external ServerResponse
+ * @see {@link https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_serverresponse}
+ */

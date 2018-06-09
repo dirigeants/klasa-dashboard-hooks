@@ -33,7 +33,7 @@ class Server {
 		/**
 		 * The http.Server instance that manages the HTTP requests
 		 * @since 0.0.1
-		 * @type {http.Server}
+		 * @type {external:HTTPServer}
 		 */
 		this.server = http.createServer();
 
