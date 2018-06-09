@@ -7,7 +7,7 @@ const [SLASH, COLON] = [47, 58];
 class Util {
 
 	/**
-	 * @typedef {object} ParsedPart
+	 * @typedef {Object} ParsedPart
 	 * @property {string} val The value of the url part
 	 * @property {number} type The type of url part (0 for static, 1 for variable)
 	 */
