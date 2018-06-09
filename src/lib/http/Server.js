@@ -32,7 +32,8 @@ class Server {
 
 		try {
 			await this.client.middlewares.run(request, response);
-			await (route[request.method.toLowerCase()] || this.onNoMatch)(request, response);
+			const method = request.method.toLowerCase();
+			await (route && method in route ? route[method](request, response) : this.onNoMatch(request, response));
 		} catch (err) {
 			this.onError(err, request, response);
 		}
@@ -40,7 +41,7 @@ class Server {
 
 	onError(err, req, res) {
 		const code = res.statusCode = err.code || err.status || 500;
-		res.end(err.length && (err || err.message || http.STATUS_CODES[code]));
+		res.end((err.length && err) || err.message || http.STATUS_CODES[code]);
 	}
 
 }
