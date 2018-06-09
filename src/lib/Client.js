@@ -44,7 +44,7 @@ class DashboardClient extends Client {
 		this.hooksBaseDir = join(__dirname, '../');
 
 		/**
-		 * The directory to the node_modules folder where Klasa-Dashboard-Hooks exists
+		 * The http server handler for the api
 		 * @since 0.0.1
 		 * @type {Server}
 		 */

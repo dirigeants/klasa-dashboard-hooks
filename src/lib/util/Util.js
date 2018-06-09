@@ -2,7 +2,7 @@ const [SLASH, COLON] = [47, 58];
 
 /**
  * Utility function class
- * <warn>This class cannot be initialized with new</warn>
+ * <danger>This class cannot be initialized with new</danger>
  */
 class Util {
 
