@@ -28,38 +28,17 @@ class MiddlewareStore extends Store {
 	}
 
 	/**
-	 * Clears the middlewares from the store and removes the listeners.
+	 * Runs all the middleware.
 	 * @since 0.0.1
+	 * @param {HttpRequest} request The http request
+	 * @param {HttpResponse} response The http response
 	 * @returns {void}
 	 */
-	clear() {
-		for (const event of this.values()) this.delete(event);
-	}
-
-	/**
-	 * Deletes an middleware from the store.
-	 * @since 0.0.1
-	 * @param {Middleware|string} name An event object or a string representing the event name.
-	 * @returns {boolean} whether or not the delete was successful.
-	 */
-	delete(name) {
-		const middleware = this.resolve(name);
-		if (!middleware) return false;
-		middleware.disable();
-		return super.delete(middleware);
-	}
-
-	/**
-	 * Sets up an middleware in our store.
-	 * @since 0.0.1
-	 * @param {Middleware} piece The middleware piece we are setting up
-	 * @returns {?Middleware}
-	 */
-	set(piece) {
-		const middleware = super.set(piece);
-		if (!middleware) return undefined;
-		middleware.enable();
-		return middleware;
+	async run(request, response) {
+		for (const middleware of this.values()) {
+			if (response.finished) return;
+			if (middleware.enabled) await middleware.run(request, response);
+		}
 	}
 
 }

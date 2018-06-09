@@ -1,6 +1,6 @@
-const { METHODS } = require('http');
 const { Piece } = require('klasa');
-const { parse } = require('matchit');
+
+const { parse } = require('../util/Util');
 
 /**
  * Base class for all Klasa Routes. See {@tutorial CreatingRoutes} for more information how to use this class
@@ -27,53 +27,35 @@ class Route extends Piece {
 		 * @type {string}
 		 */
 		this.route = this.client.options.dashboardHooks.apiPrefix + options.route;
+
+		/**
+		 * Stored parsed route
+		 * @since 0.0.1
+		 * @type {ParsedRoute}
+		 */
+		this.parsed = parse(this.route);
 	}
 
 	/**
-	 * Reloads this route
-	 * @since 0.0.1
-	 * @returns {Route} The newly loaded route
+	 * If this route matches a provided url
+	 * @param {string[]} split the url to check
+	 * @returns {boolean}
 	 */
-	reload() {
-		this.disable();
-		return super.reload();
+	matches(split) {
+		if (split.length !== this.parsed.length) return false;
+		for (let i = 0; i < this.parsed.length; i++) if (this.parsed[i].type === 0 && this.parsed[i].val !== split[i]) return false;
+		return true;
 	}
 
 	/**
-	 * Disables this Route
-	 * @since 0.0.1
-	 * @returns {this}
-	 * @chainable
+	 * Extracts the params from a provided url
+	 * @param {string[]} split the url
+	 * @returns {boolean}
 	 */
-	disable() {
-		const { routes, handlers } = this.client.router;
-		for (const [method, route] of Object.entries(routes)) {
-			const index = route.findIndex(rt => rt[0].old === this.route);
-			if (index === -1) continue;
-			route.splice(index, 1);
-			delete handlers[method][this.route];
-		}
-		return super.disable();
-	}
-
-	/**
-	 * Enables this Route
-	 * @since 0.0.1
-	 * @returns {this}
-	 * @chainable
-	 */
-	enable() {
-		const { routes, handlers } = this.client.router;
-		for (const method of METHODS) {
-			if (!this[method.toLowerCase()]) continue;
-			// Save decoded pattern info
-			if (!routes[method]) routes[method] = [];
-			routes[method].push(parse(this.route));
-			// Save route handler
-			if (!handlers[method]) handlers[method] = {};
-			handlers[method][this.route] = this[method.toLowerCase()].bind(this);
-		}
-		return super.enable();
+	execute(split) {
+		const params = {};
+		for (let i = 0; i < this.parsed.length; i++) if (this.parsed[i].type === 1) params[this.parsed[i].val] = split[i];
+		return params;
 	}
 
 }

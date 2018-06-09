@@ -26,8 +26,4 @@ module.exports = class extends Route {
 		return response.end(JSON.stringify(res.body));
 	}
 
-	options(request, response) {
-		return response.end('something');
-	}
-
 };

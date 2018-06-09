@@ -1,9 +1,8 @@
 const { join } = require('path');
 
 const { Client, util: { mergeDefault } } = require('klasa');
-const Polka = require('polka')().constructor;
-// Fuck polka for this export, btw
 
+const Server = require('./http/Server');
 const RouteStore = require('./structures/RouteStore');
 const MiddlewareStore = require('./structures/MiddlewareStore');
 const { OPTIONS } = require('./util/constants');
@@ -47,9 +46,9 @@ class DashboardClient extends Client {
 		/**
 		 * The directory to the node_modules folder where Klasa-Dashboard-Hooks exists
 		 * @since 0.0.1
-		 * @type {external:Polka}
+		 * @type {Server}
 		 */
-		this.router = new Polka(this.options.dashboardHooks.something);
+		this.server = new Server(this);
 
 		/**
 		 * The cache where routes are stored

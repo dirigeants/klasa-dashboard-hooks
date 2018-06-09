@@ -20,8 +20,6 @@
     "docs": "npx dg --source src --custom guides/.docconfig.json --output docs/docs.json --logging"
   },
   "dependencies": {
-    "matchit": "^1.0.6",
-    "polka": "^0.3.4",
     "snekfetch": "^4.0.2"
   },
   "peerDependencies": {
