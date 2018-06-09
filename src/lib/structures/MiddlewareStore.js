@@ -32,12 +32,13 @@ class MiddlewareStore extends Store {
 	 * @since 0.0.1
 	 * @param {KlasaIncomingMessage} request The http request
 	 * @param {external:ServerResponse} response The http response
+	 * @param {?Route} route The route being run
 	 * @returns {void}
 	 */
-	async run(request, response) {
+	async run(request, response, route) {
 		for (const middleware of this.values()) {
 			if (response.finished) return;
-			if (middleware.enabled) await middleware.run(request, response);
+			if (middleware.enabled) await middleware.run(request, response, route);
 		}
 	}
 
