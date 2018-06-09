@@ -26,7 +26,7 @@ declare module 'klasa-dashboard-hooks' {
 		public onError(error: Error | ErrorLike, request: KlasaIncomingMessage, response: ServerResponse): void;
 	}
 
-	export class Middleware extends Piece {
+	export abstract class Middleware extends Piece {
 		public abstract run(request: KlasaIncomingMessage, response: ServerResponse, route?: Route): Promise<void>;
 	}
 
@@ -34,7 +34,7 @@ declare module 'klasa-dashboard-hooks' {
 		public run(request: KlasaIncomingMessage, response: ServerResponse, route?: Route): Promise<void>;
 	}
 
-	export class Route extends Piece {
+	export abstract class Route extends Piece {
 		public constructor(client: DashboardClient, store: RouteStore, file: string, core: boolean, options?: RouteOptions);
 		public route: string;
 		public parsed: ParsedRoute;
@@ -42,12 +42,11 @@ declare module 'klasa-dashboard-hooks' {
 		public execute(split: string[]): ObjectLiteral<any>;
 	}
 
-	export class RouteStore extends Store<string, RouteStore, typeof RouteStore> { }
+	export class RouteStore extends Store<string, Route, typeof RouteStore> { }
 
 	export const constants: Constants;
 
 	export class Util {
-		public constructor(): never;
 		public static parsePart(val: string): ParsedPart;
 		public static split(url: string): string[];
 		public static parse(url: string): ParsedPart[];
