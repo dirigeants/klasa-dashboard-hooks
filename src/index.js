@@ -1,4 +1,5 @@
 module.exports = {
+	DashboardClient: require('./lib/Client'),
 	Client: require('./lib/Client'),
 	Server: require('./lib/http/Server'),
 	Middleware: require('./lib/structures/Middleware'),
@@ -6,7 +7,8 @@ module.exports = {
 	Route: require('./lib/structures/Route'),
 	RouteStore: require('./lib/structures/RouteStore'),
 	constants: require('./lib/util/constants'),
-	util: require('./lib/util/Util')
+	util: require('./lib/util/Util'),
+	Util: require('./lib/util/Util')
 };
 
 /**

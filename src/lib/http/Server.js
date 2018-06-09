@@ -10,12 +10,38 @@ const { split } = require('../util/Util');
 class Server {
 
 	/**
+	 * @typedef {Object} ErrorLike
+	 * @property {number} [code]
+	 * @property {number} [status]
+	 * @property {number} [statusCode]
+	 * @property {string} [message]
+	 * @private
+	 */
+
+	/**
 	 * @since 0.0.1
 	 * @param {DashboardClient} client The Klasa client
 	 */
 	constructor(client) {
+		/**
+		 * The Client that manages this Server instance
+		 * @since 0.0.1
+		 * @type {DashboardClient}
+		 */
 		this.client = client;
+
+		/**
+		 * The http.Server instance that manages the HTTP requests
+		 * @since 0.0.1
+		 * @type {http.Server}
+		 */
 		this.server = http.createServer();
+
+		/**
+		 * The onError function called when a url does not match
+		 * @since 0.0.1
+		 * @type {Function}
+		 */
 		this.onNoMatch = this.onError.bind(this, { code: 404 });
 	}
 
@@ -33,8 +59,8 @@ class Server {
 
 	/**
 	 * The handler for incoming requests
-	 * @param {HttpRequest} request The request
-	 * @param {HttpResponse} response The response
+	 * @param {http.IncomingMessage} request The request
+	 * @param {http.ServerResponse} response The response
 	 */
 	async handler(request, response) {
 		const info = parseURL(request.url);
@@ -58,9 +84,9 @@ class Server {
 
 	/**
 	 * The handler for errors
-	 * @param {Error|any} error The error
-	 * @param {HttpRequest} request The request
-	 * @param {HttpResponse} response The response
+	 * @param {(Error|ErrorLike)} error The error
+	 * @param {http.IncomingMessage} request The request
+	 * @param {http.ServerResponse} response The response
 	 */
 	onError(error, request, response) {
 		const code = response.statusCode = error.code || error.status || error.statusCode || 500;

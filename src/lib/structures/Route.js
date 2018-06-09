@@ -11,6 +11,10 @@ const { parse } = require('../util/Util');
 class Route extends Piece {
 
 	/**
+	 * @typedef {ParsedPart[]} ParsedRoute
+	 */
+
+	/**
 	 * @since 0.0.1
 	 * @param {DashboardClient} client The Klasa client
 	 * @param {RouteStore} store The Route Store
@@ -50,7 +54,7 @@ class Route extends Piece {
 	/**
 	 * Extracts the params from a provided url
 	 * @param {string[]} split the url
-	 * @returns {boolean}
+	 * @returns {Object<string, *>}
 	 */
 	execute(split) {
 		const params = {};
