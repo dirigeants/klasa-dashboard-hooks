@@ -10,6 +10,14 @@ const { split } = require('../util/Util');
 class Server {
 
 	/**
+	 * @typedef {external:IncomingMessage} KlasaIncomingMessage
+	 * @property {string} originalUrl The original URL
+	 * @property {string} path The entire path section of the URL, including the `host`, `port`... and before the `query`/`hash` components
+	 * @property {string} search The entire query string portion of the URL including the leading ASCII question mark (`?`) character
+	 * @property {Object<string, *>} query The collection of key and value pairs parsed from the query string portion
+	 */
+
+	/**
 	 * @typedef {Object} ErrorLike
 	 * @property {number} [code]
 	 * @property {number} [status]
@@ -59,8 +67,8 @@ class Server {
 
 	/**
 	 * The handler for incoming requests
-	 * @param {http.IncomingMessage} request The request
-	 * @param {http.ServerResponse} response The response
+	 * @param {external:IncomingMessage} request The request
+	 * @param {external:ServerResponse} response The response
 	 */
 	async handler(request, response) {
 		const info = parseURL(request.url);
@@ -85,8 +93,8 @@ class Server {
 	/**
 	 * The handler for errors
 	 * @param {(Error|ErrorLike)} error The error
-	 * @param {http.IncomingMessage} request The request
-	 * @param {http.ServerResponse} response The response
+	 * @param {KlasaIncomingMessage} request The request
+	 * @param {external:ServerResponse} response The response
 	 */
 	onError(error, request, response) {
 		const code = response.statusCode = error.code || error.status || error.statusCode || 500;

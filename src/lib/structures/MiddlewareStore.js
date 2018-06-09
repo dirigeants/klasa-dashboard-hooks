@@ -30,7 +30,7 @@ class MiddlewareStore extends Store {
 	/**
 	 * Runs all the middleware.
 	 * @since 0.0.1
-	 * @param {external:IncomingMessage} request The http request
+	 * @param {KlasaIncomingMessage} request The http request
 	 * @param {external:ServerResponse} response The http response
 	 * @returns {void}
 	 */

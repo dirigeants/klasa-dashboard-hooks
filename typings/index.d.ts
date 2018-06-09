@@ -23,14 +23,15 @@ declare module 'klasa-dashboard-hooks' {
 		public onNoMatch: (request: IncomingMessage, response: ServerResponse) => void;
 		public listen(port: number): Promise<void>;
 		public handler(request: IncomingMessage, response: ServerResponse): Promise<void>;
+		public onError(error: Error | ErrorLike, request: KlasaIncomingMessage, response: ServerResponse): void;
 	}
 
 	export class Middleware extends Piece {
-		public abstract run(request: IncomingMessage, response: ServerResponse): Promise<void>;
+		public abstract run(request: KlasaIncomingMessage, response: ServerResponse): Promise<void>;
 	}
 
 	export class MiddlewareStore extends Store<string, Middleware, typeof Middleware> {
-		public run(request: IncomingMessage, response: ServerResponse): Promise<void>;
+		public run(request: KlasaIncomingMessage, response: ServerResponse): Promise<void>;
 	}
 
 	export class Route extends Piece {
@@ -66,6 +67,13 @@ declare module 'klasa-dashboard-hooks' {
 	export type DashboardClientOptions = {
 		dashboardHooks?: KlasaDashboardHooksOptions;
 	} & KlasaClientOptions;
+
+	export type KlasaIncomingMessage = {
+		originalUrl: string;
+		path: string;
+		search: string;
+		query: ObjectLiteral<string | string[]>;
+	} & IncomingMessage;
 
 	export type RouteOptions = {
 		route?: string;
