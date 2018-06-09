@@ -1,4 +1,5 @@
 const http = require('http');
+const { parse: parseURL } = require('url');
 const { parse: parseQuery } = require('querystring');
 
 const { split } = require('../util/Util');
@@ -19,7 +20,8 @@ class Server {
 	}
 
 	async handler(request, response) {
-		const info = new URL(request.url);
+		const info = parseURL(request.url);
+		console.log(info);
 		const splitURL = split(info.pathname);
 		const route = this.client.routes.find(rt => rt.matches(splitURL));
 
