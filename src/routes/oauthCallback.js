@@ -12,7 +12,7 @@ module.exports = class extends Route {
 			response.writeHead(400, { 'Content-Type': 'application/json' });
 			return response.end(JSON.stringify({ message: 'No code provided' }));
 		}
-		const creds = Buffer.from(`${this.options.clientID}:${this.options.clientSecret}`, 'binary').toString('base64');
+		const creds = Buffer.from(`${this.client.options.clientID}:${this.client.options.clientSecret}`, 'binary').toString('base64');
 		/* eslint-disable camelcase */
 		const res = await snekfetch.post(`https://discordapp.com/api/oauth2/token`)
 			.set({ Authorization: `Basic ${creds}` })

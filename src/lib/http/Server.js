@@ -40,7 +40,7 @@ class Server {
 	}
 
 	onError(err, req, res) {
-		const code = res.statusCode = err.code || err.status || 500;
+		const code = res.statusCode = err.code || err.status || err.statusCode || 500;
 		res.end((err.length && err) || err.message || http.STATUS_CODES[code]);
 	}
 
