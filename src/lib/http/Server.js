@@ -4,21 +4,38 @@ const { parse: parseQuery } = require('querystring');
 
 const { split } = require('../util/Util');
 
+/**
+ * The http server for klasa-dashboard-hooks
+ */
 class Server {
 
+	/**
+	 * @since 0.0.1
+	 * @param {DashboardClient} client The Klasa client
+	 */
 	constructor(client) {
 		this.client = client;
 		this.server = http.createServer();
 		this.onNoMatch = this.onError.bind(this, { code: 404 });
 	}
 
-	listen(port, hostname) {
+	/**
+	 * Starts the server listening to a port
+	 * @param {number} port The port to run the server on
+	 * @returns {Promise<void>}
+	 */
+	listen(port) {
 		this.server.on('request', this.handler.bind(this));
 		return new Promise((res, rej) => {
-			this.server.listen(port, hostname, err => err ? rej(err) : res());
+			this.server.listen(port, err => err ? rej(err) : res());
 		});
 	}
 
+	/**
+	 * The handler for incoming requests
+	 * @param {HttpRequest} request The request
+	 * @param {HttpResponse} response The response
+	 */
 	async handler(request, response) {
 		const info = parseURL(request.url);
 		const splitURL = split(info.pathname);
@@ -39,9 +56,15 @@ class Server {
 		}
 	}
 
-	onError(err, req, res) {
-		const code = res.statusCode = err.code || err.status || err.statusCode || 500;
-		res.end((err.length && err) || err.message || http.STATUS_CODES[code]);
+	/**
+	 * The handler for errors
+	 * @param {Error|any} error The error
+	 * @param {HttpRequest} request The request
+	 * @param {HttpResponse} response The response
+	 */
+	onError(error, request, response) {
+		const code = response.statusCode = error.code || error.status || error.statusCode || 500;
+		response.end((error.length && error) || error.message || http.STATUS_CODES[code]);
 	}
 
 }

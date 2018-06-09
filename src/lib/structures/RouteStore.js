@@ -9,6 +9,10 @@ const Route = require('./Route');
  */
 class RouteStore extends Store {
 
+	/**
+	 * @since 0.0.1
+	 * @param {DashboardClient} client The Klasa client
+	 */
 	constructor(client) {
 		super(client, 'routes', Route);
 	}
