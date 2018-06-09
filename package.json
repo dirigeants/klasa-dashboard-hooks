@@ -20,7 +20,7 @@
     "docs": "npx dg --source src --custom guides/.docconfig.json --output docs/docs.json --logging"
   },
   "dependencies": {
-    "polka": "^0.3.4"
+    "snekfetch": "^4.0.2"
   },
   "peerDependencies": {
     "klasa": "github:dirigeants/klasa#master"
@@ -36,6 +36,6 @@
     "typescript": "^2.6.2"
   },
   "engines": {
-    "node": ">=8.6.0"
+    "node": ">=10.0.0"
   }
 }
