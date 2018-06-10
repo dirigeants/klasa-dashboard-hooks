@@ -8,7 +8,6 @@ declare module 'klasa-dashboard-hooks' {
 
 	export class DashboardClient extends KlasaClient {
 		public constructor(config: DashboardClientOptions);
-		public hooksBaseDir: string;
 		public server: Server;
 		public routes: RouteStore;
 		public middlewares: MiddlewareStore;
@@ -61,6 +60,10 @@ declare module 'klasa-dashboard-hooks' {
 		apiPrefix?: string;
 		origin?: string;
 		port?: number;
+		http2?: boolean;
+		key?: string;
+		cert?: string;
+		[k: string]: any;
 	};
 
 	export type DashboardClientOptions = {

@@ -30,14 +30,14 @@ class Server {
 	 * @param {DashboardClient} client The Klasa client
 	 */
 	constructor(client) {
-		const { http2 = false, sslOptions } = client.options.dashboardHooks;
+		const { http2, sslOptions } = client.options.dashboardHooks;
 		/**
 		 * The Client that manages this Server instance
 		 * @since 0.0.1
 		 * @type {DashboardClient}
 		 */
 		this.client = client;
-		
+
 		/**
 		 * The http.Server instance that manages the HTTP requests
 		 * @since 0.0.1
@@ -46,7 +46,7 @@ class Server {
 		this.server = http2 ?
 			require('http2').createSecureServer(sslOptions) :
 			sslOptions ? require('https').createServer(sslOptions) : http.createServer();
-		
+
 		/**
 		 * The onError function called when a url does not match
 		 * @since 0.0.1
