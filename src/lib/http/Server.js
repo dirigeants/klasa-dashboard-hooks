@@ -1,6 +1,5 @@
 const http = require('http');
-const { parse: parseURL } = require('url');
-const { parse: parseQuery } = require('querystring');
+const { parse } = require('url');
 
 const { split } = require('../util/Util');
 
@@ -37,7 +36,7 @@ class Server {
 	 * @param {HttpResponse} response The response
 	 */
 	async handler(request, response) {
-		const info = parseURL(request.url);
+		const info = parse(request.url, true);
 		const splitURL = split(info.pathname);
 		const route = this.client.routes.find(rt => rt.matches(splitURL));
 
@@ -45,7 +44,7 @@ class Server {
 		request.originalUrl = request.originalUrl || request.url;
 		request.path = info.pathname;
 		request.search = info.search;
-		request.query = parseQuery(info.query);
+		request.query = info.query;
 
 		try {
 			await this.client.middlewares.run(request, response, route);
