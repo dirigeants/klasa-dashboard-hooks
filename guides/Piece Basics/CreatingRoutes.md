@@ -5,12 +5,12 @@ const { Route } = require('klasa-dashboard-hooks');
 
 module.exports = class extends Route {
 
-    constructor(...args) {
-        super(...args, {
-            route: '/',
-            authenticated: false
-        });
-    }
+	constructor(...args) {
+		super(...args, {
+			route: '/',
+			authenticated: false
+		});
+	}
 
 	get(request, response) {
 		// This is where you place the code you want to run for get requests
@@ -18,17 +18,17 @@ module.exports = class extends Route {
 
 	post(request, response) {
 		// This is where you place the code you want to run for post requests
-    }
+	}
 
 	patch(request, response) {
 		// This is where you place the code you want to run for patch requests
-    }
- 
+	}
+
 	delete(request, response) {
 		// This is where you place the code you want to run for delete requests
-    }
+	}
 
-    // ect
+	// ect
 
 };
 ```
@@ -45,9 +45,9 @@ const { Route } = require('klasa-dashboard-hooks');
 
 module.exports = class extends Route {
 
-    constructor(...args) {
-        super(...args, { route: 'users' });
-    }
+	constructor(...args) {
+		super(...args, { route: 'users' });
+	}
 
 	get(request, response) {
 		return response.end(JSON.stringify(this.client.users.keyArray()));
@@ -69,9 +69,9 @@ const { Route } = require('klasa-dashboard-hooks');
 
 module.exports = class extends Route {
 
-    constructor(...args) {
-        super(...args, { route: 'users/:userID' });
-    }
+	constructor(...args) {
+		super(...args, { route: 'users/:userID' });
+	}
 
 	get(request, response) {
 		const { userID } = request.params;
