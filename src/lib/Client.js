@@ -1,5 +1,3 @@
-const { join } = require('path');
-
 const { Client, util: { mergeDefault } } = require('klasa');
 
 const Server = require('./http/Server');
@@ -35,13 +33,6 @@ class DashboardClient extends Client {
 	constructor(config) {
 		super(config);
 		mergeDefault(OPTIONS, this.options);
-
-		/**
-		 * The directory to the node_modules folder where Klasa-Dashboard-Hooks exists
-		 * @since 0.0.1
-		 * @type {string}
-		 */
-		this.hooksBaseDir = join(__dirname, '../');
 
 		/**
 		 * The http server handler for the api
