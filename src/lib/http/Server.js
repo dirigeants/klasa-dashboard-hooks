@@ -13,8 +13,11 @@ class Server {
 	 * @param {DashboardClient} client The Klasa client
 	 */
 	constructor(client) {
+		const { http2 = false, sslOptions } = client.options.dashboardHooks;
 		this.client = client;
-		this.server = http.createServer();
+		this.server = http2 ?
+			require('http2').createSecureServer(sslOptions) :
+			sslOptions ? require('https').createServer(sslOptions) : http.createServer();
 		this.onNoMatch = this.onError.bind(this, { code: 404 });
 	}
 
