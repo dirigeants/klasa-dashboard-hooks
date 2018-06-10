@@ -1,5 +1,6 @@
 import { KlasaClient, KlasaClientOptions, Piece, Store, PieceOptions } from 'klasa';
 import { Server as HTTPServer, IncomingMessage, ServerResponse } from 'http';
+import { SecureContextOptions } from 'tls';
 
 declare module 'klasa-dashboard-hooks' {
 
@@ -61,9 +62,7 @@ declare module 'klasa-dashboard-hooks' {
 		origin?: string;
 		port?: number;
 		http2?: boolean;
-		key?: string;
-		cert?: string;
-		[k: string]: any;
+		sslOptions?: SecureContextOptions;
 	};
 
 	export type DashboardClientOptions = {

@@ -36,6 +36,10 @@ module.exports = {
  * @see {@link https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_server}
  */
 /**
+ * @external SecureContextOptions
+ * @see {@link https://nodejs.org/dist/latest-v10.x/docs/api/tls.html#tls_tls_createsecurecontext_options}
+ */
+/**
  * @external IncomingMessage
  * @see {@link https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_incomingmessage}
  */
