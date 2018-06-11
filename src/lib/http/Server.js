@@ -9,15 +9,49 @@ const { split } = require('../util/Util');
 class Server {
 
 	/**
+	 * @typedef {external:IncomingMessage} KlasaIncomingMessage
+	 * @property {string} originalUrl The original URL
+	 * @property {string} path The entire path section of the URL, including the `host`, `port`... and before the `query`/`hash` components
+	 * @property {string} search The entire query string portion of the URL including the leading ASCII question mark (`?`) character
+	 * @property {Object<string, *>} query The collection of key and value pairs parsed from the query string portion
+	 */
+
+	/**
+	 * @typedef {Object} ErrorLike
+	 * @property {number} [code]
+	 * @property {number} [status]
+	 * @property {number} [statusCode]
+	 * @property {string} [message]
+	 * @private
+	 */
+
+	/**
 	 * @since 0.0.1
 	 * @param {DashboardClient} client The Klasa client
 	 */
 	constructor(client) {
-		const { http2 = false, sslOptions } = client.options.dashboardHooks;
+		const { http2, sslOptions } = client.options.dashboardHooks;
+		/**
+		 * The Client that manages this Server instance
+		 * @since 0.0.1
+		 * @type {DashboardClient}
+		 */
 		this.client = client;
+
+		/**
+		 * The http.Server instance that manages the HTTP requests
+		 * @since 0.0.1
+		 * @type {external:HTTPServer}
+		 */
 		this.server = http2 ?
 			require('http2').createSecureServer(sslOptions) :
 			sslOptions ? require('https').createServer(sslOptions) : http.createServer();
+
+		/**
+		 * The onError function called when a url does not match
+		 * @since 0.0.1
+		 * @type {Function}
+		 */
 		this.onNoMatch = this.onError.bind(this, { code: 404 });
 	}
 
@@ -35,8 +69,8 @@ class Server {
 
 	/**
 	 * The handler for incoming requests
-	 * @param {HttpRequest} request The request
-	 * @param {HttpResponse} response The response
+	 * @param {external:IncomingMessage} request The request
+	 * @param {external:ServerResponse} response The response
 	 */
 	async handler(request, response) {
 		const info = parse(request.url, true);
@@ -60,9 +94,9 @@ class Server {
 
 	/**
 	 * The handler for errors
-	 * @param {Error|any} error The error
-	 * @param {HttpRequest} request The request
-	 * @param {HttpResponse} response The response
+	 * @param {(Error|ErrorLike)} error The error
+	 * @param {KlasaIncomingMessage} request The request
+	 * @param {external:ServerResponse} response The response
 	 */
 	onError(error, request, response) {
 		const code = response.statusCode = error.code || error.status || error.statusCode || 500;

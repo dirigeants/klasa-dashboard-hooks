@@ -23,6 +23,8 @@ class DashboardClient extends Client {
 	 * @property {string} [apiPrefix="api/"] The route prefix for the api
 	 * @property {string} [origin="*"] The cross origin setting
 	 * @property {number} [port=4000] The port the api runs on
+	 * @property {boolean} [http2=false] Whether the server should use http/2 or not
+	 * @property {external:SecureContextOptions} [sslOptions] The SSL options
 	 */
 
 	/**
