@@ -2,6 +2,7 @@ const http = require('http');
 const { parse } = require('url');
 
 const { split } = require('../util/Util');
+const { METHODS_LOWER } = require('../util/constants');
 
 /**
  * The http server for klasa-dashboard-hooks
@@ -75,7 +76,7 @@ class Server {
 	async handler(request, response) {
 		const info = parse(request.url, true);
 		const splitURL = split(info.pathname);
-		const route = this.client.routes.find(rt => rt.matches(splitURL));
+		const route = this.client.routes.findRoute(request.method, splitURL);
 
 		if (route) request.params = route.execute(splitURL);
 		request.originalUrl = request.originalUrl || request.url;
@@ -85,8 +86,7 @@ class Server {
 
 		try {
 			await this.client.middlewares.run(request, response, route);
-			const method = request.method.toLowerCase();
-			await (route && method in route ? route[method](request, response) : this.onNoMatch(request, response));
+			await (route ? route[METHODS_LOWER[request.method]](request, response) : this.onNoMatch(request, response));
 		} catch (err) {
 			this.onError(err, request, response);
 		}
