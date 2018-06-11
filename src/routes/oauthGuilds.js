@@ -17,7 +17,7 @@ module.exports = class extends Route {
 		const { body } = await snekfetch.get('https://discordapp.com/api/users/@me/guilds')
 			.set('Authorization', auth);
 		const guilds = body.filter(guild => guild.owner || new Permissions(guild.permissions).has('MANAGE_GUILD'));
-		for (const guild of guilds) guild.canManage = this.guilds.has(guild.id);
+		for (const guild of guilds) guild.canManage = this.client.guilds.has(guild.id);
 		return response.end(JSON.stringify(guilds));
 	}
 
