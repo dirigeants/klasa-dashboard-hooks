@@ -8,7 +8,10 @@ exports.OPTIONS = {
 		http2: false
 	},
 	pieceDefaults: {
-		routes: { enabled: true },
+		routes: {
+			enabled: true,
+			authenticated: false
+		},
 		middlewares: { enabled: true }
 	}
 };

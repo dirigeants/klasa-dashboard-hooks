@@ -38,6 +38,13 @@ class Route extends Piece {
 		this.route = this.client.options.dashboardHooks.apiPrefix + options.route;
 
 		/**
+		 * If the route is authenticated
+		 * @since 0.0.1
+		 * @type {string}
+		 */
+		this.authenticated = options.authenticated;
+
+		/**
 		 * Stored parsed route
 		 * @since 0.0.1
 		 * @type {ParsedRoute}
