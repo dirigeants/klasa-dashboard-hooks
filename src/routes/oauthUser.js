@@ -21,7 +21,7 @@ module.exports = class extends Route {
 	async post(request, response) {
 		const botUser = await this.client.users.fetch(request.body.id);
 		const updated = await botUser.configs.update(request.body.data);
-		return response.end(JSON.stringify({ updated: !!updated.errors.length }));
+		return response.end(JSON.stringify({ updated: !updated.errors.length }));
 	}
 
 };
