@@ -88,6 +88,7 @@ class Server {
 			await this.client.middlewares.run(request, response, route);
 			await (route ? route[METHODS_LOWER[request.method]](request, response) : this.onNoMatch(request, response));
 		} catch (err) {
+			this.client.emit('error', err);
 			this.onError(err, request, response);
 		}
 	}

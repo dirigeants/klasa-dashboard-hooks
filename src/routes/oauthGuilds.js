@@ -25,8 +25,15 @@ module.exports = class extends Route {
 
 	async post(request, response) {
 		const botGuild = await this.client.users.fetch(request.body.id);
-		const updated = await botGuild.configs.update(request.body.data);
-		return response.end(JSON.stringify({ updated: !updated.errors.length }));
+		let updated;
+
+		try {
+			updated = await botGuild.configs.update(request.body.data);
+		} catch (err) {
+			this.client.emit('error', `${botGuild.name}[${botGuild.id}] failed updating guild configs via dashboard with error:\n${err}`);
+		}
+
+		return response.end(JSON.stringify({ updated: !!updated }));
 	}
 
 };
