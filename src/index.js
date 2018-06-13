@@ -11,7 +11,7 @@ module.exports = {
 	constants: require('./lib/util/constants'),
 	util: require('./lib/util/Util'),
 	Util: require('./lib/util/Util'),
-	[plugin]: this.Client[plugin]
+	[plugin]: require('./lib/Client')[plugin]
 };
 
 /**
