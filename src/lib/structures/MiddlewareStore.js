@@ -15,6 +15,12 @@ class MiddlewareStore extends Store {
 	 */
 	constructor(client) {
 		super(client, 'middlewares', Middleware);
+
+		/**
+		 * The middlewares sorted by priority
+		 * @type {Middleware[]}
+		 */
+		this.sortedMiddlwares = [];
 	}
 
 	/**
@@ -28,6 +34,40 @@ class MiddlewareStore extends Store {
 	}
 
 	/**
+	 * Clears the RouteStore
+	 * @since 0.0.1
+	 * @returns {void}
+	 */
+	clear() {
+		this.sortedMiddlwares = [];
+		return super.clear();
+	}
+
+	/**
+	 * Adds a Route to this RouteStore
+	 * @param {Route} piece The route to add to this store
+	 * @returns {Route}
+	 */
+	set(piece) {
+		const middleware = super.set(piece);
+		if (!middleware) return middleware;
+		this.sortedMiddlwares.splice(this.sortedMiddlwares.findIndex(mid => mid.priority >= middleware.priority) - 1, 0, middleware);
+		return middleware;
+	}
+
+	/**
+	 * Deletes a Route from this RouteStore
+	 * @param {Route|string} name The Name of the Route or the Route
+	 * @returns {boolean}
+	 */
+	delete(name) {
+		const middleware = this.resolve(name);
+		if (!middleware) return false;
+		this.sortedMiddlwares.splice(this.sortedMiddlwares.indexOf(middleware), 1);
+		return super.delete(middleware);
+	}
+
+	/**
 	 * Runs all the middleware.
 	 * @since 0.0.1
 	 * @param {KlasaIncomingMessage} request The http request
@@ -36,7 +76,7 @@ class MiddlewareStore extends Store {
 	 * @returns {void}
 	 */
 	async run(request, response, route) {
-		for (const middleware of this.values()) {
+		for (const middleware of this.sortedMiddlwares) {
 			if (response.finished) return;
 			if (middleware.enabled) await middleware.run(request, response, route);
 		}

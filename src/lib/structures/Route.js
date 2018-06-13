@@ -23,7 +23,7 @@ class Route extends Piece {
 	 * @since 0.0.1
 	 * @param {DashboardClient} client The Klasa client
 	 * @param {RouteStore} store The Route Store
-	 * @param {string} file The path from the pieces folder to the middleware file
+	 * @param {string} file The path from the pieces folder to the route file
 	 * @param {boolean} core If the piece is in the core directory or not
 	 * @param {RouteOptions} [options={}] Optional Route settings
 	 */

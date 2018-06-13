@@ -3,6 +3,10 @@ const { Middleware } = require('klasa-dashboard-hooks');
 
 module.exports = class extends Middleware {
 
+	constructor(...args) {
+		super(...args, { priority: 20 });
+	}
+
 	async run(request) {
 		if (request.method !== 'POST') return;
 

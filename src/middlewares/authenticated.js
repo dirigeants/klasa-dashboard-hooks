@@ -2,6 +2,10 @@ const { Middleware } = require('klasa-dashboard-hooks');
 
 module.exports = class extends Middleware {
 
+	constructor(...args) {
+		super(...args, { priority: 100 });
+	}
+
 	async run(request, response, route) {
 		if (!route || !route.authenticated) return;
 		const auth = request.headers.authorization;
