@@ -29,12 +29,6 @@ module.exports = class extends Route {
 
 	async post(request, response) {
 		const botGuild = this.client.guilds.get(request.body.id);
-
-		if (!botGuild || botGuild.sessions.indexOf(request.headers.authorization) === -1) {
-			response.writeHead(401);
-			return response.end(JSON.stringify({ message: 'Unauthorized' }));
-		}
-
 		let updated;
 
 		try {

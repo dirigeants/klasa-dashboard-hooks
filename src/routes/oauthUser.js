@@ -22,12 +22,6 @@ module.exports = class extends Route {
 
 	async post(request, response) {
 		const botUser = await this.client.users.fetch(request.body.id);
-
-		if (botUser.configs.session !== request.headers.authorization) {
-			response.writeHead(401);
-			return response.end(JSON.stringify({ message: 'Unauthorized' }));
-		}
-
 		let updated;
 
 		try {
