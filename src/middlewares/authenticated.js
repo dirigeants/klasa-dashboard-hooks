@@ -5,7 +5,7 @@ module.exports = class extends Middleware {
 	run(request, response, route) {
 		if (!route || !route.authenticated) return;
 		const auth = request.headers.authorization;
-		if (!auth || !this.client.configs.sessions.indexOf(auth) !== -1) this.unauthorized(response);
+		if (!auth || !this.client.configs.sessions.indexOf(auth) === -1) this.unauthorized(response);
 	}
 
 	unauthorized(response) {
