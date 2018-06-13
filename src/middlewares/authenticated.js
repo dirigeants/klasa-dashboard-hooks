@@ -13,10 +13,11 @@ module.exports = class extends Middleware {
 		if (request.method === 'POST') {
 			let guildOrUser = this.client.guilds.get(request.body.id);
 			if (!guildOrUser) guildOrUser = await this.client.users.fetch(request.body.id);
-			if (!guildOrUser ||
-				(guildOrUser.configs.sessions && !guildOrUser.configs.sessions.includes(auth)) ||
-				(guildOrUser.configs.session && guildOrUser.configs.session !== auth)
-			) this.unauthorized(response);
+			if (guildOrUser && (
+				(guildOrUser.configs.session && guildOrUser.configs.session === auth) ||
+				(guildOrUser.configs.sessions && guildOrUser.configs.sessions.includes(auth))
+			)) return;
+			this.unauthorized(response);
 		}
 	}
 
