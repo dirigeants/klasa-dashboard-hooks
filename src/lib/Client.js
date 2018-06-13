@@ -34,6 +34,10 @@ class DashboardClient extends Client {
 	 */
 	constructor(config) {
 		super(config);
+		this.constructor[Client.plugin].call(this);
+	}
+
+	static [Client.plugin]() {
 		mergeDefault(OPTIONS, this.options);
 
 		/**
