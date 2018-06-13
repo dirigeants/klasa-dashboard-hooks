@@ -44,9 +44,9 @@ class MiddlewareStore extends Store {
 	}
 
 	/**
-	 * Adds a Route to this RouteStore
-	 * @param {Route} piece The route to add to this store
-	 * @returns {Route}
+	 * Adds a Middleware to this MiddlewareStore
+	 * @param {Middleware} piece The Middleware to add to this store
+	 * @returns {Middleware}
 	 */
 	set(piece) {
 		const middleware = super.set(piece);
@@ -56,8 +56,8 @@ class MiddlewareStore extends Store {
 	}
 
 	/**
-	 * Deletes a Route from this RouteStore
-	 * @param {Route|string} name The Name of the Route or the Route
+	 * Deletes a Middleware from this MiddlewareStore
+	 * @param {Middleware|string} name The name of the Middleware or the Middleware
 	 * @returns {boolean}
 	 */
 	delete(name) {

@@ -74,7 +74,7 @@ class RouteStore extends Store {
 
 	/**
 	 * Deletes a Route from this RouteStore
-	 * @param {Route|string} name The Name of the Route or the Route
+	 * @param {Route|string} name The name of the Route or the Route
 	 * @returns {boolean}
 	 */
 	delete(name) {
