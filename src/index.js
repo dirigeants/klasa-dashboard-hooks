@@ -1,3 +1,5 @@
+const { Client: { plugin } } = require('klasa');
+
 module.exports = {
 	DashboardClient: require('./lib/Client'),
 	Client: require('./lib/Client'),
@@ -8,7 +10,8 @@ module.exports = {
 	RouteStore: require('./lib/structures/RouteStore'),
 	constants: require('./lib/util/constants'),
 	util: require('./lib/util/Util'),
-	Util: require('./lib/util/Util')
+	Util: require('./lib/util/Util'),
+	[plugin]: require('./lib/plugin')
 };
 
 /**
