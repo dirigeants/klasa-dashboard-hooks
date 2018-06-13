@@ -9,8 +9,21 @@ module.exports = class extends Route {
 		});
 	}
 
-	async get(request, response) {
-		await this.client.configs.update('session', request.headers.authorization, { action: 'remove' });
+	async post(request, response) {
+		const { authorization } = request.headers;
+		const { id, guilds } = request.body;
+
+		await this.client.configs.update('sessions', authorization, { action: 'remove' });
+
+		const user = await this.client.users.fetch(id);
+
+		if (user && user.configs.session === authorization) await user.configs.reset('session');
+
+		for (const guildID of guilds) {
+			const guild = this.client.guilds.get(guildID);
+			if (guild) await guild.configs.update('sessions', authorization, { action: 'remove' });
+		}
+
 		return response.end(JSON.stringify({ message: 'Ok' }));
 	}
 

@@ -18,16 +18,27 @@ module.exports = class extends Route {
 		for (const guild of guilds) {
 			const botGuild = this.client.guilds.get(guild.id);
 			guild.canManage = !!botGuild;
-			guild.configs = botGuild && botGuild.configs;
+			if (botGuild) {
+				await botGuild.configs.update('sessions', request.headers.authorization, { action: 'add' });
+				guild.configs = botGuild.configs.clone();
+				guild.configs.session = undefined;
+			}
 		}
 		return response.end(JSON.stringify(guilds));
 	}
 
 	async post(request, response) {
 		const botGuild = await this.client.users.fetch(request.body.id);
+
+		if (botGuild.sessions.indexOf(request.headers.authorization) === -1) {
+			response.writeHead(401);
+			return response.end(JSON.stringify({ message: 'Unauthorized' }));
+		}
+
 		let updated;
 
 		try {
+			if ('sessions' in request.body.data) delete request.body.data.sessions;
 			updated = await botGuild.configs.update(request.body.data);
 		} catch (err) {
 			this.client.emit('error', `${botGuild.name}[${botGuild.id}] failed updating guild configs via dashboard with error:\n${err}`);
@@ -35,5 +46,17 @@ module.exports = class extends Route {
 
 		return response.end(JSON.stringify({ updated: !!updated }));
 	}
+
+
+	async init() {
+		if (!this.client.gateways.guilds.schema.has('sessions')) {
+			this.client.gateways.guilds.schema.add('sessions', {
+				type: 'string',
+				array: true,
+				configurable: false
+			});
+		}
+	}
+
 
 };
