@@ -11,7 +11,7 @@ module.exports = class extends Route {
 		/* eslint-disable camelcase */
 		if (!request.body.code) return this.noCode(response);
 		const res = await snekfetch.post(`https://discordapp.com/api/oauth2/token`)
-			.set({ Authorization: `Basic ${Buffer.from(`${this.client.options.clientID}:${this.client.options.clientSecret}`, 'binary').toString('base64')}` })
+			.set({ Authorization: `Basic ${Buffer.from(`${this.client.options.clientID}:${this.client.options.clientSecret}`).toString('base64')}` })
 			.query({
 				grant_type: 'authorization_code',
 				redirect_uri: request.body.redirectUri,
