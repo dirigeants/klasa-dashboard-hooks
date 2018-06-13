@@ -44,7 +44,7 @@ class DashboardClient extends Client {
 		 * The http server handler for the api
 		 * @since 0.0.1
 		 * @type {Server}
-		 * @instance
+		 * @memberof DashboardClient
 		 */
 		this.server = new Server(this);
 
@@ -52,7 +52,7 @@ class DashboardClient extends Client {
 		 * The cache where routes are stored
 		 * @since 0.0.1
 		 * @type {RouteStore}
-		 * @instance
+		 * @memberof DashboardClient
 		 */
 		this.routes = new RouteStore(this);
 
@@ -60,7 +60,7 @@ class DashboardClient extends Client {
 		 * The cache where middlewares are stored
 		 * @since 0.0.1
 		 * @type {MiddlewareStore}
-		 * @instance
+		 * @memberof DashboardClient
 		 */
 		this.middlewares = new MiddlewareStore(this);
 
