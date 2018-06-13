@@ -20,7 +20,7 @@ module.exports = class extends Route {
 			guild.canManage = !!botGuild;
 			if (botGuild) {
 				await botGuild.configs.update('sessions', request.headers.authorization, { action: 'add' });
-				guild.configs = botGuild.configs.clone();
+				guild.configs = botGuild.configs.toJSON();
 				guild.configs.session = undefined;
 			}
 		}

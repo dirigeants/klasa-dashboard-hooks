@@ -15,7 +15,7 @@ module.exports = class extends Route {
 			.set('Authorization', request.headers.authorization);
 		const botUser = await this.client.users.fetch(user.id);
 		await botUser.configs.update('session', request.headers.authorization);
-		user.configs = botUser.configs.clone();
+		user.configs = botUser.configs.toJSON();
 		user.configs.session = undefined;
 		return response.end(JSON.stringify(user));
 	}
