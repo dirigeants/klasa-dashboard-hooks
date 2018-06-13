@@ -1,6 +1,7 @@
 const snekfetch = require('snekfetch');
 const { Route } = require('klasa-dashboard-hooks');
 const { Permissions } = require('discord.js');
+const { inspect } = require('util');
 
 module.exports = class extends Route {
 
@@ -29,16 +30,15 @@ module.exports = class extends Route {
 
 	async post(request, response) {
 		const botGuild = this.client.guilds.get(request.body.id);
-		let updated;
 
-		try {
-			if ('sessions' in request.body.data) delete request.body.data.sessions;
-			updated = await botGuild.configs.update(request.body.data);
-		} catch (err) {
-			this.client.emit('error', `${botGuild.name}[${botGuild.id}] failed updating guild configs via dashboard with error:\n${err}`);
-		}
+		if ('sessions' in request.body.data) delete request.body.data.sessions;
 
-		return response.end(JSON.stringify({ updated: !!updated }));
+		const updated = await botGuild.configs.update(request.body.data);
+		const errored = Boolean(updated.errors.length);
+
+		if (errored) this.client.emit('error', `${botGuild.name}[${botGuild.id}] failed updating guild configs via dashboard with error:\n${inspect(updated.errors)}`);
+
+		return response.end(JSON.stringify({ updated: !errored }));
 	}
 
 

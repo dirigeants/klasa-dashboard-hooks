@@ -1,5 +1,6 @@
 const snekfetch = require('snekfetch');
 const { Route } = require('klasa-dashboard-hooks');
+const { inspect } = require('util');
 
 module.exports = class extends Route {
 
@@ -14,7 +15,11 @@ module.exports = class extends Route {
 		const { body: user } = await snekfetch.get('https://discordapp.com/api/users/@me')
 			.set('Authorization', request.headers.authorization);
 		const botUser = await this.client.users.fetch(user.id);
-		await botUser.configs.update('session', request.headers.authorization);
+
+		if (!botUser.configs.session || !botUser.configs.session !== request.headers.authorization) {
+			await botUser.configs.update('session', request.headers.authorization);
+		}
+
 		user.configs = botUser.configs.toJSON();
 		user.configs.session = undefined;
 		return response.end(JSON.stringify(user));
@@ -22,16 +27,15 @@ module.exports = class extends Route {
 
 	async post(request, response) {
 		const botUser = await this.client.users.fetch(request.body.id);
-		let updated;
 
-		try {
-			if ('session' in request.body.data) delete request.body.data.session;
-			updated = await botUser.configs.update(request.body.data);
-		} catch (err) {
-			this.client.emit('error', `${botUser.username}[${botUser.id}] failed updating user configs via dashboard with error:\n${err}`);
-		}
+		if ('session' in request.body.data) delete request.body.data.session;
 
-		return response.end(JSON.stringify({ updated: !!updated }));
+		const updated = await botUser.configs.update(request.body.data);
+		const errored = Boolean(updated.errors.length);
+
+		if (errored) this.client.emit('error', `${botUser.username}[${botUser.id}] failed updating user configs via dashboard with error:\n${inspect(updated.errors)}`);
+
+		return response.end(JSON.stringify({ updated: !errored }));
 	}
 
 	async init() {
