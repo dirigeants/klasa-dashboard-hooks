@@ -9,7 +9,7 @@ module.exports = class extends Middleware {
 	async run(request, response, route) {
 		if (!route || !route.authenticated) return;
 		try {
-			request.auth = decrypt(request.headers.authorization, this.client.option.clientSecret);
+			request.auth = decrypt(request.headers.authorization, this.client.options.clientSecret);
 			if (request.method === 'POST' && !request.auth.scope.includes(request.body.id)) throw true;
 		} catch (err) {
 			this.unauthorized(response);
