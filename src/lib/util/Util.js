@@ -1,4 +1,4 @@
-const { createDecipheriv, createCipheriv } = require('crypto');
+const { createDecipher, createCipher } = require('crypto');
 
 const [SLASH, COLON] = [47, 58];
 
@@ -56,7 +56,7 @@ class Util {
 	 * @returns {string}
 	 */
 	static encrypt(data, secret) {
-		const cipher = createCipheriv('aes-256-cbc', secret, 'test');
+		const cipher = createCipher('aes-256-cbc', secret);
 		return cipher.update(JSON.stringify(data), 'utf8', 'base64') + cipher.final('base64');
 	}
 
@@ -67,7 +67,7 @@ class Util {
 	 * @returns {string}
 	 */
 	static decrypt(data, secret) {
-		const decipher = createDecipheriv('aes-256-cbc', secret, 'test');
+		const decipher = createDecipher('aes-256-cbc', secret);
 		return JSON.parse(decipher.update(data, 'base64', 'utf8') + decipher.final('utf8'));
 	}
 
