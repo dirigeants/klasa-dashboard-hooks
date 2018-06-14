@@ -56,7 +56,7 @@ class Util {
 	 * @returns {string}
 	 */
 	static encrypt(data, secret) {
-		const cipher = createCipher('aes-256-cbc', secret);
+		const cipher = createCipher('aes192', secret);
 		return cipher.update(JSON.stringify(data), 'utf8', 'base64') + cipher.final('base64');
 	}
 
@@ -67,7 +67,7 @@ class Util {
 	 * @returns {string}
 	 */
 	static decrypt(data, secret) {
-		const decipher = createDecipher('aes-256-cbc', secret);
+		const decipher = createDecipher('aes192', secret);
 		return JSON.parse(decipher.update(data, 'base64', 'utf8') + decipher.final('utf8'));
 	}
 
