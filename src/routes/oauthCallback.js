@@ -26,7 +26,7 @@ module.exports = class extends Route {
 
 		return response.end(`{"Authorization":"${encrypt({
 			token: res.body.access_token,
-			scope: guilds.map(guild => guild.id).unshift(user.id)
+			scope: [user.id, ...guilds.map(guild => guild.id)]
 		}, this.client.options.clientSecret)}"}`);
 		/* eslint-enable camelcase */
 	}

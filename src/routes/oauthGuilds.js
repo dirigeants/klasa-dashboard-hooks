@@ -26,7 +26,7 @@ module.exports = class extends Route {
 			const userID = request.auth.scope[0];
 			response.setHeader('Authorization', encrypt({
 				token: request.auth.token,
-				scope: guilds.map(guild => guild.id).unshift(userID)
+				scope: [userID, ...guilds.map(guild => guild.id)]
 			}, this.client.options.clientSecret));
 		}
 
