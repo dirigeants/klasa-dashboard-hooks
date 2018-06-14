@@ -1,5 +1,5 @@
 const snekfetch = require('snekfetch');
-const { Route } = require('klasa-dashboard-hooks');
+const { Route, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
 const { inspect } = require('util');
 
 module.exports = class extends Route {
@@ -35,7 +35,7 @@ module.exports = class extends Route {
 
 		if (errored) this.client.emit('error', `${botUser.username}[${botUser.id}] failed updating user configs via dashboard with error:\n${inspect(updated.errors)}`);
 
-		return response.end(JSON.stringify({ updated: !errored }));
+		return response.end(RESPONSES.UPDATED[Number(!errored)]);
 	}
 
 	async init() {

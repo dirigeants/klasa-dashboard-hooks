@@ -1,4 +1,4 @@
-const { Route } = require('klasa-dashboard-hooks');
+const { Route, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
 
 module.exports = class extends Route {
 
@@ -24,7 +24,7 @@ module.exports = class extends Route {
 			if (guild) await guild.configs.update('sessions', authorization, { action: 'remove' });
 		}
 
-		return response.end(JSON.stringify({ message: 'Ok' }));
+		return response.end(RESPONSES.OK);
 	}
 
 };

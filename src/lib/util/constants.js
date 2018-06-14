@@ -20,3 +20,14 @@ const lowerMethods = {};
 for (const method of METHODS) lowerMethods[method] = method.toLowerCase();
 
 exports.METHODS_LOWER = lowerMethods;
+
+exports.RESPONSES = {
+	FETCHING_TOKEN: '{"message":"Error fetching token"}',
+	NO_CODE: '{"message":"No code provided"}',
+	UNAUTHORIZED: '{"message":"Unauthorized"}',
+	OK: '{"message":"Ok"}',
+	UPDATED: [
+		'{"updated":false}',
+		'{"updated":true}'
+	]
+};

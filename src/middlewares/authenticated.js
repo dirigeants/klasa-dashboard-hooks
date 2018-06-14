@@ -1,4 +1,4 @@
-const { Middleware } = require('klasa-dashboard-hooks');
+const { Middleware, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
 
 module.exports = class extends Middleware {
 
@@ -23,7 +23,7 @@ module.exports = class extends Middleware {
 
 	unauthorized(response) {
 		response.writeHead(401);
-		return response.end(JSON.stringify({ message: 'Unauthorized' }));
+		return response.end(RESPONSES.UNAUTHORIZED);
 	}
 
 	async init() {

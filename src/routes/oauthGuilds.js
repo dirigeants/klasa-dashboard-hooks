@@ -1,5 +1,5 @@
 const snekfetch = require('snekfetch');
-const { Route } = require('klasa-dashboard-hooks');
+const { Route, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
 const { Permissions } = require('discord.js');
 const { inspect } = require('util');
 
@@ -16,6 +16,7 @@ module.exports = class extends Route {
 		const { body } = await snekfetch.get('https://discordapp.com/api/users/@me/guilds')
 			.set('Authorization', request.headers.authorization);
 		const guilds = body.filter(guild => guild.owner || new Permissions(guild.permissions).has('MANAGE_GUILD'));
+
 		for (const guild of guilds) {
 			const botGuild = this.client.guilds.get(guild.id);
 			guild.canManage = !!botGuild;
@@ -25,6 +26,7 @@ module.exports = class extends Route {
 				guild.configs.session = undefined;
 			}
 		}
+
 		return response.end(JSON.stringify(guilds));
 	}
 
@@ -38,7 +40,7 @@ module.exports = class extends Route {
 
 		if (errored) this.client.emit('error', `${botGuild.name}[${botGuild.id}] failed updating guild configs via dashboard with error:\n${inspect(updated.errors)}`);
 
-		return response.end(JSON.stringify({ updated: !errored }));
+		return response.end(RESPONSES.UPDATED[Number(!errored)]);
 	}
 
 
