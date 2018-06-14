@@ -1,3 +1,5 @@
+const { createDecipheriv, createCipheriv } = require('crypto');
+
 const [SLASH, COLON] = [47, 58];
 
 /**
@@ -45,6 +47,28 @@ class Util {
 	 */
 	static parse(url) {
 		return Util.split(url).map(Util.parsePart);
+	}
+
+	/**
+	 * Encrypts an object with aes-256-cbc to use as a token
+	 * @param {any} data An object to encrypt
+	 * @param {string} secret The secret to encrypt the data with
+	 * @returns {string}
+	 */
+	static encrypt(data, secret) {
+		const cipher = createCipheriv('aes-256-cbc', secret, null);
+		return cipher.update(JSON.stringify(data), 'utf8', 'base64') + cipher.final('base64');
+	}
+
+	/**
+	 * Decrypts an object with aes-256-cbc to use as a token
+	 * @param {string} data An data to decrypt
+	 * @param {string} secret The secret to decrypt the data with
+	 * @returns {string}
+	 */
+	static decrypt(data, secret) {
+		const decipher = createDecipheriv('aes-256-cbc', secret, null);
+		return JSON.parse(decipher.update(data, 'base64', 'utf8') + decipher.final('utf8'));
 	}
 
 }

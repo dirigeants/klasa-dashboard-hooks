@@ -1,5 +1,5 @@
 const snekfetch = require('snekfetch');
-const { Route, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
+const { Route, util: { encrypt }, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
 
 module.exports = class extends Route {
 
@@ -19,9 +19,15 @@ module.exports = class extends Route {
 			});
 		if (!res) return response.end(RESPONSES.FETCHING_TOKEN);
 
-		await this.client.configs.update('sessions', `Bearer ${res.body.access_token}`, { action: 'add' });
+		const { body: user } = await snekfetch.get('https://discordapp.com/api/users/@me')
+			.set('Authorization', `Bearer ${res.body.access_token}`);
+		const { body: guilds } = await snekfetch.get('https://discordapp.com/api/users/@me/guilds')
+			.set('Authorization', `Bearer ${res.body.access_token}`);
 
-		return response.end(JSON.stringify(res.body));
+		return response.end(`{"Authorization":"${encrypt({
+			token: res.body.access_token,
+			scope: guilds.map(guild => guild.id).unshift(user.id)
+		}, this.client.options.clientSecret)}"}`);
 		/* eslint-enable camelcase */
 	}
 
