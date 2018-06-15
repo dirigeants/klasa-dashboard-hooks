@@ -12,17 +12,23 @@ module.exports = class extends Route {
 		});
 	}
 
-	async get(request, response) {
+	async api(token) {
 		const { body: guilds } = await snekfetch.get('https://discordapp.com/api/users/@me/guilds')
-			.set('Authorization', `Bearer ${request.auth.token}`);
-		let updateToken = false;
+			.set('Authorization', `Bearer ${token}`);
 
 		for (const guild of guilds) {
-			guild.managable = this.client.guilds.has(guild.id) && (guild.owner || new Permissions(guild.permissions).has('MANAGE_GUILD'));
-			if (!updateToken && request.auth.scope.indexOf(guild.id) === -1) updateToken = true;
+			const botGuild = this.client.guilds.get(guild.id);
+			guild.managable = botGuild && (guild.owner || new Permissions(guild.permissions).has('MANAGE_GUILD'));
+			guild.configs = botGuild && botGuild.configs;
 		}
 
-		if (updateToken) {
+		return guilds;
+	}
+
+	async get(request, response) {
+		const guilds = await this.api(request.auth.token);
+
+		if (guilds.length + 1 !== request.auth.scope.length) {
 			const userID = request.auth.scope[0];
 			response.setHeader('Authorization', encrypt({
 				token: request.auth.token,

@@ -1,3 +1,4 @@
+const snekfetch = require('snekfetch');
 const { Route, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
 const { inspect } = require('util');
 
@@ -10,9 +11,16 @@ module.exports = class extends Route {
 		});
 	}
 
+	async api(token) {
+		const { body: user } = await snekfetch.get('https://discordapp.com/api/users/@me')
+			.set('Authorization', `Bearer ${token}`);
+		const botUser = await this.client.users.fetch(user.id);
+		user.configs = botUser && botUser.configs;
+		return user;
+	}
+
 	async get(request, response) {
-		const user = this.client.users.fetch(request.auth.scope[0]);
-		return response.end(JSON.stringify(user));
+		return response.end(JSON.stringify(this.api(request.auth.token)));
 	}
 
 	async post(request, response) {
