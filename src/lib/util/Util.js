@@ -56,7 +56,7 @@ class Util {
 	 * @returns {string}
 	 */
 	static encrypt(data, secret) {
-		const iv = randomBytes(256);
+		const iv = randomBytes(16);
 		const cipher = createCipheriv('aes-256-cbc', secret, iv);
 		return `${cipher.update(JSON.stringify(data), 'utf8', 'base64') + cipher.final('base64')}.${iv.toString('base64')}`;
 	}
