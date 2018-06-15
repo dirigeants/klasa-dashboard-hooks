@@ -30,14 +30,14 @@ module.exports = class extends Route {
 		const user = await this.user.api(res.body.access_token);
 		const guilds = await this.guilds.api(res.body.access_token);
 
-		return response.end({
+		return response.end(JSON.stringify({
 			access_token: encrypt({
 				token: res.body.access_token,
 				scope: [user.id, ...guilds.map(guild => guild.id)]
 			}, this.client.options.clientSecret),
 			user,
 			guilds
-		});
+		}));
 		/* eslint-enable camelcase */
 	}
 
