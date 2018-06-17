@@ -25,6 +25,7 @@ exports.RESPONSES = {
 	FETCHING_TOKEN: '{"message":"Error fetching token"}',
 	NO_CODE: '{"message":"No code provided"}',
 	UNAUTHORIZED: '{"message":"Unauthorized"}',
+	NOT_READY: '{"message":"No OAuth User Route Loaded"}',
 	OK: '{"message":"Ok"}',
 	UPDATED: [
 		'{"updated":false}',

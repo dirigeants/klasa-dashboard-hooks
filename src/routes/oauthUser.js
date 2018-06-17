@@ -1,5 +1,5 @@
 const snekfetch = require('snekfetch');
-const { Route, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
+const { Route, util: { encrypt }, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
 const { inspect } = require('util');
 
 module.exports = class extends Route {
@@ -12,15 +12,28 @@ module.exports = class extends Route {
 	}
 
 	async api(token) {
+		token = `Bearer ${token}`;
 		const { body: user } = await snekfetch.get('https://discordapp.com/api/users/@me')
-			.set('Authorization', `Bearer ${token}`);
-		const botUser = await this.client.users.fetch(user.id);
-		user.configs = botUser && botUser.configs;
-		return user;
+			.set('Authorization', token);
+		await this.client.users.fetch(user.id);
+		const { body: guilds } = await snekfetch.get('https://discordapp.com/api/users/@me/guilds')
+			.set('Authorization', token);
+		user.guilds = guilds;
+		return this.client.dashboardUsers.add(user);
 	}
 
 	async get(request, response) {
-		return response.end(JSON.stringify(this.api(request.auth.token)));
+		let dashboardUser = this.client.dashboardUsers.get(request.auth.scope[0]);
+
+		if (!dashboardUser) {
+			dashboardUser = await this.api(request.auth.token);
+			response.setHeader('Authorization', encrypt({
+				token: request.auth.token,
+				scope: [dashboardUser.id, ...dashboardUser.guilds.map(guild => guild.id)]
+			}, this.client.options.clientSecret));
+		}
+
+		return response.end(JSON.stringify(dashboardUser));
 	}
 
 	async post(request, response) {

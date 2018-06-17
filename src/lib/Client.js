@@ -1,8 +1,10 @@
 const { Client, util: { mergeDefault } } = require('klasa');
+const { DataStore } = require('discord.js');
 
 const Server = require('./http/Server');
 const RouteStore = require('./structures/RouteStore');
 const MiddlewareStore = require('./structures/MiddlewareStore');
+const DashboardUser = require('./structures/DashboardUser');
 const { OPTIONS } = require('./util/constants');
 
 /**
@@ -63,6 +65,14 @@ class DashboardClient extends Client {
 		 * @name DashboardClient#middlewares
 		 */
 		this.middlewares = new MiddlewareStore(this);
+
+		/**
+		 * The cache where oauth data is temporarily stored
+		 * @since 0.0.1
+		 * @type {DataStore}
+		 * @name DashboardClient#dashboardUsers
+		 */
+		this.dashboardUsers = new DataStore(this, undefined, DashboardUser);
 
 		this
 			.registerStore(this.routes)

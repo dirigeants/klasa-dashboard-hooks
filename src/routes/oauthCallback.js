@@ -7,12 +7,8 @@ module.exports = class extends Route {
 		super(...args, { route: 'oauth/callback' });
 	}
 
-	get user() {
+	get oauthUser() {
 		return this.store.get('oauthUser');
-	}
-
-	get guilds() {
-		return this.store.get('oauthGuilds');
 	}
 
 	async post(request, response) {
@@ -27,18 +23,25 @@ module.exports = class extends Route {
 			});
 		if (!res) return response.end(RESPONSES.FETCHING_TOKEN);
 
-		const user = await this.user.api(res.body.access_token);
-		const guilds = await this.guilds.api(res.body.access_token);
+		const { oauthUser } = this;
+
+		if (!oauthUser) return this.notReady(response);
+
+		const user = await oauthUser.api(res.body.access_token);
 
 		return response.end(JSON.stringify({
 			access_token: encrypt({
 				token: res.body.access_token,
-				scope: [user.id, ...guilds.map(guild => guild.id)]
+				scope: [user.id, ...user.guilds.map(guild => guild.id)]
 			}, this.client.options.clientSecret),
-			user,
-			guilds
+			user
 		}));
 		/* eslint-enable camelcase */
+	}
+
+	notReady(response) {
+		response.writeHead(500);
+		return response.end(RESPONSES.NOT_READY);
 	}
 
 	noCode(response) {
