@@ -24,7 +24,7 @@ module.exports = class DashboardGuild {
 	}
 
 	toJSON() {
-		const guild = this.guild.toJSON() || {};
+		const guild = (gld => gld ? gld.toJSON() : {})(this.guild);
 		return {
 			...guild,
 			id: this.id,

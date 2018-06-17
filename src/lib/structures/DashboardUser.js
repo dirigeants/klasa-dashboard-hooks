@@ -31,7 +31,7 @@ class DashboardUser {
 	}
 
 	toJSON() {
-		const user = this.user.toJSON() || {};
+		const user = (usr => usr ? usr.toJSON() : {})(this.user);
 		return {
 			...user,
 			id: this.id,
