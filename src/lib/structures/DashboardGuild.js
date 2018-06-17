@@ -9,7 +9,7 @@ module.exports = class DashboardGuild {
 		this.icon = guild.icon;
 		this.userIsOwner = guild.owner;
 		this.userGuildPermissions = new Permissions(guild.permissions);
-		this.userCanManage = this.permissions.has('MANAGE_GUILD');
+		this.userCanManage = this.userGuildPermissions.has('MANAGE_GUILD');
 	}
 
 	get iconURL() {
