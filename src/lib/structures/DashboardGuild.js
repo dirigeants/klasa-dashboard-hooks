@@ -20,11 +20,11 @@ module.exports = class DashboardGuild {
 	}
 
 	get guild() {
-		return this.client.guilds.get(this.id);
+		return this.client.guilds.get(this.id) || null;
 	}
 
 	toJSON() {
-		const guild = this.guild || {};
+		const guild = this.guild.toJSON() || {};
 		return {
 			...guild,
 			id: this.id,

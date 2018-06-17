@@ -23,7 +23,7 @@ class DashboardUser {
 	}
 
 	get user() {
-		return this.client.users.get(this.id);
+		return this.client.users.get(this.id) || null;
 	}
 
 	static setupGuilds(dashboardUser, guilds) {
@@ -31,7 +31,7 @@ class DashboardUser {
 	}
 
 	toJSON() {
-		const user = this.user || {};
+		const user = this.user.toJSON() || {};
 		return {
 			...user,
 			id: this.id,
