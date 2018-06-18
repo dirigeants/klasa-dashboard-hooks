@@ -79,7 +79,7 @@ class DashboardUser {
 	 */
 	get avatarURL() {
 		const { user } = this;
-		if (user) return user.displayAvatarURL();
+		if (user) return user.displayAvatarURL({ format: 'png' });
 		if (this.avatar) return `https://cdn.discordapp.com/avatars/${this.id}/${this.avatar}.png`;
 		return `https://cdn.discordapp.com/embed/avatars/${this.discriminator % 5}.png`;
 	}
