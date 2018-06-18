@@ -6,7 +6,7 @@ const { Permissions } = require('discord.js');
 class DashboardGuild {
 
 	/**
-	 * @typedef {?external:GuildJSON} DashboardGuildJSON
+	 * @typedef {?external:KlasaGuildJSON} DashboardGuildJSON
 	 * @property {string} id The id of the DashboardGuild
 	 * @property {string} name The name of this DashboardGuild
 	 * @property {string} icon The icon hash

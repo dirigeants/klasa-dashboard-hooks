@@ -7,6 +7,17 @@ const DashboardGuild = require('./dashboardGuild');
 class DashboardUser {
 
 	/**
+	 * @typedef {?external:KlasaUserJSON} DashboardUserJSON
+	 * @property {string} id The id of the DashboardUser
+	 * @property {string} username The name of this DashboardUser
+	 * @property {string} avatar The avatar hash
+	 * @property {number} discriminator The discriminator of this DashboardUser
+	 * @property {string} locale The language of this DashboardUser
+	 * @property {boolean} mfaEnabled If the OAuth User has multi-factor Authentication enabled
+	 * @property {DashboardGuild[]} guilds The guilds associated with this OAuth User
+	 */
+
+	/**
 	 * @since 0.0.1
 	 * @param {DashboardClient} client The client
 	 * @param {Object} user The raw user data
@@ -63,7 +74,7 @@ class DashboardUser {
 
 		/**
 		 * The collection of OAuth Guilds this OAuth User is in
-	 * @since 0.0.1
+		 * @since 0.0.1
 		 * @type {external:Collection<external:snowflake, DashboardGuild>}
 		 */
 		this.guilds = new Collection();
