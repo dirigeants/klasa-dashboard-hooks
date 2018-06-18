@@ -83,7 +83,7 @@ module.exports = class extends Route {
 };
 ```
 
->Note the colin in front of the userID portion of the route
+>Note the colon in front of the userID portion of the route
 
 How does the new route work?
 
