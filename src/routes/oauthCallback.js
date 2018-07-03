@@ -1,6 +1,5 @@
 const { Route, util: { encrypt }, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
 const fetch = require('node-fetch');
-const qs = require('querystring');
 
 module.exports = class extends Route {
 
@@ -15,11 +14,11 @@ module.exports = class extends Route {
 	async post(request, response) {
 		/* eslint-disable camelcase */
 		if (!request.body.code) return this.noCode(response);
-		const query = qs.stringify({
-			grant_type: 'authorization_code',
-			redirect_uri: request.body.redirectUri,
-			code: request.body.code
-		});
+		const query = new URLSearchParams([
+			['grant_type', 'authorization_code'],
+			['redirect_uri', request.body.redirectUri],
+			['code', request.body.code]
+		]);
 		const res = await fetch(`https://discordapp.com/api/oauth2/token?${query}`, {
 			headers: { Authorization: `Basic ${Buffer.from(`${this.client.options.clientID}:${this.client.options.clientSecret}`).toString('base64')}` },
 			method: 'POST'
