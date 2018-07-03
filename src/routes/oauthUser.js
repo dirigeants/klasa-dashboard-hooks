@@ -1,6 +1,6 @@
-const snekfetch = require('snekfetch');
 const { Route, util: { encrypt }, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
 const { inspect } = require('util');
+const fetch = require('node-fetch');
 
 module.exports = class extends Route {
 
@@ -13,12 +13,11 @@ module.exports = class extends Route {
 
 	async api(token) {
 		token = `Bearer ${token}`;
-		const { body: user } = await snekfetch.get('https://discordapp.com/api/users/@me')
-			.set('Authorization', token);
+		const user = await fetch('https://discordapp.com/api/users/@me', { headers: { Authorization: token } })
+			.then(result => result.json());
 		await this.client.users.fetch(user.id);
-		const { body: guilds } = await snekfetch.get('https://discordapp.com/api/users/@me/guilds')
-			.set('Authorization', token);
-		user.guilds = guilds;
+		user.guilds = await fetch('https://discordapp.com/api/users/@me/guilds', { headers: { Authorization: token } })
+			.then(result => result.json());
 		return this.client.dashboardUsers.add(user);
 	}
 
