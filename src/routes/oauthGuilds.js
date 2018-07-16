@@ -1,24 +1,23 @@
-const snekfetch = require('snekfetch');
-const { Route } = require('klasa-dashboard-hooks');
-const { Permissions } = require('discord.js');
+const { Route, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
+const { inspect } = require('util');
 
 module.exports = class extends Route {
 
 	constructor(...args) {
-		super(...args, { route: 'oauth/guilds' });
+		super(...args, {
+			route: 'oauth/user/guilds',
+			authenticated: true
+		});
 	}
 
-	async get(request, response) {
-		const auth = request.headers.authorization;
-		if (!auth) {
-			response.writeHead(401, { 'Content-Type': 'application/json' });
-			return response.end(JSON.stringify({ message: 'Unauthorized' }));
-		}
-		const { body } = await snekfetch.get('https://discordapp.com/api/users/@me/guilds')
-			.set('Authorization', auth);
-		const guilds = body.filter(guild => guild.owner || new Permissions(guild.permissions).has('MANAGE_GUILD'));
-		for (const guild of guilds) guild.canManage = this.client.guilds.has(guild.id);
-		return response.end(JSON.stringify(guilds));
+	async post(request, response) {
+		const botGuild = this.client.guilds.get(request.body.id);
+		const updated = await botGuild.configs.update(request.body.data);
+		const errored = Boolean(updated.errors.length);
+
+		if (errored) this.client.emit('error', `${botGuild.name}[${botGuild.id}] failed updating guild configs via dashboard with error:\n${inspect(updated.errors)}`);
+
+		return response.end(RESPONSES.UPDATED[Number(!errored)]);
 	}
 
 };

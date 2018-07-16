@@ -1,3 +1,5 @@
+const { Client: { plugin } } = require('klasa');
+
 module.exports = {
 	DashboardClient: require('./lib/Client'),
 	Client: require('./lib/Client'),
@@ -8,28 +10,37 @@ module.exports = {
 	RouteStore: require('./lib/structures/RouteStore'),
 	constants: require('./lib/util/constants'),
 	util: require('./lib/util/Util'),
-	Util: require('./lib/util/Util')
+	Util: require('./lib/util/Util'),
+	[plugin]: require('./lib/Client')[plugin]
 };
 
 /**
  * @external KlasaClient
- * @see {@link https://klasa.js.org/#/docs/main/master/class/KlasaClient}
+ * @see {@link https://klasa.js.org/#/docs/klasa/master/class/KlasaClient}
  */
 /**
  * @external Piece
- * @see {@link https://klasa.js.org/#/docs/main/master/class/Piece}
+ * @see {@link https://klasa.js.org/#/docs/klasa/master/class/Piece}
  */
 /**
  * @external Store
- * @see {@link https://klasa.js.org/#/docs/main/master/class/Store}
+ * @see {@link https://klasa.js.org/#/docs/klasa/master/class/Store}
  */
 /**
  * @external KlasaClientOptions
- * @see {@link https://klasa.js.org/#/docs/main/master/typedef/KlasaClientOptions}
+ * @see {@link https://klasa.js.org/#/docs/klasa/master/typedef/KlasaClientOptions}
+ */
+/**
+ * @external KlasaGuildJSON
+ * @see {@link https://klasa.js.org/#/docs/klasa/master/typedef/KlasaGuildJSON}
+ */
+/**
+ * @external KlasaUserJSON
+ * @see {@link https://klasa.js.org/#/docs/klasa/master/typedef/KlasaUserJSON}
  */
 /**
  * @external PieceOptions
- * @see {@link https://klasa.js.org/#/docs/main/master/typedef/PieceOptions}
+ * @see {@link https://klasa.js.org/#/docs/klasa/master/typedef/PieceOptions}
  */
 /**
  * @external HTTPServer
