@@ -1,5 +1,5 @@
-const snekfetch = require('snekfetch');
 const { Route, util: { encrypt }, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
+const fetch = require('node-fetch');
 
 module.exports = class extends Route {
 
@@ -14,24 +14,28 @@ module.exports = class extends Route {
 	async post(request, response) {
 		/* eslint-disable camelcase */
 		if (!request.body.code) return this.noCode(response);
-		const res = await snekfetch.post('https://discordapp.com/api/oauth2/token')
-			.set({ Authorization: `Basic ${Buffer.from(`${this.client.options.clientID}:${this.client.options.clientSecret}`).toString('base64')}` })
-			.query({
-				grant_type: 'authorization_code',
-				redirect_uri: request.body.redirectUri,
-				code: request.body.code
-			});
-		if (!res) return response.end(RESPONSES.FETCHING_TOKEN);
+		const url = new URL('https://discordapp.com/api/oauth2/token');
+		url.search = new URLSearchParams([
+			['grant_type', 'authorization_code'],
+			['redirect_uri', request.body.redirectUri],
+			['code', request.body.code]
+		]);
+		const res = await fetch(url, {
+			headers: { Authorization: `Basic ${Buffer.from(`${this.client.options.clientID}:${this.client.options.clientSecret}`).toString('base64')}` },
+			method: 'POST'
+		});
+		if (!res.ok) return response.end(RESPONSES.FETCHING_TOKEN);
 
 		const { oauthUser } = this;
 
 		if (!oauthUser) return this.notReady(response);
 
-		const user = await oauthUser.api(res.body.access_token);
+		const body = await res.json();
+		const user = await oauthUser.api(body.access_token);
 
 		return response.end(JSON.stringify({
 			access_token: encrypt({
-				token: res.body.access_token,
+				token: body.access_token,
 				scope: [user.id, ...user.guilds.map(guild => guild.id)]
 			}, this.client.options.clientSecret),
 			user
