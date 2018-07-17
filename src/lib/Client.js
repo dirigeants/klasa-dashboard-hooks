@@ -1,5 +1,6 @@
 const { Client, util: { mergeDefault } } = require('klasa');
 const { DataStore } = require('discord.js');
+const path = require('path');
 
 const Server = require('./http/Server');
 const RouteStore = require('./structures/RouteStore');
@@ -77,6 +78,11 @@ class DashboardClient extends Client {
 		this
 			.registerStore(this.routes)
 			.registerStore(this.middlewares);
+
+		const coreDirectory = path.join(__dirname, '../');
+
+		this.routes.registerCoreDirectory(coreDirectory);
+		this.middlewares.registerCoreDirectory(coreDirectory);
 
 		this.server.listen(this.options.dashboardHooks.port);
 	}

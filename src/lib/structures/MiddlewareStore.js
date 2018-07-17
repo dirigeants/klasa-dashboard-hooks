@@ -1,4 +1,3 @@
-const { join } = require('path');
 const { Store } = require('klasa');
 
 const Middleware = require('./Middleware');
@@ -21,16 +20,6 @@ class MiddlewareStore extends Store {
 		 * @type {Middleware[]}
 		 */
 		this.sortedMiddlwares = [];
-	}
-
-	/**
-	 * The directory of pieces in Klasa relative to where its installed.
-	 * @since 0.0.1
-	 * @type {string}
-	 * @readonly
-	 */
-	get coreDir() {
-		return join(__dirname, '../../', this.name);
 	}
 
 	/**
