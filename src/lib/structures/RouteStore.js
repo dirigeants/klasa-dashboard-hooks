@@ -1,5 +1,4 @@
 const { METHODS } = require('http');
-const { join } = require('path');
 const { Store } = require('klasa');
 
 const Route = require('./Route');
@@ -26,16 +25,6 @@ class RouteStore extends Store {
 		this.registry = {};
 
 		for (const method of METHODS) this.registry[method] = new Map();
-	}
-
-	/**
-	 * The directory of pieces in Klasa relative to where its installed.
-	 * @since 0.0.1
-	 * @type {string}
-	 * @readonly
-	 */
-	get coreDir() {
-		return join(__dirname, '../../', this.name);
 	}
 
 	/**
