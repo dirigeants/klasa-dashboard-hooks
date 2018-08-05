@@ -36,7 +36,7 @@ module.exports = class extends Route {
 		return response.end(JSON.stringify({
 			access_token: encrypt({
 				token: body.access_token,
-				scope: [user.id, ...user.guilds.map(guild => guild.id)]
+				scope: [user.id, ...user.guilds.filter(guild => guild.userCanManage).map(guild => guild.id)]
 			}, this.client.options.clientSecret),
 			user
 		}));
