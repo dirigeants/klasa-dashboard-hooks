@@ -28,7 +28,7 @@ module.exports = class extends Route {
 			dashboardUser = await this.api(request.auth.token);
 			response.setHeader('Authorization', encrypt({
 				token: request.auth.token,
-				scope: [dashboardUser.id, ...dashboardUser.guilds.map(guild => guild.id)]
+				scope: [dashboardUser.id, ...dashboardUser.guilds.filter(guild => guild.userCanManage).map(guild => guild.id)]
 			}, this.client.options.clientSecret));
 		}
 
