@@ -1,5 +1,5 @@
 const { Collection } = require('discord.js');
-const DashboardGuild = require('./dashboardGuild');
+const DashboardGuild = require('./DashboardGuild');
 
 /**
  * Represents an OAuth User
