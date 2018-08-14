@@ -12,7 +12,7 @@ module.exports = class extends Route {
 
 	async post(request, response) {
 		const botGuild = this.client.guilds.get(request.body.id);
-		const updated = await botGuild.settings.update(request.body.data);
+		const updated = await botGuild.settings.update(request.body.data, { action: 'overwrite' });
 		const errored = Boolean(updated.errors.length);
 
 		if (errored) this.client.emit('error', `${botGuild.name}[${botGuild.id}] failed updating guild configs via dashboard with error:\n${inspect(updated.errors)}`);
