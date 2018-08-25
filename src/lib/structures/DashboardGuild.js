@@ -104,8 +104,8 @@ class DashboardGuild {
 			if (this.client.shard) {
 				botGuild = this.client.guilds.get(this.id);
 			} else {
-				const guildArray = await this.client.shard.broadcastEval(`this.guilds.get(${this.id}`);
-				botGuild = guildArray.filter(guild => guild);
+				const guildArray = await this.client.shard.broadcastEval(`this.guilds.get(${this.id})`);
+				botGuild = guildArray.find(guild => guild);
 			}
 			return botGuild;
 		};
