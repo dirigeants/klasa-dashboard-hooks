@@ -99,7 +99,16 @@ class DashboardGuild {
 	 * @readonly
 	 */
 	get guild() {
-		return this.client.guilds.get(this.id) || null;
+		return async () => {
+			let botGuild;
+			if (this.client.shard.count < 2) {
+				botGuild = this.client.guilds.get(this.id);
+			} else {
+				const guildArray = await this.client.shard.broadcastEval(`this.guilds.get(${this.id}`);
+				botGuild = guildArray.filter(guild => guild);
+			}
+			return botGuild;
+		};
 	}
 
 	/**

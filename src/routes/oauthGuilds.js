@@ -11,7 +11,13 @@ module.exports = class extends Route {
 	}
 
 	async post(request, response) {
-		const botGuild = this.client.guilds.get(request.body.id);
+		let botGuild;
+		if (this.client.shard.count < 2) {
+			botGuild = this.client.guilds.get(request.body.id);
+		} else {
+			const guildArray = await this.client.shard.broadcastEval(`this.guilds.get(${request.body.id}`);
+			botGuild = guildArray.filter(guild => guild);
+		}
 		const updated = await botGuild.settings.update(request.body.data, { action: 'overwrite' });
 		const errored = Boolean(updated.errors.length);
 
