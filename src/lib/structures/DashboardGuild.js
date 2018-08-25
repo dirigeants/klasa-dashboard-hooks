@@ -101,7 +101,7 @@ class DashboardGuild {
 	get guild() {
 		return async () => {
 			let botGuild;
-			if (this.client.shard.count < 2) {
+			if (this.client.shard) {
 				botGuild = this.client.guilds.get(this.id);
 			} else {
 				const guildArray = await this.client.shard.broadcastEval(`this.guilds.get(${this.id}`);

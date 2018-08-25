@@ -12,7 +12,7 @@ module.exports = class extends Route {
 
 	async post(request, response) {
 		let botGuild;
-		if (this.client.shard.count < 2) {
+		if (this.client.shard) {
 			botGuild = this.client.guilds.get(request.body.id);
 		} else {
 			const guildArray = await this.client.shard.broadcastEval(`this.guilds.get(${request.body.id}`);
