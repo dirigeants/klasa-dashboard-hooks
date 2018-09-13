@@ -1,4 +1,5 @@
 const { Route, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
+const { Permissions: { FLAGS: { MANAGE_GUILD } } } = require('discord.js');
 const { inspect } = require('util');
 
 module.exports = class extends Route {
@@ -12,11 +13,10 @@ module.exports = class extends Route {
 
 	async post(request, response) {
 		const botGuild = this.client.guilds.get(request.body.id);
-		const member = await botGuild.members.fetch(request.auth.scope[0]);
-		const canManage = member.permissions.has('MANAGE_GUILD');
+		const member = await botGuild.members.fetch(request.auth.scope[0]).catch(() => null);
 
-		if (!member || !botGuild) this.notFound(response);
-
+		if (!member || !botGuild) return this.notFound(response);
+		const canManage = member.permissions.has(MANAGE_GUILD);
 		if (!canManage) return this.unauthorized(response);
 
 		const updated = await botGuild.settings.update(request.body.data, { action: 'overwrite' });
