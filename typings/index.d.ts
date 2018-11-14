@@ -14,8 +14,6 @@ declare module 'klasa-dashboard-hooks' {
 		public middlewares: MiddlewareStore;
 	}
 
-	export { DashboardClient as Client };
-
 	export class Server {
 		public constructor(client: DashboardClient);
 		public client: DashboardClient;
@@ -51,8 +49,6 @@ declare module 'klasa-dashboard-hooks' {
 		public static split(url: string): string[];
 		public static parse(url: string): ParsedPart[];
 	}
-
-	export { Util as util };
 
 //#endregion Classes
 //#region Types
