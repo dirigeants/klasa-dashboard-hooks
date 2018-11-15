@@ -1,25 +1,24 @@
-import { KlasaClient, KlasaClientOptions, Piece, Store, PieceOptions } from 'klasa';
-import { Server as HTTPServer, IncomingMessage, ServerResponse } from 'http';
-import { SecureContextOptions } from 'tls';
+import { KlasaClient, KlasaClientOptions, Piece, Store, PieceOptions, KlasaPieceDefaults } from 'klasa';
+import { Server as HttpServer, IncomingMessage, ServerResponse } from 'http';
+import { SecureContextOptions, Server as HttpSecureServer } from 'tls';
+import { Http2SecureServer } from 'http2';
 
 declare module 'klasa-dashboard-hooks' {
 
 //#region Classes
 
-
 	export class DashboardClient extends KlasaClient {
-		public constructor(config: DashboardClientOptions);
+		public constructor(options?: DashboardClientOptions);
+		public options: Required<DashboardClientOptions>;
 		public server: Server;
 		public routes: RouteStore;
 		public middlewares: MiddlewareStore;
 	}
 
-	export { DashboardClient as Client };
-
 	export class Server {
 		public constructor(client: DashboardClient);
 		public client: DashboardClient;
-		public server: Server;
+		public server: HttpServer | HttpSecureServer | Http2SecureServer;
 		public onNoMatch: (request: IncomingMessage, response: ServerResponse) => void;
 		public listen(port: number): Promise<void>;
 		public handler(request: IncomingMessage, response: ServerResponse): Promise<void>;
@@ -27,22 +26,29 @@ declare module 'klasa-dashboard-hooks' {
 	}
 
 	export abstract class Middleware extends Piece {
+		public constructor(client: DashboardClient, store: MiddlewareStore, file: string[], directory: string, options?: MiddlewareOptions);
+		public priority: number;
 		public abstract run(request: KlasaIncomingMessage, response: ServerResponse, route?: Route): Promise<void>;
 	}
 
 	export class MiddlewareStore extends Store<string, Middleware, typeof Middleware> {
+		public sortedMiddlewares: Middleware[];
 		public run(request: KlasaIncomingMessage, response: ServerResponse, route?: Route): Promise<void>;
 	}
 
 	export abstract class Route extends Piece {
-		public constructor(client: DashboardClient, store: RouteStore, file: string, core: boolean, options?: RouteOptions);
-		public route: string;
+		public constructor(client: DashboardClient, store: RouteStore, file: string[], directory: string, options?: RouteOptions);
+		public authenticated: boolean;
 		public parsed: ParsedRoute;
+		public route: string;
 		public matches(split: string[]): boolean;
-		public execute(split: string[]): ObjectLiteral<any>;
+		public execute(split: string[]): Record<string, any>;
 	}
 
-	export class RouteStore extends Store<string, Route, typeof RouteStore> { }
+	export class RouteStore extends Store<string, Route, typeof RouteStore> {
+		public registry: Record<string, Map<string, Route>>;
+		public findRoute(method: string, splitURL: string[]): Route | undefined;
+	}
 
 	export const constants: Constants;
 
@@ -51,8 +57,6 @@ declare module 'klasa-dashboard-hooks' {
 		public static split(url: string): string[];
 		public static parse(url: string): ParsedPart[];
 	}
-
-	export { Util as util };
 
 //#endregion Classes
 //#region Types
@@ -73,11 +77,18 @@ declare module 'klasa-dashboard-hooks' {
 		originalUrl: string;
 		path: string;
 		search: string;
-		query: ObjectLiteral<string | string[]>;
+		query: Record<string, string | string[]>;
+		params: Record<string, any>;
+		body?: any;
 	} & IncomingMessage;
 
 	export type RouteOptions = {
 		route?: string;
+		authenticated?: boolean;
+	} & PieceOptions;
+
+	export type MiddlewareOptions = {
+		priority?: number;
 	} & PieceOptions;
 
 	type ErrorLike = {
@@ -87,22 +98,20 @@ declare module 'klasa-dashboard-hooks' {
 		message?: string;
 	};
 
-	export type ParsedRoute = ParsedPart[];
+	type ParsedRoute = ParsedPart[];
 
-	export type ParsedPart = {
+	type ParsedPart = {
 		val: string;
 		type: number;
 	};
 
 	type Constants = {
 		dashboardHooks: KlasaDashboardHooksOptions;
-		pieceDefaults: {
-			routes: PieceOptions;
-			middlewares: PieceOptions;
-		}
+		pieceDefaults: KlasaPieceDefaults & {
+			routes: Required<RouteOptions>;
+			middlewares: Required<MiddlewareOptions>;
+		};
 	}
-
-	type ObjectLiteral<T> = { [key: string]: T };
 
 //#endregion Types
 
