@@ -14,12 +14,6 @@ class Util {
 	 * @property {number} type The type of url part (0 for static, 1 for variable)
 	 */
 
-	/**
-	 * @typedef {Object} AuthData
-	 * @property {string} token The access token
-	 * @property {string[]} scope The scopes
-	 */
-
 	constructor() {
 		throw new Error('This class cannot be initialized with new');
 	}
@@ -57,7 +51,7 @@ class Util {
 
 	/**
 	 * Encrypts an object with aes-256-cbc to use as a token
-	 * @param {AuthData} data An object to encrypt
+	 * @param {any} data An object to encrypt
 	 * @param {string} secret The secret to encrypt the data with
 	 * @returns {string}
 	 */
@@ -71,7 +65,7 @@ class Util {
 	 * Decrypts an object with aes-256-cbc to use as a token
 	 * @param {string} token An data to decrypt
 	 * @param {string} secret The secret to decrypt the data with
-	 * @returns {AuthData}
+	 * @returns {any}
 	 */
 	static decrypt(token, secret) {
 		const [data, iv] = token.split('.');

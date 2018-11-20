@@ -89,8 +89,8 @@ declare module 'klasa-dashboard-hooks' {
 		public static parsePart(val: string): ParsedPart;
 		public static split(url: string): string[];
 		public static parse(url: string): ParsedPart[];
-		public static encrypt(data: AuthData, secret: string): string;
-		public static decrypt(token: string, secret: string): AuthData;
+		public static encrypt(data: any, secret: string): string;
+		public static decrypt(token: string, secret: string): any;
 	}
 
 	//#endregion Classes
