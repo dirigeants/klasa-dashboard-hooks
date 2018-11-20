@@ -130,6 +130,7 @@ class DashboardUser {
 	 * @param {DashboardUser} dashboardUser The dashboard user guilds are being setup for
 	 * @param {Object[]} guilds The raw guild data to setup
 	 * @returns {void}
+	 * @private
 	 */
 	static setupGuilds(dashboardUser, guilds) {
 		for (const guild of guilds) dashboardUser.guilds.set(guild.id, new DashboardGuild(dashboardUser.client, guild, dashboardUser));

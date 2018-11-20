@@ -1,11 +1,12 @@
-import { KlasaClient, KlasaClientOptions, Piece, Store, PieceOptions, KlasaPieceDefaults } from 'klasa';
+import { KlasaClient, KlasaClientOptions, Piece, Store, PieceOptions, KlasaPieceDefaults, KlasaUser, KlasaGuild } from 'klasa';
 import { Server as HttpServer, IncomingMessage, ServerResponse } from 'http';
 import { SecureContextOptions, Server as HttpSecureServer } from 'tls';
 import { Http2SecureServer } from 'http2';
+import { DataStore, Collection, Permissions } from 'discord.js';
 
 declare module 'klasa-dashboard-hooks' {
 
-//#region Classes
+	//#region Classes
 
 	export class DashboardClient extends KlasaClient {
 		public constructor(options?: DashboardClientOptions);
@@ -13,6 +14,38 @@ declare module 'klasa-dashboard-hooks' {
 		public server: Server;
 		public routes: RouteStore;
 		public middlewares: MiddlewareStore;
+		public dashboardUsers: DataStore<string, DashboardUser, typeof DashboardUser>;
+	}
+
+	export class DashboardUser {
+		public constructor(client: DashboardClient, user: any);
+		public client: DashboardClient;
+		public id: string;
+		public username: string;
+		public discriminator: number;
+		public locale: string;
+		public mfaEnabled: boolean;
+		public avatar: string;
+		public guilds: Collection<string, DashboardGuild>;
+		public avatarURL: string;
+		public user: KlasaUser | null;
+		public toJSON(): any;
+		private setupGuilds(dashboardUser: DashboardUser, guilds: any[]): void;
+	}
+
+	export class DashboardGuild {
+		public constructor(client: DashboardClient, guild: any, user: DashboardUser);
+		public client: DashboardClient;
+		public user: DashboardUser;
+		public id: string;
+		public name: string;
+		public icon: string | null;
+		public userIsOwner: boolean;
+		public userGuildPermissions: Permissions;
+		public userCanManage: boolean;
+		public iconURL: string | null;
+		public guild: KlasaGuild;
+		public toJSON(): any;
 	}
 
 	export class Server {
@@ -56,63 +89,82 @@ declare module 'klasa-dashboard-hooks' {
 		public static parsePart(val: string): ParsedPart;
 		public static split(url: string): string[];
 		public static parse(url: string): ParsedPart[];
+		public static encrypt(data: AuthData, secret: string): string;
+		public static decrypt(token: string, secret: string): AuthData;
 	}
 
-//#endregion Classes
-//#region Types
+	//#endregion Classes
+	//#region Types
 
-	export type KlasaDashboardHooksOptions = {
+	export interface KlasaDashboardHooksOptions {
 		apiPrefix?: string;
 		origin?: string;
 		port?: number;
 		http2?: boolean;
 		sslOptions?: SecureContextOptions;
-	};
+	}
 
-	export type DashboardClientOptions = {
+	export interface DashboardClientOptions extends KlasaClientOptions {
 		dashboardHooks?: KlasaDashboardHooksOptions;
-	} & KlasaClientOptions;
+	}
 
-	export type KlasaIncomingMessage = {
+	export interface KlasaIncomingMessage extends IncomingMessage {
 		originalUrl: string;
 		path: string;
 		search: string;
 		query: Record<string, string | string[]>;
 		params: Record<string, any>;
 		body?: any;
-	} & IncomingMessage;
+		auth?: AuthData;
+	}
 
-	export type RouteOptions = {
+	export interface RouteOptions extends PieceOptions {
 		route?: string;
 		authenticated?: boolean;
-	} & PieceOptions;
+	}
 
-	export type MiddlewareOptions = {
+	export interface MiddlewareOptions extends PieceOptions {
 		priority?: number;
-	} & PieceOptions;
+	}
 
-	type ErrorLike = {
+	export interface ErrorLike {
 		code?: number;
 		status?: number;
 		statusCode?: number;
 		message?: string;
-	};
+	}
 
-	type ParsedRoute = ParsedPart[];
-
-	type ParsedPart = {
+	export interface ParsedPart {
 		val: string;
 		type: number;
-	};
+	}
 
-	type Constants = {
-		dashboardHooks: KlasaDashboardHooksOptions;
-		pieceDefaults: KlasaPieceDefaults & {
-			routes: Required<RouteOptions>;
-			middlewares: Required<MiddlewareOptions>;
+	export type ParsedRoute = ParsedPart[];
+
+	export interface Constants {
+		OPTIONS: {
+			dashboardHooks: Required<KlasaDashboardHooksOptions>;
+			pieceDefaults: KlasaPieceDefaults & {
+				routes: Required<RouteOptions>;
+				middlewares: Required<MiddlewareOptions>;
+			};
+		};
+		METHODS_LOWER: string[];
+		RESPONSES: {
+			FETCHING_TOKEN: string;
+			NO_CODE: string;
+			UNAUTHORIZED: string;
+			NOT_READY: string;
+			OK: string;
+			UPDATED: [string, string];
 		};
 	}
 
-//#endregion Types
+	export interface AuthData {
+		token: string;
+		scope: string[];
+	}
+
+	//#endregion Types
 
 }
