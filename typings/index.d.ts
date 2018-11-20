@@ -6,7 +6,7 @@ import { DataStore, Collection, Permissions } from 'discord.js';
 
 declare module 'klasa-dashboard-hooks' {
 
-	//#region Classes
+//#region Classes
 
 	export class DashboardClient extends KlasaClient {
 		public constructor(options?: DashboardClientOptions);
@@ -93,8 +93,8 @@ declare module 'klasa-dashboard-hooks' {
 		public static decrypt(token: string, secret: string): any;
 	}
 
-	//#endregion Classes
-	//#region Types
+//#endregion Classes
+//#region Types
 
 	export interface KlasaDashboardHooksOptions {
 		apiPrefix?: string;
@@ -165,6 +165,6 @@ declare module 'klasa-dashboard-hooks' {
 		scope: string[];
 	}
 
-	//#endregion Types
+//#endregion Types
 
 }
