@@ -23,6 +23,7 @@
     "node-fetch": "^2.1.2"
   },
   "peerDependencies": {
+    "discord.js": "discordjs/discord.js",
     "klasa": "github:dirigeants/klasa#master"
   },
   "devDependencies": {

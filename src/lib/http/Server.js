@@ -10,11 +10,19 @@ const { METHODS_LOWER } = require('../util/constants');
 class Server {
 
 	/**
+	 * @typedef {Object} AuthData
+	 * @property {string} token The access token
+	 * @property {string[]} scope The scopes
+	 */
+
+	/**
 	 * @typedef {external:IncomingMessage} KlasaIncomingMessage
 	 * @property {string} originalUrl The original URL
 	 * @property {string} path The entire path section of the URL, including the `host`, `port`... and before the `query`/`hash` components
 	 * @property {string} search The entire query string portion of the URL including the leading ASCII question mark (`?`) character
 	 * @property {Object<string, *>} query The collection of key and value pairs parsed from the query string portion
+	 * @property {any} [body] The body parsed in POST requests
+	 * @property {AuthData} [auth] The auth access token and scopes
 	 */
 
 	/**

@@ -53,7 +53,7 @@ class DashboardGuild {
 		/**
 		 * The guild icon hash
 		 * @since 0.0.1
-		 * @type {string}
+		 * @type {?string}
 		 */
 		this.icon = guild.icon;
 

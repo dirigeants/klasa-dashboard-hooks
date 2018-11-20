@@ -65,7 +65,7 @@ class Util {
 	 * Decrypts an object with aes-256-cbc to use as a token
 	 * @param {string} token An data to decrypt
 	 * @param {string} secret The secret to decrypt the data with
-	 * @returns {string}
+	 * @returns {any}
 	 */
 	static decrypt(token, secret) {
 		const [data, iv] = token.split('.');
