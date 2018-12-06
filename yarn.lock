@@ -389,7 +389,8 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5, escape-string-regexp@~
 
 "eslint-config-klasa@github:dirigeants/klasa-lint":
   version "0.0.1"
-  resolved "https://codeload.github.com/dirigeants/klasa-lint/tar.gz/cf2e2ca95c4c866490898433531ffb86104a930a"
+  uid "7095d9d809d52c0fbf26e0725d9197ac5b94644e"
+  resolved "https://codeload.github.com/dirigeants/klasa-lint/tar.gz/7095d9d809d52c0fbf26e0725d9197ac5b94644e"
 
 eslint-plugin-markdown@^1.0.0-beta.6:
   version "1.0.0-rc.0"
