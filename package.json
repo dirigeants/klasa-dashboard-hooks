@@ -32,7 +32,7 @@
     "eslint": "^4.19.1",
     "eslint-config-klasa": "github:dirigeants/klasa-lint",
     "eslint-plugin-markdown": "^1.0.0-beta.6",
-    "markdownlint-cli": "^0.7.0",
+    "markdownlint-cli": "^0.13.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.1"
   },
