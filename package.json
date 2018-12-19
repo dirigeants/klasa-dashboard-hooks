@@ -27,7 +27,7 @@
     "klasa": "github:dirigeants/klasa#master"
   },
   "devDependencies": {
-    "@types/node": "^10.12.15",
+    "@types/node": "^10.12.17",
     "docgen": "github:dirigeants/docsgen",
     "eslint": "^5.10.0",
     "eslint-config-klasa": "github:dirigeants/klasa-lint",
