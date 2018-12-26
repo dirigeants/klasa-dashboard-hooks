@@ -15,8 +15,12 @@ module.exports = class extends Middleware {
 
 		for await (const chunk of stream) body += chunk;
 
-		const data = JSON.parse(body);
-		request.body = data;
+		try {
+			const data = JSON.parse(body);
+			request.body = data;
+		} catch (err) {
+			request.body = {};
+		}
 	}
 
 	contentStream(request) {
