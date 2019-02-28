@@ -1,4 +1,4 @@
-import { KlasaClient, KlasaClientOptions, Piece, Store, PieceOptions, KlasaPieceDefaults, KlasaUser, KlasaGuild } from 'klasa';
+import { KlasaClient, KlasaClientOptions, Piece, Store, PieceOptions, PieceDefaults, KlasaUser, KlasaGuild } from 'klasa';
 import { Server as HttpServer, IncomingMessage, ServerResponse } from 'http';
 import { SecureContextOptions, Server as HttpSecureServer } from 'tls';
 import { Http2SecureServer } from 'http2';
@@ -144,7 +144,7 @@ declare module 'klasa-dashboard-hooks' {
 	export interface Constants {
 		OPTIONS: {
 			dashboardHooks: Required<KlasaDashboardHooksOptions>;
-			pieceDefaults: KlasaPieceDefaults & {
+			pieceDefaults: PieceDefaults & {
 				routes: Required<RouteOptions>;
 				middlewares: Required<MiddlewareOptions>;
 			};
