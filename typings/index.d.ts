@@ -17,6 +17,8 @@ declare module 'klasa-dashboard-hooks' {
 		public dashboardUsers: DataStore<string, DashboardUser, typeof DashboardUser>;
 	}
 
+	export { DashboardClient as Client };
+
 	export class DashboardUser {
 		public constructor(client: DashboardClient, user: any);
 		public client: DashboardClient;
