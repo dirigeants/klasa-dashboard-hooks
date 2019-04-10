@@ -338,9 +338,9 @@
   dependencies:
     arrify "^1.0.1"
 
-"@types/node@^11.13.2":
-  version "11.13.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.2.tgz#dc85dde46aa8740bb4aed54b8104250f8f849503"
+"@types/node@^11.13.3":
+  version "11.13.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.3.tgz#dbc789a46f82d96d3ac86dd10b84f86bab111d22"
 
 abbrev@1:
   version "1.1.1"
