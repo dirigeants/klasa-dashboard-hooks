@@ -1,11 +1,18 @@
 const { METHODS } = require('http');
 
+const KlasaIncomingMessage = require('../http/KlasaIncomingMessage');
+const KlasaServerResponse = require('../http/KlasaServerResponse');
+
 exports.OPTIONS = {
 	dashboardHooks: {
 		apiPrefix: 'api/',
 		origin: '*',
 		port: 4000,
-		http2: false
+		http2: false,
+		options: {
+			IncomingMessage: KlasaIncomingMessage,
+			ServerResponse: KlasaServerResponse
+		}
 	},
 	pieceDefaults: {
 		routes: {
