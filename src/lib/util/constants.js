@@ -9,7 +9,7 @@ exports.OPTIONS = {
 		origin: '*',
 		port: 4000,
 		http2: false,
-		options: {
+		serverOptions: {
 			IncomingMessage: KlasaIncomingMessage,
 			ServerResponse: KlasaServerResponse
 		}
