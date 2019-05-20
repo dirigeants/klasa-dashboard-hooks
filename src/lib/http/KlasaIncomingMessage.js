@@ -11,7 +11,7 @@ const { split } = require('../util/Util');
 class KlasaIncomingMessage extends IncomingMessage {
 
 	/**
-	 * @param {external:Socket} socket 
+	 * @param {external:Socket} socket The net.Socket
 	 */
 	constructor(socket) {
 		super(socket);
@@ -66,7 +66,7 @@ class KlasaIncomingMessage extends IncomingMessage {
 
 	/**
 	 * Executes the Route this message is for
-	 * @param {KlasaServerResponse} response 
+	 * @param {KlasaServerResponse} response The response object
 	 * @returns {any}
 	 */
 	execute(response) {
@@ -75,7 +75,7 @@ class KlasaIncomingMessage extends IncomingMessage {
 
 	/**
 	 * Initializes this message for the Route
-	 * @param {external:KlasaClient} client 
+	 * @param {external:KlasaClient} client The Klasa Client
 	 */
 	init(client) {
 		const splitURL = split(this.path);
