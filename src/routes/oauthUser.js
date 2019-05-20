@@ -37,7 +37,7 @@ module.exports = class extends Route {
 
 	async post(request, response) {
 		const botUser = await this.client.users.fetch(request.body.id);
-		const updated = await botUser.settings.update(request.body.data, { action: 'overwrite' });
+		const updated = await botUser.settings.update(request.body.data, { arrayAction: 'overwrite' });
 		const errored = Boolean(updated.errors.length);
 
 		if (errored) this.client.emit('error', `${botUser.username}[${botUser.id}] failed updating user configs via dashboard with error:\n${inspect(updated.errors)}`);
