@@ -11,6 +11,8 @@ module.exports = {
 	constants: require('./lib/util/constants'),
 	util: require('./lib/util/Util'),
 	Util: require('./lib/util/Util'),
+	DashboardUser: require('./lib/structures/DashboardUser'),
+	DashboardGuild: require('./lib/structures/DashboardGuild'),
 	[plugin]: require('./lib/Client')[plugin]
 };
 
