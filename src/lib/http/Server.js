@@ -82,7 +82,7 @@ class Server {
 
 		try {
 			await this.client.middlewares.run(request, response, request.route);
-			await (request.route ? request.execute(request, response) : this.onNoMatch(request, response));
+			await (request.route ? request.execute(response) : this.onNoMatch(request, response));
 		} catch (err) {
 			this.client.emit('error', err);
 			this.onError(err, request, response);
