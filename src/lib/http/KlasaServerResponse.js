@@ -22,7 +22,6 @@ class KlasaServerResponse extends ServerResponse {
 	 * @returns {any}
 	 */
 	json(data) {
-		this.setHeader('Content-Type', 'application/json');
 		return this.end(JSON.stringify(data));
 	}
 
