@@ -17,8 +17,7 @@ module.exports = class extends Middleware {
 	}
 
 	unauthorized(response) {
-		response.writeHead(401);
-		return response.end(RESPONSES.UNAUTHORIZED);
+		return response.status(401).end(RESPONSES.UNAUTHORIZED);
 	}
 
 };

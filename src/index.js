@@ -4,6 +4,8 @@ module.exports = {
 	DashboardClient: require('./lib/Client'),
 	Client: require('./lib/Client'),
 	Server: require('./lib/http/Server'),
+	KlasaIncomingMessage: require('./lib/http/KlasaIncomingMessage'),
+	KlasaServerResponse: require('./lib/http/KlasaServerResponse'),
 	Middleware: require('./lib/structures/Middleware'),
 	MiddlewareStore: require('./lib/structures/MiddlewareStore'),
 	Route: require('./lib/structures/Route'),
@@ -57,4 +59,8 @@ module.exports = {
 /**
  * @external ServerResponse
  * @see {@link https://nodejs.org/dist/latest-v10.x/docs/api/http.html#http_class_http_serverresponse}
+ */
+/**
+ * @external Socket
+ * @see {@link https://nodejs.org/dist/latest-v10.x/docs/api/net.html#net_class_net_socket}
  */
