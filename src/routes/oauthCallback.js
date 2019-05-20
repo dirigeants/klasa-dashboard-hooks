@@ -33,22 +33,24 @@ module.exports = class extends Route {
 		const body = await res.json();
 		const user = await oauthUser.api(body.access_token);
 
-		return response.json({
+		return response.end(JSON.stringify({
 			access_token: encrypt({
 				token: body.access_token,
 				scope: [user.id, ...user.guilds.filter(guild => guild.userCanManage).map(guild => guild.id)]
 			}, this.client.options.clientSecret),
 			user
-		});
+		}));
 		/* eslint-enable camelcase */
 	}
 
 	notReady(response) {
-		return response.status(500).end(RESPONSES.NOT_READY);
+		response.writeHead(500);
+		return response.end(RESPONSES.NOT_READY);
 	}
 
 	noCode(response) {
-		return response.status(400).end(RESPONSES.NO_CODE);
+		response.writeHead(400);
+		return response.end(RESPONSES.NO_CODE);
 	}
 
 };

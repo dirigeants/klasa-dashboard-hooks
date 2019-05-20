@@ -1,4 +1,8 @@
 const http = require('http');
+const { parse } = require('url');
+
+const { split } = require('../util/Util');
+const { METHODS_LOWER } = require('../util/constants');
 
 /**
  * The http server for klasa-dashboard-hooks
@@ -35,7 +39,7 @@ class Server {
 	 * @param {DashboardClient} client The Klasa client
 	 */
 	constructor(client) {
-		const { http2, serverOptions } = client.options.dashboardHooks;
+		const { http2, sslOptions } = client.options.dashboardHooks;
 		/**
 		 * The Client that manages this Server instance
 		 * @since 0.0.1
@@ -49,8 +53,8 @@ class Server {
 		 * @type {external:HTTPServer}
 		 */
 		this.server = http2 ?
-			require('http2').createSecureServer(serverOptions) :
-			serverOptions.cert ? require('https').createServer(serverOptions) : http.createServer(serverOptions);
+			require('http2').createSecureServer(sslOptions) :
+			sslOptions ? require('https').createServer(sslOptions) : http.createServer();
 
 		/**
 		 * The onError function called when a url does not match
@@ -78,11 +82,19 @@ class Server {
 	 * @param {external:ServerResponse} response The response
 	 */
 	async handler(request, response) {
-		request.init(this.client);
+		const info = parse(request.url, true);
+		const splitURL = split(info.pathname);
+		const route = this.client.routes.findRoute(request.method, splitURL);
+
+		if (route) request.params = route.execute(splitURL);
+		request.originalUrl = request.originalUrl || request.url;
+		request.path = info.pathname;
+		request.search = info.search;
+		request.query = info.query;
 
 		try {
-			await this.client.middlewares.run(request, response, request.route);
-			await (request.route ? request.execute(response) : this.onNoMatch(request, response));
+			await this.client.middlewares.run(request, response, route);
+			await (route ? route[METHODS_LOWER[request.method]](request, response) : this.onNoMatch(request, response));
 		} catch (err) {
 			this.client.emit('error', err);
 			this.onError(err, request, response);
