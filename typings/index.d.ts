@@ -70,7 +70,7 @@ declare module 'klasa-dashboard-hooks' {
 	}
 
 	export abstract class Middleware extends Piece {
-		public constructor(client: DashboardClient, store: MiddlewareStore, file: string[], directory: string, options?: MiddlewareOptions);
+		public constructor(store: MiddlewareStore, file: string[], directory: string, options?: MiddlewareOptions);
 		public priority: number;
 		public abstract run(request: KlasaIncomingMessage, response: ServerResponse, route?: Route): Promise<void>;
 	}
@@ -81,7 +81,7 @@ declare module 'klasa-dashboard-hooks' {
 	}
 
 	export abstract class Route extends Piece {
-		public constructor(client: DashboardClient, store: RouteStore, file: string[], directory: string, options?: RouteOptions);
+		public constructor(store: RouteStore, file: string[], directory: string, options?: RouteOptions);
 		public authenticated: boolean;
 		public parsed: ParsedRoute;
 		public route: string;
