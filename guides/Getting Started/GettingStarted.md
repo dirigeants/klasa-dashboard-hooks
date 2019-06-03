@@ -1,4 +1,4 @@
-# Getting Started
+## Getting Started
 
 klasa-dashboard-hooks (known as "KDH" for short) is a Klasa [plugin](https://klasa.js.org/#/docs/klasa/master/Other%20Subjects/Plugins) which allows you to easily run a HTTP server/API from your bot, which can be used for making a dashboard.
 
@@ -12,7 +12,7 @@ $ npm i klasa-dashboard-hooks
 $ yarn add klasa-dashboard-hooks
 ```
 
-2. Enable the plugin, and pass in the Client Secret and Client ID of your bot. You can find these here: https://discordapp.com/developers/applications/
+1. Enable the plugin, and pass in the Client Secret and Client ID of your bot. You can find these here: <https://discordapp.com/developers/applications/>
 
 ```js
 Client.use(require('klasa-dashboard-hooks'));
@@ -30,7 +30,7 @@ new Client({
 
 A HTTP server is now running on your local machine on port `3003`, if you're running it locally, you should be able to test it out by visiting `localhost:3003/api/application`
 
-# Further reading
+## Further reading
 
 - {@tutorial CreatingRoutes}
 - {@tutorial CreatingMiddlewares}
