@@ -154,7 +154,10 @@ declare module 'klasa-dashboard-hooks' {
 	export interface Constants {
 		OPTIONS: {
 			dashboardHooks: Required<KlasaDashboardHooksOptions>;
-			pieceDefaults: { [P in keyof PieceDefaults]-?: Required<PieceDefaults[P]> };
+			pieceDefaults: {
+				routes: Required<RouteOptions>;
+				middlewares: Required<MiddlewareOptions>;
+			};
 		};
 		METHODS_LOWER: string[];
 		RESPONSES: {
