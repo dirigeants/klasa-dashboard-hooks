@@ -185,6 +185,7 @@ declare module 'discord.js' {
 
 	export interface ClientOptions {
 		dashboardHooks?: KlasaDashboardHooksOptions;
+		clientID?: string;
 		clientSecret?: string;
 	}
 
