@@ -115,9 +115,8 @@ declare module 'klasa-dashboard-hooks' {
 		sslOptions?: SecureContextOptions;
 	}
 
-	export interface DashboardClientOptions extends KlasaClientOptions {
-		dashboardHooks?: KlasaDashboardHooksOptions;
-	}
+	// Types are inherited from augmentation
+	export interface DashboardClientOptions extends KlasaClientOptions {}
 
 	export interface KlasaIncomingMessage extends IncomingMessage {
 		originalUrl: string;
@@ -156,7 +155,7 @@ declare module 'klasa-dashboard-hooks' {
 	export interface Constants {
 		OPTIONS: {
 			dashboardHooks: Required<KlasaDashboardHooksOptions>;
-			pieceDefaults: PieceDefaults & {
+			pieceDefaults: {
 				routes: Required<RouteOptions>;
 				middlewares: Required<MiddlewareOptions>;
 			};
@@ -179,4 +178,26 @@ declare module 'klasa-dashboard-hooks' {
 
 //#endregion Types
 
+}
+
+declare module 'discord.js' {
+
+	import { KlasaDashboardHooksOptions, RouteOptions } from 'klasa-dashboard-hooks';
+
+	export interface ClientOptions {
+		dashboardHooks?: KlasaDashboardHooksOptions;
+		clientID?: string;
+		clientSecret?: string;
+	}
+
+}
+
+declare module 'klasa' {
+
+	import { RouteOptions, MiddlewareOptions } from 'klasa-dashboard-hooks';
+
+	export interface PieceDefaults {
+		routes?: RouteOptions;
+		middlewares?: MiddlewareOptions;
+	}
 }
