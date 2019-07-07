@@ -117,6 +117,7 @@ declare module 'klasa-dashboard-hooks' {
 		query: Record<string, string | string[]>;
 		params: Record<string, any>;
 		body?: any;
+		length?: number;
 		auth?: AuthData;
 	}
 
