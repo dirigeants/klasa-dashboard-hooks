@@ -1,5 +1,6 @@
 const zlib = require('zlib');
 const { Middleware } = require('klasa-dashboard-hooks');
+const BODY_METHODS = ['POST', 'PUT', 'PATCH'];
 
 module.exports = class extends Middleware {
 
@@ -8,7 +9,7 @@ module.exports = class extends Middleware {
 	}
 
 	async run(request) {
-		if (request.method !== 'POST') return;
+		if (!request.method || !BODY_METHODS.includes(request.method)) return;
 
 		const stream = this.contentStream(request);
 		let body = '';
@@ -33,7 +34,7 @@ module.exports = class extends Middleware {
 				break;
 			case 'identity':
 				stream = request;
-				stream.length = length;
+				stream.length = Number(length);
 				break;
 		}
 		return stream;
