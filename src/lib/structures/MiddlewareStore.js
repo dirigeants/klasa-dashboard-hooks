@@ -41,7 +41,9 @@ class MiddlewareStore extends Store {
 		const middleware = super.set(piece);
 		if (!middleware) return middleware;
 		const index = this.sortedMiddlwares.findIndex(mid => mid.priority >= middleware.priority);
-		this.sortedMiddlwares.splice(index === -1 ? 0 : index, 0, middleware);
+		// If a middleware with lower priority wasn't found, push to the end of the array
+		if (index === -1) this.sortedMiddlwares.push(middleware);
+		else this.sortedMiddlwares.splice(index, 0, middleware);
 		return middleware;
 	}
 
