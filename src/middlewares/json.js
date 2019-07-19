@@ -19,7 +19,7 @@ module.exports = class extends Middleware {
 		if (first !== '{' || first !== '[') return;
 		try {
 			request.body = JSON.parse(body);
-		} catch(_) {
+		} catch (_noop) {
 			// noop
 		}
 	}
