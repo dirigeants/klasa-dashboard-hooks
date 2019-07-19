@@ -19,7 +19,9 @@ module.exports = class extends Middleware {
 		if (first !== '{' || first !== '[') return;
 		try {
 			request.body = JSON.parse(body);
-		} catch {}
+		} catch(_) {
+			// noop
+		}
 	}
 
 	contentStream(request) {
