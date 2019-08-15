@@ -27,7 +27,7 @@ exports.OPTIONS = {
 			IncomingMessage: require('../http/KlasaIncomingMessage'),
 			ServerResponse: require('../http/KlasaServerResponse'),
 			Http1IncomingMessage: require('../http/KlasaIncomingMessage'),
-			Http1ServerResponse: require('../http/KlasaServerResponse'),			
+			Http1ServerResponse: require('../http/KlasaServerResponse'),
 			Http2ServerRequest: require('../http/KlasaIncomingMessage2'),
 			Http2ServerResponse: require('../http/KlasaServerResponse2')
 		}

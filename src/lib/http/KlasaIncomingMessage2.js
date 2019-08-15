@@ -83,7 +83,7 @@ class KlasaIncomingMessage extends Http2ServerRequest {
 		this.path = info.pathname;
 		this.search = info.search;
 		this.query = info.query;
-		
+
 		const splitURL = split(this.path);
 		this.route = client.routes.findRoute(this.method, splitURL);
 
