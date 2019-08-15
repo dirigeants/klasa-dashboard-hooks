@@ -7,7 +7,7 @@ const { split } = require('../util/Util');
  * The custom class for KDH's incoming messages when using HTTP2
  * @extends external:Http2ServerRequest
  */
-class KlasaIncomingMessage extends Http2ServerRequest {
+class KlasaIncomingMessage2 extends Http2ServerRequest {
 
 	/**
 	 * @param {external:ServerHttp2Stream} stream The HTTP2 Server Stream
@@ -92,7 +92,7 @@ class KlasaIncomingMessage extends Http2ServerRequest {
 
 }
 
-module.exports = KlasaIncomingMessage;
+module.exports = KlasaIncomingMessage2;
 
 // Fixes Circular
 const { METHODS_LOWER } = require('../util/constants');

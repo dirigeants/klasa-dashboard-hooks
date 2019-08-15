@@ -6,6 +6,8 @@ module.exports = {
 	Server: require('./lib/http/Server'),
 	KlasaIncomingMessage: require('./lib/http/KlasaIncomingMessage'),
 	KlasaServerResponse: require('./lib/http/KlasaServerResponse'),
+	KlasaIncomingMessage: require('./lib/http/KlasaIncomingMessage2'),
+	KlasaServerResponse: require('./lib/http/KlasaServerResponse2'),
 	Middleware: require('./lib/structures/Middleware'),
 	MiddlewareStore: require('./lib/structures/MiddlewareStore'),
 	Route: require('./lib/structures/Route'),
