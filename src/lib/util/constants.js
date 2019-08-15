@@ -1,34 +1,5 @@
 const { METHODS } = require('http');
 
-const KlasaIncomingMessage = require('../http/KlasaIncomingMessage');
-const KlasaServerResponse = require('../http/KlasaServerResponse');
-const KlasaIncomingMessage2 = require('../http/KlasaIncomingMessage2');
-const KlasaServerResponse2 = require('../http/KlasaServerResponse2');
-
-exports.OPTIONS = {
-	dashboardHooks: {
-		apiPrefix: 'api/',
-		origin: '*',
-		port: 4000,
-		http2: false,
-		serverOptions: {
-			IncomingMessage: KlasaIncomingMessage,
-			ServerResponse: KlasaServerResponse,
-			Http1IncomingMessage: KlasaIncomingMessage,
-			Http1ServerResponse: KlasaServerResponse,			
-			Http2ServerRequest: KlasaIncomingMessage2,
-			Http2ServerResponse: KlasaServerResponse2
-		}
-	},
-	pieceDefaults: {
-		routes: {
-			enabled: true,
-			authenticated: false
-		},
-		middlewares: { enabled: true }
-	}
-};
-
 const lowerMethods = {};
 for (const method of METHODS) lowerMethods[method] = method.toLowerCase();
 
@@ -44,4 +15,28 @@ exports.RESPONSES = {
 		'{"updated":false}',
 		'{"updated":true}'
 	]
+};
+
+exports.OPTIONS = {
+	dashboardHooks: {
+		apiPrefix: 'api/',
+		origin: '*',
+		port: 4000,
+		http2: false,
+		serverOptions: {
+			IncomingMessage: require('../http/KlasaIncomingMessage'),
+			ServerResponse: require('../http/KlasaServerResponse'),
+			Http1IncomingMessage: require('../http/KlasaIncomingMessage'),
+			Http1ServerResponse: require('../http/KlasaServerResponse'),			
+			Http2ServerRequest: require('../http/KlasaIncomingMessage2'),
+			Http2ServerResponse: require('../http/KlasaServerResponse2')
+		}
+	},
+	pieceDefaults: {
+		routes: {
+			enabled: true,
+			authenticated: false
+		},
+		middlewares: { enabled: true }
+	}
 };
