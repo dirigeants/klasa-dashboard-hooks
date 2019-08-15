@@ -11,10 +11,13 @@ const { split } = require('../util/Util');
 class KlasaIncomingMessage extends Http2ServerRequest {
 
 	/**
-	 * @param {external:Socket} socket The net.Socket
+	 * @param {external:ServerHttp2Stream} stream The HTTP2 Server Stream
+	 * @param {external:IncomingHttpHeaders} headers The incoming http headers
+	 * @param {external:stream.ReadableOptions} options The stream readable options
+	 * @param {string[]} rawHeaders The raw headers
 	 */
-	constructor(socket) {
-		super(socket);
+	constructor(stream, headers, options, rawHeaders) {
+		super(stream, headers, options, rawHeaders);
 
 		const info = parse(this.url, true);
 
