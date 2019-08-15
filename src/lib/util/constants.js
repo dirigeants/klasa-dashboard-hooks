@@ -2,6 +2,8 @@ const { METHODS } = require('http');
 
 const KlasaIncomingMessage = require('../http/KlasaIncomingMessage');
 const KlasaServerResponse = require('../http/KlasaServerResponse');
+const KlasaIncomingMessage2 = require('../http/KlasaIncomingMessage2');
+const KlasaServerResponse2 = require('../http/KlasaServerResponse2');
 
 exports.OPTIONS = {
 	dashboardHooks: {
@@ -11,7 +13,11 @@ exports.OPTIONS = {
 		http2: false,
 		serverOptions: {
 			IncomingMessage: KlasaIncomingMessage,
-			ServerResponse: KlasaServerResponse
+			ServerResponse: KlasaServerResponse,
+			Http1IncomingMessage: KlasaIncomingMessage,
+			Http1ServerResponse: KlasaServerResponse,			
+			Http2ServerRequest: KlasaIncomingMessage2,
+			Http2ServerResponse: KlasaServerResponse2
 		}
 	},
 	pieceDefaults: {

@@ -1,10 +1,10 @@
-const { ServerResponse } = require('http');
+const { Http2ServerResponse } = require('http2');
 
 /**
- * The server response for KDH when using HTTP/HTTPS
- * @extends external:ServerResponse
+ * The server response for KDH when using HTTP2
+ * @extends external:Http2ServerResponse
  */
-class KlasaServerResponse extends ServerResponse {
+class KlasaServerResponse extends Http2ServerResponse {
 
 	/**
 	 * Sets the status code of this response

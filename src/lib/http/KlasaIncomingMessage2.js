@@ -1,14 +1,14 @@
-const { IncomingMessage } = require('http');
+const { Http2ServerRequest } = require('http2');
 const { parse } = require('url');
 
 const { METHODS_LOWER } = require('../util/constants');
 const { split } = require('../util/Util');
 
 /**
- * The custom class for KDH's incoming messages when using HTTP/HTTPS
- * @extends external:IncomingMessage
+ * The custom class for KDH's incoming messages when using HTTP2
+ * @extends external:Http2ServerRequest
  */
-class KlasaIncomingMessage extends IncomingMessage {
+class KlasaIncomingMessage extends Http2ServerRequest {
 
 	/**
 	 * @param {external:Socket} socket The net.Socket
