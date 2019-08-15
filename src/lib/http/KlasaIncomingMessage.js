@@ -50,7 +50,7 @@ class KlasaIncomingMessage extends IncomingMessage {
 		 * @type {Route}
 		 */
 		this.route = null;
-		
+
 		/**
 		 * Authentication Data (added in middlewares)
 		 * @type {any}
