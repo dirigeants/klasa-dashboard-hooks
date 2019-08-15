@@ -4,7 +4,7 @@ const { Http2ServerResponse } = require('http2');
  * The server response for KDH when using HTTP2
  * @extends external:Http2ServerResponse
  */
-class KlasaServerResponse2 extends Http2ServerResponse {
+class KlasaHttp2ServerResponse extends Http2ServerResponse {
 
 	/**
 	 * Sets the status code of this response
@@ -27,4 +27,4 @@ class KlasaServerResponse2 extends Http2ServerResponse {
 
 }
 
-module.exports = KlasaServerResponse2;
+module.exports = KlasaHttp2ServerResponse;
