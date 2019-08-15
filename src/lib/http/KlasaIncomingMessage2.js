@@ -1,7 +1,6 @@
 const { Http2ServerRequest } = require('http2');
 const { parse } = require('url');
 
-const { METHODS_LOWER } = require('../util/constants');
 const { split } = require('../util/Util');
 
 /**
@@ -19,31 +18,29 @@ class KlasaIncomingMessage extends Http2ServerRequest {
 	constructor(stream, headers, options, rawHeaders) {
 		super(stream, headers, options, rawHeaders);
 
-		const info = parse(this.url, true);
-
 		/**
 		 * The original url (automatic redirects)
 		 * @type {string}
 		 */
-		this.originalUrl = this.originalUrl || this.url;
+		this.originalUrl = null;
 
 		/**
 		 * The path of the url
 		 * @type {string}
 		 */
-		this.path = info.pathname;
+		this.path = null;
 
 		/**
 		 * The search string of the url
 		 * @type {string}
 		 */
-		this.search = info.search;
+		this.search = null;
 
 		/**
-		 * The parsed queury of the search string
+		 * The parsed query of the search string
 		 * @type {any}
 		 */
-		this.query = info.query;
+		this.query = null;
 
 		/**
 		 * The parsed params from the url
@@ -81,6 +78,12 @@ class KlasaIncomingMessage extends Http2ServerRequest {
 	 * @param {external:KlasaClient} client The Klasa Client
 	 */
 	init(client) {
+		const info = parse(this.url, true);
+		this.originalUrl = this.originalUrl || this.url;
+		this.path = info.pathname;
+		this.search = info.search;
+		this.query = info.query;
+		
 		const splitURL = split(this.path);
 		this.route = client.routes.findRoute(this.method, splitURL);
 
@@ -90,3 +93,6 @@ class KlasaIncomingMessage extends Http2ServerRequest {
 }
 
 module.exports = KlasaIncomingMessage;
+
+// Fixes Circular
+const { METHODS_LOWER } = require('../util/constants');
