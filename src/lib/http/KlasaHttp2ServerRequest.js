@@ -53,6 +53,18 @@ class KlasaHttp2ServerRequest extends Http2ServerRequest {
 		 * @type {Route}
 		 */
 		this.route = null;
+
+		/**
+		 * Authentication Data (added in middlewares)
+		 * @type {any}
+		 */
+		this.auth = null;
+
+		/**
+		 * Parsed data sent in a POST (added in middlewares)
+		 * @type {any}
+		 */
+		this.body = null;
 	}
 
 	/**
