@@ -18,29 +18,31 @@ class KlasaHttp2ServerRequest extends Http2ServerRequest {
 	constructor(stream, headers, options, rawHeaders) {
 		super(stream, headers, options, rawHeaders);
 
+		const info = parse(this.url, true);
+
 		/**
 		 * The original url (automatic redirects)
 		 * @type {string}
 		 */
-		this.originalUrl = null;
+		this.originalUrl = this.originalUrl || this.url;
 
 		/**
 		 * The path of the url
 		 * @type {string}
 		 */
-		this.path = null;
+		this.path = info.pathname;
 
 		/**
 		 * The search string of the url
 		 * @type {string}
 		 */
-		this.search = null;
+		this.search = info.search;
 
 		/**
 		 * The parsed query of the search string
 		 * @type {any}
 		 */
-		this.query = null;
+		this.query = info.query;
 
 		/**
 		 * The parsed params from the url
@@ -90,12 +92,6 @@ class KlasaHttp2ServerRequest extends Http2ServerRequest {
 	 * @param {external:KlasaClient} client The Klasa Client
 	 */
 	init(client) {
-		const info = parse(this.url, true);
-		this.originalUrl = this.originalUrl || this.url;
-		this.path = info.pathname;
-		this.search = info.search;
-		this.query = info.query;
-
 		const splitURL = split(this.path);
 		this.route = client.routes.findRoute(this.method, splitURL);
 

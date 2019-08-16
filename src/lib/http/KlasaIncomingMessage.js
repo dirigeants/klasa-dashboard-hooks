@@ -87,6 +87,7 @@ class KlasaIncomingMessage extends IncomingMessage {
 	 * @param {external:KlasaClient} client The Klasa Client
 	 */
 	init(client) {
+		// this.url is '' in the constructor and is updated later
 		const info = parse(this.url, true);
 		this.originalUrl = this.originalUrl || this.url;
 		this.path = info.pathname;
