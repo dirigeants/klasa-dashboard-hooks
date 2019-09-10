@@ -33,7 +33,7 @@
     "eslint-config-klasa": "github:dirigeants/klasa-lint",
     "eslint-plugin-markdown": "^1.0.0",
     "markdownlint-cli": "^0.17.0",
-    "tslint": "^5.16.0",
+    "tslint": "^5.20.0",
     "typescript": "^3.6.3"
   },
   "engines": {
