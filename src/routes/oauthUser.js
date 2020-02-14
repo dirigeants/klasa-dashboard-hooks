@@ -22,7 +22,7 @@ module.exports = class extends Route {
 	}
 
 	async get(request, response) {
-		let dashboardUser = this.client.dashboardUsers.get(request.auth.scope[0]);
+		let dashboardUser = this.client.dashboardUsers.cache.get(request.auth.scope[0]);
 
 		if (!dashboardUser) {
 			dashboardUser = await this.api(request.auth.token);

@@ -1,5 +1,5 @@
 const { Client, util: { mergeDefault } } = require('klasa');
-const { DataStore } = require('discord.js');
+const { BaseManager } = require('discord.js');
 const path = require('path');
 
 const Server = require('./http/Server');
@@ -73,7 +73,7 @@ class DashboardClient extends Client {
 		 * @type {DataStore}
 		 * @name DashboardClient#dashboardUsers
 		 */
-		this.dashboardUsers = new DataStore(this, undefined, DashboardUser);
+		this.dashboardUsers = new BaseManager(this, undefined, DashboardUser);
 
 		this
 			.registerStore(this.routes)
