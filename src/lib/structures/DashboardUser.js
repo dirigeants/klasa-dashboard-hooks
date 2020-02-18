@@ -102,7 +102,7 @@ class DashboardUser {
 	 * @readonly
 	 */
 	get user() {
-		return this.client.users.get(this.id) || null;
+		return this.client.users.cache.get(this.id) || null;
 	}
 
 	/**

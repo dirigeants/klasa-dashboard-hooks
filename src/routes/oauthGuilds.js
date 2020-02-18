@@ -11,7 +11,7 @@ module.exports = class extends Route {
 	}
 
 	async post(request, response) {
-		const botGuild = this.client.guilds.get(request.body.id);
+		const botGuild = this.client.guilds.cache.get(request.body.id);
 		const updated = await botGuild.settings.update(request.body.data, { action: 'overwrite' });
 		const errored = Boolean(updated.errors.length);
 
