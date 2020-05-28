@@ -1,11 +1,11 @@
-const { METHODS } = require('http');
+import { METHODS } from 'http';
 
-const lowerMethods = {};
+const lowerMethods: Record<string, string> = {};
 for (const method of METHODS) lowerMethods[method] = method.toLowerCase();
 
-exports.METHODS_LOWER = lowerMethods;
+export const METHODS_LOWER = lowerMethods as Readonly<Record<string, string>>;
 
-exports.RESPONSES = {
+export const RESPONSES = {
 	FETCHING_TOKEN: '{"message":"Error fetching token"}',
 	NO_CODE: '{"message":"No code provided"}',
 	UNAUTHORIZED: '{"message":"Unauthorized"}',
@@ -15,9 +15,9 @@ exports.RESPONSES = {
 		'{"updated":false}',
 		'{"updated":true}'
 	]
-};
+} as const;
 
-exports.OPTIONS = {
+export const OPTIONS = {
 	dashboardHooks: {
 		apiPrefix: 'api/',
 		origin: '*',
@@ -39,4 +39,4 @@ exports.OPTIONS = {
 		},
 		middlewares: { enabled: true }
 	}
-};
+} as const;

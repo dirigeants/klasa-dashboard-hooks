@@ -1,6 +1,6 @@
 {
-  "name": "klasa-dashboard-hooks",
-  "version": "0.0.1-dev",
+  "name": "@klasa/dashboard-hooks",
+  "version": "0.0.2-dev",
   "description": "Klasa Dashboard Hooks: a simple plugin for the klasa bot framework that exposes an api for use in a frontend framework.",
   "homepage": "https://klasa.js.org/",
   "bugs": {
@@ -8,35 +8,49 @@
   },
   "license": "MIT",
   "author": "BDistin",
-  "main": "src/index.js",
-  "types": "typings/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/dirigeants/klasa-dashboard-hooks.git"
   },
   "scripts": {
-    "lint": "npx eslint --fix src && npx eslint --fix --config .eslintrcmd.json --ext md guides && npx tslint --fix 'typings/*.ts'",
-    "test:lint": "npx eslint src && npx tslint 'typings/*.ts' && npx eslint --config .eslintrcmd.json --ext md guides && npx markdownlint guides README.md",
-    "docs": "npx dg --source src --custom guides/.docconfig.json --output dist/docs.json --logging"
+    "prepublishOnly": "yarn build",
+    "build": "tsc",
+    "test": "ava",
+    "test:lint": "eslint --ext ts src test",
+    "test:coverage": "npx nyc check-coverage --lines 0 --functions 0 --branches 0",
+    "coverage": "npx nyc --require source-map-support/register npm test",
+    "coverage:report": "npx nyc report --reporter=html",
+    "lint": "eslint --fix --ext ts src test",
+    "docs": "typedoc",
+    "docs:html": "typedoc --inputFiles src --mode modules --out docs"
   },
   "dependencies": {
+    "@types/node-fetch": "1.6.9",
     "node-fetch": "^2.6.0"
   },
   "peerDependencies": {
-    "discord.js": "discordjs/discord.js",
-    "klasa": "github:dirigeants/klasa#master"
+    "@klasa/core": "^0.0.3"
   },
   "devDependencies": {
-    "@types/node": "^13.1.8",
-    "docgen": "github:dirigeants/docsgen",
-    "eslint": "^6.8.0",
-    "eslint-config-klasa": "github:dirigeants/klasa-lint",
-    "eslint-plugin-markdown": "^1.0.1",
-    "markdownlint-cli": "^0.17.0",
-    "tslint": "^6.0.0",
-    "typescript": "^3.6.3"
+    "@ava/typescript": "^1.1.1",
+    "@klasa/core": "dirigeants/core#build",
+    "@types/node": "14",
+    "@typescript-eslint/eslint-plugin": "^3.0.1",
+    "@typescript-eslint/parser": "^3.0.1",
+    "ava": "^3.8.2",
+    "eslint": "^7.1.0",
+    "eslint-config-klasa": "dirigeants/klasa-lint",
+    "nyc": "^15.0.1",
+    "source-map-support": "^0.5.19",
+    "typedoc": "^0.17.7",
+    "typescript": "^3.9.3"
   },
   "engines": {
-    "node": ">=10.0.0"
-  }
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "dist/src/"
+  ]
 }
