@@ -1,6 +1,6 @@
-import http, { Server as HttpServer } from 'http';
-import https, { Server as HttpsServer } from 'https';
-import http2, { Http2SecureServer } from 'http2';
+import { Server as HttpServer, createServer as httpCreateServer, STATUS_CODES } from 'http';
+import { Server as HttpsServer, createServer as httpsCreateServer } from 'https';
+import { Http2SecureServer, createSecureServer as http2CreateSecureServer } from 'http2';
 
 import type { Client } from '@klasa/core';
 import type { KlasaIncomingMessage } from './KlasaIncomingMessage';
@@ -74,7 +74,7 @@ export class Server {
 	 * The onError function called when a url does not match
 	 * @since 0.0.1
 	 */
-	private onNoMatch: (this: Server, error: Error | ErrorLike, _request: KlasaIncomingMessage | KlasaHttp2IncomingMessage, response: KlasaServerResponse | KlasaHttp2ServerResponse) => void;
+	private onNoMatch: (this: Server, error: Error | ErrorLike, _request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse) => void;
 
 	/**
 	 * @since 0.0.1
@@ -85,8 +85,8 @@ export class Server {
 
 		this.client = client;
 		this.server = http2 ?
-			http2.createSecureServer(serverOptions) :
-			serverOptions.cert ? https.createServer(serverOptions) : http.createServer(serverOptions);
+			http2CreateSecureServer(serverOptions) :
+			serverOptions.cert ? httpsCreateServer(serverOptions) : httpCreateServer(serverOptions);
 		this.onNoMatch = this.onError.bind(this, { code: 404 });
 	}
 
@@ -127,7 +127,7 @@ export class Server {
 	 */
 	private onError(error: Error | ErrorLike, _request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): void {
 		const code = response.statusCode = error.code || error.status || error.statusCode || 500;
-		response.end(error.message || http.STATUS_CODES[code]);
+		response.end(error.message || STATUS_CODES[code]);
 	}
 
 }

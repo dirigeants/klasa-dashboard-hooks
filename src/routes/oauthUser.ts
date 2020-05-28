@@ -1,11 +1,11 @@
-const { Route, util: { encrypt }, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
-const { inspect } = require('util');
-const fetch = require('node-fetch');
+import { Route, encrypt, RESPONSES, RouteStore } from '@klasa/dashboard-hooks';
+import { inspect } from 'util';
+import fetch from 'node-fetch';
 
-module.exports = class extends Route {
+export default class extends Route {
 
-	constructor(...args) {
-		super(...args, {
+	constructor(store: RouteStore, dir: string, file: string[]) {
+		super(store, dir, file, {
 			route: 'oauth/user',
 			authenticated: true
 		});
@@ -45,4 +45,4 @@ module.exports = class extends Route {
 		return response.end(RESPONSES.UPDATED[Number(!errored)]);
 	}
 
-};
+}

@@ -1,13 +1,14 @@
-const zlib = require('zlib');
-const { Middleware } = require('klasa-dashboard-hooks');
+import { createInflate, createGunzip } from 'zlib';
+import { Middleware, MiddlewareStore, KlasaIncomingMessage, KlasaHttp2ServerRequest } from '@klasa/dashboard-hooks';
+import { Transform } from 'stream';
 
-module.exports = class extends Middleware {
+export default class extends Middleware {
 
-	constructor(...args) {
-		super(...args, { priority: 20 });
+	public constructor(store: MiddlewareStore, dir: string, file: string[]) {
+		super(store, dir, file, { priority: 20 });
 	}
 
-	async run(request) {
+	public async run(request: KlasaIncomingMessage | KlasaHttp2ServerRequest): Promise<void> {
 		if (request.method !== 'POST') return;
 
 		const stream = this.contentStream(request);
@@ -19,24 +20,24 @@ module.exports = class extends Middleware {
 		request.body = data;
 	}
 
-	contentStream(request) {
-		const length = request.headers['content-length'];
+	private contentStream(request: KlasaIncomingMessage | KlasaHttp2ServerRequest): Transform {
+		// const length = request.headers['content-length'];
 		let stream;
 		switch ((request.headers['content-encoding'] || 'identity').toLowerCase()) {
 			case 'deflate':
-				stream = zlib.createInflate();
+				stream = createInflate();
 				request.pipe(stream);
 				break;
 			case 'gzip':
-				stream = zlib.createGunzip();
+				stream = createGunzip();
 				request.pipe(stream);
 				break;
 			case 'identity':
 				stream = request;
-				stream.length = length;
+				// stream.length = length;
 				break;
 		}
-		return stream;
+		return stream as Transform;
 	}
 
-};
+}

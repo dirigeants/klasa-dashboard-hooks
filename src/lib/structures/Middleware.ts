@@ -48,6 +48,6 @@ export abstract class Middleware extends Piece {
 	 * @param response The http response
 	 * @param route The route being run
 	 */
-	public abstract async run(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse, route: Route): Promise<unknown>;
+	public abstract run(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse, route: Route): void | Promise<void>;
 
 }

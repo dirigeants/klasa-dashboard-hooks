@@ -1,10 +1,10 @@
-const { Route } = require('klasa-dashboard-hooks');
-const { Duration } = require('klasa');
+import { Route, RouteStore } from '@klasa/dashboard-hooks';
+import { Duration } from '@klasa/duration';
 
-module.exports = class extends Route {
+export default class extends Route {
 
-	constructor(...args) {
-		super(...args, { route: 'application' });
+	constructor(store: RouteStore, dir: string, file: string[]) {
+		super(store, dir, file, { route: 'application' });
 	}
 
 	get(request, response) {
@@ -21,4 +21,4 @@ module.exports = class extends Route {
 		});
 	}
 
-};
+}

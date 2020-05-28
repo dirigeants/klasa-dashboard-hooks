@@ -1,4 +1,4 @@
-import { Permissions, Client, Guild } from '@klasa/core';
+import { Permissions, Client, Guild, PermissionsFlags } from '@klasa/core';
 
 import type { DashboardUser } from './DashboardUser';
 
@@ -79,7 +79,7 @@ export class DashboardGuild {
 		this.icon = guild.icon;
 		this.userIsOwner = guild.owner;
 		this.userGuildPermissions = new Permissions(guild.permissions);
-		this.userCanManage = this.userGuildPermissions.has('MANAGE_GUILD');
+		this.userCanManage = this.userGuildPermissions.has(PermissionsFlags.ManageGuild);
 	}
 
 	/**

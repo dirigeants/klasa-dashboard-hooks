@@ -1,4 +1,8 @@
 import { METHODS } from 'http';
+import { KlasaIncomingMessage } from '../http/KlasaIncomingMessage';
+import { KlasaHttp2ServerRequest } from '../http/KlasaHttp2ServerRequest';
+import { KlasaServerResponse } from '../http/KlasaServerResponse';
+import { KlasaHttp2ServerResponse } from '../http/KlasaHttp2ServerResponse';
 
 const lowerMethods: Record<string, string> = {};
 for (const method of METHODS) lowerMethods[method] = method.toLowerCase();
@@ -24,19 +28,23 @@ export const OPTIONS = {
 		port: 4000,
 		http2: false,
 		serverOptions: {
-			IncomingMessage: require('../http/KlasaIncomingMessage'),
-			ServerResponse: require('../http/KlasaServerResponse'),
-			Http1IncomingMessage: require('../http/KlasaIncomingMessage'),
-			Http1ServerResponse: require('../http/KlasaServerResponse'),
-			Http2ServerRequest: require('../http/KlasaHttp2ServerRequest'),
-			Http2ServerResponse: require('../http/KlasaHttp2ServerResponse')
+			IncomingMessage: KlasaIncomingMessage,
+			ServerResponse: KlasaServerResponse,
+			Http1IncomingMessage: KlasaIncomingMessage,
+			Http1ServerResponse: KlasaServerResponse,
+			Http2ServerRequest: KlasaHttp2ServerRequest,
+			Http2ServerResponse: KlasaHttp2ServerResponse
 		}
 	},
-	pieceDefaults: {
-		routes: {
-			enabled: true,
-			authenticated: false
-		},
-		middlewares: { enabled: true }
+	pieces: {
+		defaults: {
+			routes: {
+				enabled: true,
+				authenticated: false
+			},
+			middlewares: {
+				enabled: true
+			}
+		}
 	}
 } as const;

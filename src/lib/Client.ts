@@ -1,16 +1,18 @@
-import { Plugin, Client, DataStore, PieceConstructor } from '@klasa/core';
-
+import { Plugin, Client, DataStore, Constructor } from '@klasa/core';
 import { mergeDefault } from '@klasa/utils';
-
 import { join } from 'path';
-
 import { Server } from './http/Server';
 import { RouteStore } from './structures/RouteStore';
 import { MiddlewareStore } from './structures/MiddlewareStore';
 import { DashboardUser } from './structures/DashboardUser';
 import { OPTIONS } from './util/constants';
-import { Route } from './structures/Route';
-import { SecureContextOptions } from 'tls';
+import { RouteOptions } from './structures/Route';
+import { ServerOptions } from 'https';
+import { SecureServerOptions } from 'http2';
+import { MiddlewareOptions } from './structures/Middleware';
+
+/**
+ * The client for handling everything. See {@tutorial GettingStarted} for more information how to get started using this class.
 
 /**
  * The client for handling everything. See {@tutorial GettingStarted} for more information how to get started using this class.
@@ -44,7 +46,7 @@ export class DashboardHooks implements Plugin {
 		 * The cache where oauth data is temporarily stored
 		 * @since 0.0.1
 		 */
-		this.dashboardUsers = new DataStore(this, DashboardUser as unknown as PieceConstructor<DashboardUser>, this.options.cache.limits.dashboardUsers);
+		this.dashboardUsers = new DataStore(this, DashboardUser as unknown as Constructor<DashboardUser>, this.options.cache.limits.dashboardUsers);
 
 		this
 			.registerStore(this.routes)
@@ -90,10 +92,15 @@ export interface KlasaDashboardHooksOptions {
 	http2?: boolean;
 
 	/**
+	 * The client secret used in oauth requests
+	 */
+	clientSecret?: string;
+
+	/**
 	 * The SSL options.
 	 * @since 0.0.1
 	 */
-	sslOptions?: SecureContextOptions;
+	serverOptions?: ServerOptions | SecureServerOptions;
 }
 
 declare module '@klasa/core/dist/src/lib/client/Client' {
@@ -106,7 +113,16 @@ declare module '@klasa/core/dist/src/lib/client/Client' {
 	}
 
 	export interface ClientOptions {
-		dashboardHooks: KlasaDashboardHooksOptions;
+		dashboardHooks: Partial<KlasaDashboardHooksOptions>;
+	}
+
+	export interface PieceDefaults {
+		routes: Partial<RouteOptions>;
+		middlewares: Partial<MiddlewareOptions>;
+	}
+
+	export interface CacheLimits {
+		dashboardUsers?: number;
 	}
 
 }

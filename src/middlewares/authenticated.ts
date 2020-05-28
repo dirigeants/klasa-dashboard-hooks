@@ -1,23 +1,23 @@
-const { Middleware, util: { decrypt }, constants: { RESPONSES } } = require('klasa-dashboard-hooks');
+import { Middleware, decrypt, RESPONSES, MiddlewareStore, Route, KlasaHttp2ServerResponse, KlasaServerResponse, KlasaIncomingMessage, KlasaHttp2ServerRequest } from '@klasa/dashboard-hooks';
 
-module.exports = class extends Middleware {
+export default class extends Middleware {
 
-	constructor(...args) {
-		super(...args, { priority: 100 });
+	public constructor(store: MiddlewareStore, dir: string, file: string[]) {
+		super(store, dir, file, { priority: 100 });
 	}
 
-	async run(request, response, route) {
+	public async run(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse, route: Route): Promise<void> {
 		if (!route || !route.authenticated) return;
 		try {
-			request.auth = decrypt(request.headers.authorization, this.client.options.clientSecret);
+			request.auth = decrypt(request.headers.authorization as string, this.client.options.dashboardHooks.clientSecret);
 			if (request.method === 'POST' && !request.auth.scope.includes(request.body.id)) throw true;
 		} catch (err) {
 			this.unauthorized(response);
 		}
 	}
 
-	unauthorized(response) {
+	private unauthorized(response: KlasaServerResponse | KlasaHttp2ServerResponse) {
 		return response.status(401).end(RESPONSES.UNAUTHORIZED);
 	}
 
-};
+}

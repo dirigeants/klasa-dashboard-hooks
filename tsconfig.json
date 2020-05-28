@@ -8,7 +8,7 @@
     "noUnusedParameters": true,
     "outDir": "./dist",
     "sourceMap": true,
-    "types": ["node", "ws", "node-fetch"],
+    "types": ["node", "node-fetch"],
     "declaration": true,
     "noUnusedLocals": true,
     "removeComments": false,
@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "klasa": ["src"]
+      "@klasa/dashboard-hooks": ["src"]
     }
   },
   "exclude": [
