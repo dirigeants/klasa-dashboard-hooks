@@ -32,7 +32,7 @@ module.exports = class extends Route {
 			}, this.client.options.clientSecret));
 		}
 
-		return response.end(JSON.stringify(dashboardUser));
+		return response.json(dashboardUser);
 	}
 
 	async post(request, response) {

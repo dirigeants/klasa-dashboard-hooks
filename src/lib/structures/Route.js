@@ -21,14 +21,13 @@ class Route extends Piece {
 
 	/**
 	 * @since 0.0.1
-	 * @param {DashboardClient} client The Klasa client
 	 * @param {RouteStore} store The Route Store
 	 * @param {string} file The path from the pieces folder to the route file
 	 * @param {boolean} core If the piece is in the core directory or not
 	 * @param {RouteOptions} [options={}] Optional Route settings
 	 */
-	constructor(client, store, file, core, options = {}) {
-		super(client, store, file, core, options);
+	constructor(store, file, core, options = {}) {
+		super(store, file, core, options);
 
 		/**
 		 * Stored bound run method, so it can be properly disabled and reloaded later
@@ -40,7 +39,7 @@ class Route extends Piece {
 		/**
 		 * If the route is authenticated
 		 * @since 0.0.1
-		 * @type {string}
+		 * @type {boolean}
 		 */
 		this.authenticated = options.authenticated;
 

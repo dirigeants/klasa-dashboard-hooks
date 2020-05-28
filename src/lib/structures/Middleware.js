@@ -16,14 +16,13 @@ class Middleware extends Piece {
 
 	/**
 	 * @since 0.0.1
-	 * @param {DashboardClient} client The Klasa client
 	 * @param {MiddlewareStore} store The Middleware Store
 	 * @param {string} file The path from the pieces folder to the middleware file
 	 * @param {boolean} core If the piece is in the core directory or not
 	 * @param {MiddlewareOptions} [options={}] Optional Middleware settings
 	 */
-	constructor(client, store, file, core, options = {}) {
-		super(client, store, file, core, options);
+	constructor(store, file, core, options = {}) {
+		super(store, file, core, options);
 
 		/**
 		 * The priority in which this middleware should run

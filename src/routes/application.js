@@ -8,7 +8,7 @@ module.exports = class extends Route {
 	}
 
 	get(request, response) {
-		return response.end(JSON.stringify({
+		return response.json({
 			users: this.client.users.size,
 			guilds: this.client.guilds.size,
 			channels: this.client.channels.size,
@@ -18,7 +18,7 @@ module.exports = class extends Route {
 			memory: process.memoryUsage().heapUsed / 1024 / 1024,
 			invite: this.client.invite,
 			...this.client.application
-		}));
+		});
 	}
 
 };
