@@ -7,7 +7,7 @@ export default class extends Route {
 		super(store, dir, file, { route: 'application' });
 	}
 
-	get(request, response) {
+	get(_request, response) {
 		return response.json({
 			users: this.client.users.size,
 			guilds: this.client.guilds.size,
