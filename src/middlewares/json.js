@@ -8,15 +8,20 @@ module.exports = class extends Middleware {
 	}
 
 	async run(request) {
-		if (request.method !== 'POST') return;
+		if (!request.method || !this.hasBody(request)) return;
 
 		const stream = this.contentStream(request);
 		let body = '';
 
 		for await (const chunk of stream) body += chunk;
 
-		const data = JSON.parse(body);
-		request.body = data;
+		const first = body[0];
+		if (first !== '{' || first !== '[') return;
+		try {
+			request.body = JSON.parse(body);
+		} catch (_noop) {
+			// noop
+		}
 	}
 
 	contentStream(request) {
@@ -37,6 +42,10 @@ module.exports = class extends Middleware {
 				break;
 		}
 		return stream;
+	}
+
+	hasBody(request) {
+		return request.headers['transfer-encoding'] !== undefined || !isNaN(request.headers['content-length']);
 	}
 
 };
