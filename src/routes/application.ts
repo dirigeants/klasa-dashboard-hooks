@@ -1,4 +1,4 @@
-import { Route, RouteStore } from '@klasa/dashboard-hooks';
+import { Route, RouteStore, KlasaHttp2ServerRequest, KlasaHttp2ServerResponse, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
 import { Duration } from '@klasa/duration';
 
 export default class extends Route {
@@ -7,12 +7,12 @@ export default class extends Route {
 		super(store, dir, file, { route: 'application' });
 	}
 
-	get(_request, response) {
+	public get(_request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): void {
 		return response.json({
 			users: this.client.users.size,
 			guilds: this.client.guilds.size,
 			channels: this.client.channels.size,
-			shards: this.client.options.shardCount,
+			shards: this.client.ws.shards.size,
 			uptime: Duration.toNow(Date.now() - (process.uptime() * 1000)),
 			latency: this.client.ws.ping.toFixed(0),
 			memory: process.memoryUsage().heapUsed / 1024 / 1024,

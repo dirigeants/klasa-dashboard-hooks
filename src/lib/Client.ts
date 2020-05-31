@@ -92,6 +92,11 @@ export interface KlasaDashboardHooksOptions {
 	http2?: boolean;
 
 	/**
+	 * The client id used in oauth requests
+	 */
+	clientID?: string;
+
+	/**
 	 * The client secret used in oauth requests
 	 */
 	clientSecret?: string;

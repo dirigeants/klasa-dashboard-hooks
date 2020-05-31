@@ -9,6 +9,8 @@ export * from './lib/structures/Middleware';
 export * from './lib/structures/MiddlewareStore';
 export * from './lib/structures/Route';
 export * from './lib/structures/RouteStore';
+export * from './lib/structures/DashboardGuild';
+export * from './lib/structures/DashboardUser';
 export * from './lib/util/constants';
 export * from './lib/util/Util';
 export * from './lib/util/Util';

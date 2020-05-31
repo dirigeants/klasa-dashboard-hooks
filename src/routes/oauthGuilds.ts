@@ -1,16 +1,16 @@
-import { Route, RESPONSES, RouteStore } from '@klasa/dashboard-hooks';
+import { Route, RESPONSES, RouteStore, KlasaHttp2ServerRequest, KlasaHttp2ServerResponse, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
 import { inspect } from 'util';
 
 export default class extends Route {
 
-	constructor(store: RouteStore, dir: string, file: string[]) {
+	public constructor(store: RouteStore, dir: string, file: string[]) {
 		super(store, dir, file, {
 			route: 'oauth/user/guilds',
 			authenticated: true
 		});
 	}
 
-	async post(request, response) {
+	public async post(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): Promise<void> {
 		const botGuild = this.client.guilds.get(request.body.id);
 		const updated = await botGuild.settings.update(request.body.data, { action: 'overwrite' });
 		const errored = Boolean(updated.errors.length);

@@ -1,41 +1,43 @@
-import { Route, encrypt, RESPONSES, RouteStore } from '@klasa/dashboard-hooks';
+import { Route, encrypt, RESPONSES, RouteStore, DashboardUser, KlasaHttp2ServerRequest, KlasaHttp2ServerResponse, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
 import { inspect } from 'util';
 import fetch from 'node-fetch';
 
 export default class extends Route {
 
-	constructor(store: RouteStore, dir: string, file: string[]) {
+	public constructor(store: RouteStore, dir: string, file: string[]) {
 		super(store, dir, file, {
 			route: 'oauth/user',
 			authenticated: true
 		});
 	}
 
-	async api(token) {
+	public async api(token: string): Promise<DashboardUser> {
 		token = `Bearer ${token}`;
 		const user = await fetch('https://discordapp.com/api/users/@me', { headers: { Authorization: token } })
 			.then(result => result.json());
 		await this.client.users.fetch(user.id);
 		user.guilds = await fetch('https://discordapp.com/api/users/@me/guilds', { headers: { Authorization: token } })
 			.then(result => result.json());
-		return this.client.dashboardUsers.add(user);
+		// eslint-disable-next-line dot-notation
+		return this.client.dashboardUsers['_add'](user);
 	}
 
-	async get(request, response) {
-		let dashboardUser = this.client.dashboardUsers.cache.get(request.auth.scope[0]);
+	public async get(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): Promise<void> {
+		let dashboardUser = this.client.dashboardUsers.get(request.auth.scope[0]);
 
 		if (!dashboardUser) {
 			dashboardUser = await this.api(request.auth.token);
 			response.setHeader('Authorization', encrypt({
 				token: request.auth.token,
-				scope: [dashboardUser.id, ...dashboardUser.guilds.filter(guild => guild.userCanManage).map(guild => guild.id)]
-			}, this.client.options.clientSecret));
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				scope: [dashboardUser!.id, ...dashboardUser!.guilds.filter(guild => guild.userCanManage).map(guild => guild.id)]
+			}, this.client.options.dashboardHooks.clientSecret));
 		}
 
 		return response.json(dashboardUser);
 	}
 
-	async post(request, response) {
+	public async post(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): Promise<void> {
 		const botUser = await this.client.users.fetch(request.body.id);
 		const updated = await botUser.settings.update(request.body.data, { action: 'overwrite' });
 		const errored = Boolean(updated.errors.length);

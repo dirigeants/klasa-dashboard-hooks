@@ -18,7 +18,7 @@ export class KlasaServerResponse extends ServerResponse {
 	 * Ends the response with JSON.stringified data
 	 * @param data The data to respond with
 	 */
-	public json(data: any): void {
+	public json(data: unknown): void {
 		return this.end(JSON.stringify(data));
 	}
 

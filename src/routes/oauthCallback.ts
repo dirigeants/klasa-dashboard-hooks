@@ -1,5 +1,7 @@
-import { Route, encrypt, RESPONSES, RouteStore } from '@klasa/dashboard-hooks';
-import fetch = require('node-fetch');
+import { Route, encrypt, RESPONSES, RouteStore, KlasaHttp2ServerRequest, KlasaHttp2ServerResponse, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
+import fetch from 'node-fetch';
+
+import type { default as OAuthUser } from './oauthUser';
 
 export default class extends Route {
 
@@ -7,11 +9,11 @@ export default class extends Route {
 		super(store, dir, file, { route: 'oauth/callback' });
 	}
 
-	get oauthUser() {
-		return this.store.get('oauthUser');
+	private get oauthUser(): OAuthUser {
+		return this.store.get('oauthUser') as OAuthUser;
 	}
 
-	async post(request, response) {
+	public async post(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): Promise<void> {
 		/* eslint-disable camelcase */
 		if (!request.body.code) return this.noCode(response);
 		const url = new URL('https://discordapp.com/api/oauth2/token');
@@ -21,7 +23,7 @@ export default class extends Route {
 			['code', request.body.code]
 		]);
 		const res = await fetch(url, {
-			headers: { Authorization: `Basic ${Buffer.from(`${this.client.options.clientID}:${this.client.options.clientSecret}`).toString('base64')}` },
+			headers: { Authorization: `Basic ${Buffer.from(`${this.client.options.dashboardHooks.clientID}:${this.client.options.dashboardHooks.clientSecret}`).toString('base64')}` },
 			method: 'POST'
 		});
 		if (!res.ok) return response.end(RESPONSES.FETCHING_TOKEN);
@@ -37,17 +39,17 @@ export default class extends Route {
 			access_token: encrypt({
 				token: body.access_token,
 				scope: [user.id, ...user.guilds.filter(guild => guild.userCanManage).map(guild => guild.id)]
-			}, this.client.options.clientSecret),
+			}, this.client.options.dashboardHooks.clientSecret),
 			user
 		});
 		/* eslint-enable camelcase */
 	}
 
-	notReady(response) {
+	private notReady(response: KlasaServerResponse | KlasaHttp2ServerResponse): void {
 		return response.status(500).end(RESPONSES.NOT_READY);
 	}
 
-	noCode(response) {
+	private noCode(response: KlasaServerResponse | KlasaHttp2ServerResponse): void {
 		return response.status(400).end(RESPONSES.NO_CODE);
 	}
 
