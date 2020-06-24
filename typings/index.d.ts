@@ -2,7 +2,7 @@ import { KlasaClient, KlasaClientOptions, Piece, Store, PieceOptions, PieceDefau
 import { Server as HttpServer, IncomingMessage, ServerResponse } from 'http';
 import { SecureContextOptions, Server as HttpSecureServer } from 'tls';
 import { Http2SecureServer } from 'http2';
-import { DataStore, Collection, Permissions } from 'discord.js';
+import { BaseManager, Collection, Permissions } from 'discord.js';
 
 declare module 'klasa-dashboard-hooks' {
 
@@ -14,10 +14,8 @@ declare module 'klasa-dashboard-hooks' {
 		public server: Server;
 		public routes: RouteStore;
 		public middlewares: MiddlewareStore;
-		public dashboardUsers: DataStore<string, DashboardUser, typeof DashboardUser>;
+		public dashboardUsers: BaseManager<string, DashboardUser, typeof DashboardUser>;
 	}
-
-	export { DashboardClient as Client };
 
 	export class DashboardUser {
 		public constructor(client: DashboardClient, user: any);
