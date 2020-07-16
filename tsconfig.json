@@ -1,0 +1,34 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "strict": true,
+    "lib": ["ESNext"],
+    "module": "commonjs",
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "types": ["node", "node-fetch"],
+    "declaration": true,
+    "noUnusedLocals": true,
+    "removeComments": false,
+		"importsNotUsedAsValues": "error",
+    "target": "ES2019",
+    "incremental": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@klasa/dashboard-hooks": ["src"]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "bin",
+    "examples",
+    "scripts"
+  ],
+  "include": [
+    "./src/**/*",
+    "./test/**/*"
+  ]
+}
