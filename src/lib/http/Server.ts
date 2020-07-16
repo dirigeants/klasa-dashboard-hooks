@@ -15,33 +15,6 @@ export interface AuthData {
 	scope: string[];
 }
 
-// export interface KlasaIncomingMessage extends IncomingMessage {
-// 	/**
-// 	 * The original URL
-// 	 */
-// 	originalUrl: string;
-// 	/**
-// 	 * The entire path section of the URL, including the `host`, `port`... and before the `query`/`hash` components
-// 	 */
-// 	path: string;
-// 	/**
-// 	 * The entire query string portion of the URL including the leading ASCII question mark (`?`) character
-// 	 */
-// 	search: string;
-// 	/**
-// 	 * The collection of key and value pairs parsed from the query string portion
-// 	 */
-// 	query: Record<string, string>;
-// 	/**
-// 	 * The body parsed in POST requests
-// 	 */
-// 	body?: any;
-// 	/**
-// 	 * The auth access token and scopes
-// 	 */
-// 	auth?: AuthData;
-// }
-
 interface ErrorLike {
 	code?: number;
 	stats?: number;
