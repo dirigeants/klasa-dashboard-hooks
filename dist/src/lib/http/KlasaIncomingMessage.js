@@ -35,7 +35,7 @@ class KlasaIncomingMessage extends http_1.IncomingMessage {
     execute(response) {
         if (!this.route)
             throw { code: 404 };
-        return Reflect.get(this.route, this.methodLower)(this, response);
+        return Reflect.get(this.route, this.methodLower).apply(this.route, this, response);
     }
     /**
      * Initializes this message for the Route
