@@ -79,6 +79,7 @@ export class Server {
 
 		try {
 			await this.client.middlewares.run(request, response, request.route);
+			if (response.writableEnded) return;
 			await (request.route ? request.execute(response) : this.onNoMatch(request, response));
 		} catch (err) {
 			this.client.emit('error', err);
