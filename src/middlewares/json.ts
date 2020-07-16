@@ -23,7 +23,7 @@ export default class extends Middleware {
 	private contentStream(request: KlasaIncomingMessage): Transform {
 		// const length = request.headers['content-length'];
 		let stream;
-		switch ((request.headers['content-encoding'] || 'identity').toLowerCase()) {
+		switch ((request.headers['content-encoding'] ?? 'identity').toLowerCase()) {
 			case 'deflate':
 				stream = createInflate();
 				request.pipe(stream);

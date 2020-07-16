@@ -120,8 +120,8 @@ export class Server {
 	 * @param response The response
 	 */
 	private onError(error: Error | ErrorLike, _request: KlasaIncomingMessage, response: KlasaServerResponse): void {
-		const code = response.statusCode = Reflect.get(error, 'code') || Reflect.get(error, 'status') || Reflect.get(error, 'statusCode') || 500;
-		response.end(error.message || STATUS_CODES[code]);
+		const code = response.statusCode = Reflect.get(error, 'code') ?? Reflect.get(error, 'status') ?? Reflect.get(error, 'statusCode') ?? 500;
+		response.end(error.message ?? STATUS_CODES[code]);
 	}
 
 }

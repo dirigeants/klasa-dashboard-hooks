@@ -98,7 +98,7 @@ export class DashboardGuild {
 	 * @since 0.0.1
 	 */
 	public get guild(): Guild | null {
-		return this.client.guilds.get(this.id) || null;
+		return this.client.guilds.get(this.id) ?? null;
 	}
 
 	/**

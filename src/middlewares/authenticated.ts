@@ -7,7 +7,7 @@ export default class extends Middleware {
 	}
 
 	public async run(request: KlasaIncomingMessage, response: KlasaServerResponse, route: Route): Promise<void> {
-		if (!route || !route.authenticated) return;
+		if (!route ?? !route.authenticated) return;
 		try {
 			request.auth = decrypt(request.headers.authorization as string, this.client.options.dashboardHooks.clientSecret);
 			if (request.method === 'POST' && !request.auth.scope.includes(request.body.id)) throw true;
