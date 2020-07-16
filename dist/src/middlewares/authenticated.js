@@ -6,8 +6,7 @@ class default_1 extends dashboard_hooks_1.Middleware {
         super(store, dir, file, { priority: 100 });
     }
     async run(request, response, route) {
-        var _a;
-        if ((_a = !route) !== null && _a !== void 0 ? _a : !route.authenticated)
+        if (!route || !route.authenticated)
             return;
         try {
             request.auth = dashboard_hooks_1.decrypt(request.headers.authorization, this.client.options.dashboardHooks.clientSecret);
