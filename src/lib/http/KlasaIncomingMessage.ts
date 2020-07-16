@@ -81,7 +81,7 @@ export class KlasaIncomingMessage extends IncomingMessage {
 	 */
 	public execute(response: KlasaServerResponse): void {
 		if (!this.route) throw { code: 404 };
-		return Reflect.get(this.route, this.methodLower)(this, response);
+		return Reflect.get(this.route, this.methodLower).apply(this.route, this, response);
 	}
 
 	/**
