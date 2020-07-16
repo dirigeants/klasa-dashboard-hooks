@@ -1,8 +1,7 @@
 import { METHODS } from 'http';
 import { KlasaIncomingMessage } from '../http/KlasaIncomingMessage';
-import { KlasaHttp2ServerRequest } from '../http/KlasaHttp2ServerRequest';
 import { KlasaServerResponse } from '../http/KlasaServerResponse';
-import { KlasaHttp2ServerResponse } from '../http/KlasaHttp2ServerResponse';
+import type { KlasaDashboardHooksOptions } from '../Client';
 
 const lowerMethods: Record<string, string> = {};
 for (const method of METHODS) lowerMethods[method] = method.toLowerCase();
@@ -21,21 +20,18 @@ export const RESPONSES = {
 	]
 } as const;
 
+const dashboardHooks: KlasaDashboardHooksOptions = {
+	apiPrefix: 'api/',
+	origin: '*',
+	port: 4000,
+	serverOptions: {
+		IncomingMessage: KlasaIncomingMessage,
+		ServerResponse: KlasaServerResponse
+	}
+};
+
 export const OPTIONS = {
-	dashboardHooks: {
-		apiPrefix: 'api/',
-		origin: '*',
-		port: 4000,
-		http2: false,
-		serverOptions: {
-			IncomingMessage: KlasaIncomingMessage,
-			ServerResponse: KlasaServerResponse,
-			Http1IncomingMessage: KlasaIncomingMessage,
-			Http1ServerResponse: KlasaServerResponse,
-			Http2ServerRequest: KlasaHttp2ServerRequest,
-			Http2ServerResponse: KlasaHttp2ServerResponse
-		}
-	},
+	dashboardHooks,
 	pieces: {
 		defaults: {
 			routes: {

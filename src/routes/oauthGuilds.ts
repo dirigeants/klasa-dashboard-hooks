@@ -1,4 +1,4 @@
-import { Route, RESPONSES, RouteStore, KlasaHttp2ServerRequest, KlasaHttp2ServerResponse, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
+import { Route, RESPONSES, RouteStore, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
 import { inspect } from 'util';
 
 export default class extends Route {
@@ -10,8 +10,13 @@ export default class extends Route {
 		});
 	}
 
-	public async post(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): Promise<void> {
+	public async post(request: KlasaIncomingMessage, response: KlasaServerResponse): Promise<void> {
 		const botGuild = this.client.guilds.get(request.body.id);
+
+		if (typeof botGuild === 'undefined') return response.end(RESPONSES.UPDATED[0]);
+
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
 		const updated = await botGuild.settings.update(request.body.data, { action: 'overwrite' });
 		const errored = Boolean(updated.errors.length);
 

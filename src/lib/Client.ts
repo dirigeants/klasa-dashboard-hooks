@@ -1,4 +1,4 @@
-import { Plugin, Client, DataStore, Constructor } from '@klasa/core';
+import { Plugin, Client, Constructor } from '@klasa/core';
 import { mergeDefault } from '@klasa/utils';
 import { join } from 'path';
 import { Server } from './http/Server';
@@ -6,10 +6,10 @@ import { RouteStore } from './structures/RouteStore';
 import { MiddlewareStore } from './structures/MiddlewareStore';
 import { DashboardUser } from './structures/DashboardUser';
 import { OPTIONS } from './util/constants';
-import { RouteOptions } from './structures/Route';
-import { ServerOptions } from 'https';
-import { SecureServerOptions } from 'http2';
-import { MiddlewareOptions } from './structures/Middleware';
+import { DashboardUserStore } from './structures/DashboardUserStore';
+import type { RouteOptions } from './structures/Route';
+import type { ServerOptions } from 'https';
+import type { MiddlewareOptions } from './structures/Middleware';
 
 /**
  * The client for handling everything. See {@tutorial GettingStarted} for more information how to get started using this class.
@@ -22,6 +22,8 @@ import { MiddlewareOptions } from './structures/Middleware';
 export class DashboardHooks implements Plugin {
 
 	static [Client.plugin](this: Client): void {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
 		mergeDefault(OPTIONS, this.options);
 
 		/**
@@ -46,7 +48,7 @@ export class DashboardHooks implements Plugin {
 		 * The cache where oauth data is temporarily stored
 		 * @since 0.0.1
 		 */
-		this.dashboardUsers = new DataStore(this, DashboardUser as unknown as Constructor<DashboardUser>, this.options.cache.limits.dashboardUsers);
+		this.dashboardUsers = new DashboardUserStore(this, DashboardUser as unknown as Constructor<DashboardUser>, this.options.cache.limits.dashboardUsers);
 
 		this
 			.registerStore(this.routes)
@@ -85,13 +87,6 @@ export interface KlasaDashboardHooksOptions {
 	port?: number;
 
 	/**
-	 * Whether the server should use http/2 or not.
-	 * @since 0.0.1
-	 * @default false
-	 */
-	http2?: boolean;
-
-	/**
 	 * The client id used in oauth requests
 	 */
 	clientID?: string;
@@ -105,7 +100,7 @@ export interface KlasaDashboardHooksOptions {
 	 * The SSL options.
 	 * @since 0.0.1
 	 */
-	serverOptions?: ServerOptions | SecureServerOptions;
+	serverOptions?: ServerOptions;
 }
 
 declare module '@klasa/core/dist/src/lib/client/Client' {
@@ -114,7 +109,7 @@ declare module '@klasa/core/dist/src/lib/client/Client' {
 		server: Server;
 		routes: RouteStore;
 		middlewares: MiddlewareStore;
-		dashboardUsers: DataStore<DashboardUser>;
+		dashboardUsers: DashboardUserStore;
 	}
 
 	export interface ClientOptions {

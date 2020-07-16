@@ -1,6 +1,6 @@
 import { createInflate, createGunzip } from 'zlib';
-import { Middleware, MiddlewareStore, KlasaIncomingMessage, KlasaHttp2ServerRequest } from '@klasa/dashboard-hooks';
-import { Transform } from 'stream';
+import { Middleware, MiddlewareStore, KlasaIncomingMessage } from '@klasa/dashboard-hooks';
+import type { Transform } from 'stream';
 
 export default class extends Middleware {
 
@@ -8,7 +8,7 @@ export default class extends Middleware {
 		super(store, dir, file, { priority: 20 });
 	}
 
-	public async run(request: KlasaIncomingMessage | KlasaHttp2ServerRequest): Promise<void> {
+	public async run(request: KlasaIncomingMessage): Promise<void> {
 		if (request.method !== 'POST') return;
 
 		const stream = this.contentStream(request);
@@ -20,7 +20,7 @@ export default class extends Middleware {
 		request.body = data;
 	}
 
-	private contentStream(request: KlasaIncomingMessage | KlasaHttp2ServerRequest): Transform {
+	private contentStream(request: KlasaIncomingMessage): Transform {
 		// const length = request.headers['content-length'];
 		let stream;
 		switch ((request.headers['content-encoding'] || 'identity').toLowerCase()) {

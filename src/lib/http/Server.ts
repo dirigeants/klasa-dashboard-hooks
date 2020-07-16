@@ -1,12 +1,8 @@
 import { Server as HttpServer, createServer as httpCreateServer, STATUS_CODES } from 'http';
-import { Server as HttpsServer, createServer as httpsCreateServer } from 'https';
-import { Http2SecureServer, createSecureServer as http2CreateSecureServer } from 'http2';
 
 import type { Client } from '@klasa/core';
 import type { KlasaIncomingMessage } from './KlasaIncomingMessage';
 import type { KlasaServerResponse } from './KlasaServerResponse';
-import type { KlasaHttp2ServerRequest } from './KlasaHttp2ServerRequest';
-import type { KlasaHttp2ServerResponse } from './KlasaHttp2ServerResponse';
 
 export interface AuthData {
 	/**
@@ -68,25 +64,23 @@ export class Server {
 	 * The http.Server instance that manages the HTTP requests
 	 * @since 0.0.1
 	 */
-	public server: Http2SecureServer | HttpsServer | HttpServer;
+	public server: HttpServer;
 
 	/**
 	 * The onError function called when a url does not match
 	 * @since 0.0.1
 	 */
-	private onNoMatch: (this: Server, error: Error | ErrorLike, _request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse) => void;
+	private onNoMatch: (this: Server, _request: KlasaIncomingMessage, response: KlasaServerResponse) => void;
 
 	/**
 	 * @since 0.0.1
 	 * @param client The Klasa client
 	 */
 	public constructor(client: Client) {
-		const { http2, serverOptions } = client.options.dashboardHooks;
+		const { serverOptions } = client.options.dashboardHooks;
 
 		this.client = client;
-		this.server = http2 ?
-			http2CreateSecureServer(serverOptions) :
-			serverOptions.cert ? httpsCreateServer(serverOptions) : httpCreateServer(serverOptions);
+		this.server = httpCreateServer(serverOptions);
 		this.onNoMatch = this.onError.bind(this, { code: 404 });
 	}
 
@@ -106,7 +100,7 @@ export class Server {
 	 * @param request The request
 	 * @param response The response
 	 */
-	private async handler(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse) {
+	private async handler(request: KlasaIncomingMessage, response: KlasaServerResponse) {
 		// eslint-disable-next-line dot-notation
 		request['_init'](this.client);
 
@@ -125,8 +119,8 @@ export class Server {
 	 * @param request The request
 	 * @param response The response
 	 */
-	private onError(error: Error | ErrorLike, _request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): void {
-		const code = response.statusCode = error.code || error.status || error.statusCode || 500;
+	private onError(error: Error | ErrorLike, _request: KlasaIncomingMessage, response: KlasaServerResponse): void {
+		const code = response.statusCode = Reflect.get(error, 'code') || Reflect.get(error, 'status') || Reflect.get(error, 'statusCode') || 500;
 		response.end(error.message || STATUS_CODES[code]);
 	}
 

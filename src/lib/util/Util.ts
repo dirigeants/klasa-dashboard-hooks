@@ -59,3 +59,12 @@ export function decrypt(token: string, secret: string): unknown {
 	const decipher = createDecipheriv('aes-256-cbc', secret, Buffer.from(iv, 'base64'));
 	return JSON.parse(decipher.update(data, 'base64', 'utf8') + decipher.final('utf8'));
 }
+
+/**
+ * Encodes an object to x-www-form-urlencoded
+ * @since 0.0.2
+ * @param data The object to form encode
+ */
+export function formEncode(data: Record<string, string>): string {
+	return Object.keys(data).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`).join('&');
+}

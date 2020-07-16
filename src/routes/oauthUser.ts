@@ -1,6 +1,5 @@
-import { Route, encrypt, RESPONSES, RouteStore, DashboardUser, KlasaHttp2ServerRequest, KlasaHttp2ServerResponse, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
+import { Route, encrypt, RESPONSES, RouteStore, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
 import { inspect } from 'util';
-import fetch from 'node-fetch';
 
 export default class extends Route {
 
@@ -11,22 +10,11 @@ export default class extends Route {
 		});
 	}
 
-	public async api(token: string): Promise<DashboardUser> {
-		token = `Bearer ${token}`;
-		const user = await fetch('https://discordapp.com/api/users/@me', { headers: { Authorization: token } })
-			.then(result => result.json());
-		await this.client.users.fetch(user.id);
-		user.guilds = await fetch('https://discordapp.com/api/users/@me/guilds', { headers: { Authorization: token } })
-			.then(result => result.json());
-		// eslint-disable-next-line dot-notation
-		return this.client.dashboardUsers['_add'](user);
-	}
-
-	public async get(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): Promise<void> {
+	public async get(request: KlasaIncomingMessage, response: KlasaServerResponse): Promise<void> {
 		let dashboardUser = this.client.dashboardUsers.get(request.auth.scope[0]);
 
 		if (!dashboardUser) {
-			dashboardUser = await this.api(request.auth.token);
+			dashboardUser = await this.client.dashboardUsers.fetch(request.auth.token);
 			response.setHeader('Authorization', encrypt({
 				token: request.auth.token,
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -37,8 +25,11 @@ export default class extends Route {
 		return response.json(dashboardUser);
 	}
 
-	public async post(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): Promise<void> {
+	public async post(request: KlasaIncomingMessage, response: KlasaServerResponse): Promise<void> {
 		const botUser = await this.client.users.fetch(request.body.id);
+
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
 		const updated = await botUser.settings.update(request.body.data, { action: 'overwrite' });
 		const errored = Boolean(updated.errors.length);
 

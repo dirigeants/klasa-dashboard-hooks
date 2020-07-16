@@ -41,7 +41,7 @@ export class KlasaIncomingMessage extends IncomingMessage {
 	/**
 	 * The Route this incoming message is for
 	 */
-	public route: Route;
+	public route!: Route;
 
 	/**
 	 * Authentication Data (added in middlewares)
@@ -59,12 +59,11 @@ export class KlasaIncomingMessage extends IncomingMessage {
 	public constructor(socket: Socket) {
 		super(socket);
 
-		this.originalUrl = null;
-		this.path = null;
-		this.search = null;
+		this.originalUrl = '';
+		this.path = '';
+		this.search = '';
 		this.query = null;
 		this.params = null;
-		this.route = null;
 		this.auth = null;
 		this.body = null;
 	}
@@ -73,7 +72,7 @@ export class KlasaIncomingMessage extends IncomingMessage {
 	 * The lowercase method name
 	 */
 	public get methodLower(): string {
-		return constants.METHODS_LOWER[this.method];
+		return Reflect.get(constants.METHODS_LOWER, this.method as string);
 	}
 
 	/**
@@ -81,7 +80,8 @@ export class KlasaIncomingMessage extends IncomingMessage {
 	 * @param response The response object
 	 */
 	public execute(response: KlasaServerResponse): void {
-		return this.route[this.methodLower](this, response);
+		if (!this.route) throw { code: 404 };
+		return Reflect.get(this.route, this.methodLower)(this, response);
 	}
 
 	/**
@@ -90,14 +90,14 @@ export class KlasaIncomingMessage extends IncomingMessage {
 	 */
 	protected _init(client: Client): void {
 		// this.url is '' in the constructor and is updated later
-		const info = parse(this.url, true);
-		this.originalUrl = this.originalUrl || this.url;
-		this.path = info.pathname;
-		this.search = info.search;
+		const info = parse(this.url as string, true);
+		this.originalUrl = this.originalUrl ?? this.url ?? '';
+		this.path = info.pathname as string;
+		this.search = info.search ?? '';
 		this.query = info.query;
 
 		const splitURL = split(this.path);
-		this.route = client.routes.findRoute(this.method, splitURL);
+		this.route = client.routes.findRoute(this.method as string, splitURL) as Route;
 
 		if (this.route) this.params = this.route.execute(splitURL);
 	}

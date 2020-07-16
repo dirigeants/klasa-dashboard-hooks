@@ -3,9 +3,7 @@ import { Middleware } from './Middleware';
 
 import type { Route } from './Route';
 import type { KlasaIncomingMessage } from '../http/KlasaIncomingMessage';
-import type { KlasaHttp2ServerRequest } from '../http/KlasaHttp2ServerRequest';
 import type { KlasaServerResponse } from '../http/KlasaServerResponse';
-import type { KlasaHttp2ServerResponse } from '../http/KlasaHttp2ServerResponse';
 
 /**
  * Stores all the middlewares that are part of klasa-dashboard-hooks.
@@ -74,7 +72,7 @@ export class MiddlewareStore extends Store<Middleware> {
 	 * @param response The http response
 	 * @param route The route being run
 	 */
-	public async run(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse, route: Route): Promise<void> {
+	public async run(request: KlasaIncomingMessage, response: KlasaServerResponse, route: Route): Promise<void> {
 		for (const middleware of this.sortedMiddlewares) {
 			if (response.finished) return;
 			if (middleware.enabled) await middleware.run(request, response, route);

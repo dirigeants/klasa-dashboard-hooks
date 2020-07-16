@@ -1,11 +1,9 @@
 import { Piece, PieceOptions } from '@klasa/core';
 
 import { parse, ParsedPart } from '../util/Util';
-import { RouteStore } from './RouteStore';
-import { KlasaIncomingMessage } from '../http/KlasaIncomingMessage';
-import { KlasaHttp2ServerRequest } from '../http/KlasaHttp2ServerRequest';
-import { KlasaServerResponse } from '../http/KlasaServerResponse';
-import { KlasaHttp2ServerResponse } from '../http/KlasaHttp2ServerResponse';
+import type { RouteStore } from './RouteStore';
+import type { KlasaIncomingMessage } from '../http/KlasaIncomingMessage';
+import type { KlasaServerResponse } from '../http/KlasaServerResponse';
 
 export interface RouteOptions extends PieceOptions {
 	route?: string;
@@ -80,38 +78,38 @@ export class Route extends Piece {
 }
 
 export interface Route {
-	acl?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	bind?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	checkout?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	connect?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	copy?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	delete?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	get?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	head?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	link?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	lock?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	'm-search'?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	merge?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	mkactivity?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	mkcalendar?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	mkcol?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	move?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	notify?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	options?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	patch?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	post?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	propfind?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	proppatch?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	purge?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	put?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	rebind?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	report?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	search?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	source?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	subscribe?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	trace?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	unbind?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	unlink?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	unlock?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
-	unsubscribe?(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): unknown;
+	acl?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	bind?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	checkout?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	connect?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	copy?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	delete?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	get?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	head?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	link?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	lock?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	'm-search'?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	merge?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	mkactivity?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	mkcalendar?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	mkcol?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	move?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	notify?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	options?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	patch?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	post?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	propfind?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	proppatch?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	purge?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	put?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	rebind?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	report?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	search?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	source?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	subscribe?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	trace?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	unbind?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	unlink?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	unlock?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
+	unsubscribe?(request: KlasaIncomingMessage, response: KlasaServerResponse): unknown;
 }

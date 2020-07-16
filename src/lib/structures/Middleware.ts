@@ -3,9 +3,7 @@ import { Piece, PieceOptions } from '@klasa/core';
 import type { Route } from './Route';
 import type { MiddlewareStore } from './MiddlewareStore';
 import type { KlasaIncomingMessage } from '../http/KlasaIncomingMessage';
-import type { KlasaHttp2ServerRequest } from '../http/KlasaHttp2ServerRequest';
 import type { KlasaServerResponse } from '../http/KlasaServerResponse';
-import type { KlasaHttp2ServerResponse } from '../http/KlasaHttp2ServerResponse';
 
 export interface MiddlewareOptions extends PieceOptions {
 	/**
@@ -48,6 +46,6 @@ export abstract class Middleware extends Piece {
 	 * @param response The http response
 	 * @param route The route being run
 	 */
-	public abstract run(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse, route: Route): void | Promise<void>;
+	public abstract run(request: KlasaIncomingMessage, response: KlasaServerResponse, route: Route): void | Promise<void>;
 
 }

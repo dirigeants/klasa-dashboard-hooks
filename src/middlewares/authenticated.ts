@@ -1,4 +1,4 @@
-import { Middleware, decrypt, RESPONSES, MiddlewareStore, Route, KlasaHttp2ServerResponse, KlasaServerResponse, KlasaIncomingMessage, KlasaHttp2ServerRequest } from '@klasa/dashboard-hooks';
+import { Middleware, decrypt, RESPONSES, MiddlewareStore, Route, KlasaServerResponse, KlasaIncomingMessage } from '@klasa/dashboard-hooks';
 
 export default class extends Middleware {
 
@@ -6,7 +6,7 @@ export default class extends Middleware {
 		super(store, dir, file, { priority: 100 });
 	}
 
-	public async run(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse, route: Route): Promise<void> {
+	public async run(request: KlasaIncomingMessage, response: KlasaServerResponse, route: Route): Promise<void> {
 		if (!route || !route.authenticated) return;
 		try {
 			request.auth = decrypt(request.headers.authorization as string, this.client.options.dashboardHooks.clientSecret);
@@ -16,7 +16,7 @@ export default class extends Middleware {
 		}
 	}
 
-	private unauthorized(response: KlasaServerResponse | KlasaHttp2ServerResponse) {
+	private unauthorized(response: KlasaServerResponse) {
 		return response.status(401).end(RESPONSES.UNAUTHORIZED);
 	}
 

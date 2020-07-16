@@ -1,7 +1,7 @@
 import { Cache } from '@klasa/cache';
 import { DashboardGuild, OAuthGuildData } from './DashboardGuild';
 import { Client, User } from '@klasa/core';
-import { APIUserData } from '@klasa/dapi-types';
+import type { APIUserData } from '@klasa/dapi-types';
 
 export interface DashboardUserData extends APIUserData {
 	guilds: OAuthGuildData[];

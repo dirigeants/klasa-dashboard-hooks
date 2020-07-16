@@ -1,4 +1,4 @@
-import { Middleware, MiddlewareStore, KlasaHttp2ServerRequest, KlasaHttp2ServerResponse, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
+import { Middleware, MiddlewareStore, KlasaIncomingMessage, KlasaServerResponse } from '@klasa/dashboard-hooks';
 
 export default class extends Middleware {
 
@@ -6,7 +6,7 @@ export default class extends Middleware {
 		super(store, dir, file, { priority: 10 });
 	}
 
-	public run(request: KlasaIncomingMessage | KlasaHttp2ServerRequest, response: KlasaServerResponse | KlasaHttp2ServerResponse): void {
+	public run(request: KlasaIncomingMessage, response: KlasaServerResponse): void {
 		response.setHeader('Access-Control-Allow-Origin', this.client.options.dashboardHooks.origin);
 		response.setHeader('Access-Control-Allow-Methods', 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT');
 		response.setHeader('Access-Control-Allow-Headers', 'Authorization, User-Agent, Content-Type');
