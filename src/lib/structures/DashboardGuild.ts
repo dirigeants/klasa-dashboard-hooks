@@ -88,7 +88,7 @@ export class DashboardGuild {
 	 */
 	public get iconURL(): string | null {
 		const { guild } = this;
-		if (guild) return guild.iconURL({ format: 'png' });
+		if (guild) return guild.iconURL({ extension: 'png' });
 		if (this.icon) return `https://cdn.discordapp.com/icons/${this.id}/${this.icon}.png`;
 		return null;
 	}
