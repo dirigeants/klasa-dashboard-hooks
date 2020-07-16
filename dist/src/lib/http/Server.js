@@ -36,6 +36,8 @@ class Server {
         request['_init'](this.client);
         try {
             await this.client.middlewares.run(request, response, request.route);
+            if (response.writableEnded)
+                return;
             await (request.route ? request.execute(response) : this.onNoMatch(request, response));
         }
         catch (err) {
