@@ -13,10 +13,6 @@ import type { MiddlewareOptions } from './structures/Middleware';
 
 /**
  * The client for handling everything. See {@tutorial GettingStarted} for more information how to get started using this class.
-
-/**
- * The client for handling everything. See {@tutorial GettingStarted} for more information how to get started using this class.
- * @extends external:KlasaClient
  * @tutorial GettingStarted
  */
 export class DashboardHooks implements Plugin {
