@@ -63,3 +63,5 @@ docs
 desktop.ini
 
 pnpm-lock\.yaml
+
+dist/
