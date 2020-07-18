@@ -28,18 +28,21 @@ export default class extends Route {
 	public async post(request: KlasaIncomingMessage, response: KlasaServerResponse): Promise<void> {
 		const botUser = await this.client.users.fetch(request.body.id);
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
-		await botUser.settings.sync();
+		try {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
+			await botUser.settings.sync();
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
-		const updated = await botUser.settings.update(request.body.data, { action: 'overwrite' });
-		const errored = Boolean(updated.errors.length);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
+			await botUser.settings.update(request.body.data, { action: 'overwrite' });
 
-		if (errored) this.client.emit('error', `${botUser.username}[${botUser.id}] failed updating user configs via dashboard with error:\n${inspect(updated.errors)}`);
+			return response.end(RESPONSES.UPDATED[1]);
+		} catch (error) {
+			this.client.emit('error', `${botUser.username}[${botUser.id}] failed updating user configs via dashboard with error:\n${inspect(error)}`);
 
-		return response.end(RESPONSES.UPDATED[Number(!errored)]);
+			return response.end(RESPONSES.UPDATED[0]);
+		}
 	}
 
 }

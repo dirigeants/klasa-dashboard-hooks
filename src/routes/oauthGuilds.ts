@@ -15,18 +15,21 @@ export default class extends Route {
 
 		if (typeof botGuild === 'undefined') return response.end(RESPONSES.UPDATED[0]);
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
-		await botGuild.settings.sync();
+		try {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
+			await botGuild.settings.sync();
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
-		const updated = await botGuild.settings.update(request.body.data, { action: 'overwrite' });
-		const errored = Boolean(updated.errors.length);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
+			await botGuild.settings.update(request.body.data, { action: 'overwrite' });
 
-		if (errored) this.client.emit('error', `${botGuild.name}[${botGuild.id}] failed updating guild configs via dashboard with error:\n${inspect(updated.errors)}`);
+			return response.end(RESPONSES.UPDATED[1]);
+		} catch (error) {
+			this.client.emit('error', `${botGuild.name}[${botGuild.id}] failed updating guild configs via dashboard with error:\n${inspect(error)}`);
 
-		return response.end(RESPONSES.UPDATED[Number(!errored)]);
+			return response.end(RESPONSES.UPDATED[0]);
+		}
 	}
 
 }
