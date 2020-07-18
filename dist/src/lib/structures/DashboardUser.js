@@ -8,7 +8,7 @@ const core_1 = require("@klasa/core");
  * Represents an OAuth User.
  *@since 0.0.1
  */
-class DashboardUser extends core_1.User {
+class DashboardUser extends core_1.extender.get('User') {
     /**
      * @since 0.0.1
      * @param client The client

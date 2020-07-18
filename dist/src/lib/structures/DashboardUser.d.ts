@@ -1,15 +1,16 @@
 import { Cache } from '@klasa/cache';
 import { DashboardGuild, OAuthGuildData } from './DashboardGuild';
-import { Client, User } from '@klasa/core';
+import { Client } from '@klasa/core';
 import type { APIUserData } from '@klasa/dapi-types';
 export interface DashboardUserData extends APIUserData {
     guilds: OAuthGuildData[];
 }
+declare const DashboardUser_base: import("@klasa/core").Constructor<import("@klasa/core").User<Client>>;
 /**
  * Represents an OAuth User.
  *@since 0.0.1
  */
-export declare class DashboardUser extends User {
+export declare class DashboardUser extends DashboardUser_base {
     /**
      * The cache of OAuth Guilds this OAuth User is in.
      * @since 0.0.1
@@ -34,3 +35,4 @@ export declare class DashboardUser extends User {
      */
     private static setupGuilds;
 }
+export {};
