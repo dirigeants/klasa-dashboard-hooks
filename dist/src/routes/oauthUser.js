@@ -23,16 +23,19 @@ class default_1 extends dashboard_hooks_1.Route {
     }
     async post(request, response) {
         const botUser = await this.client.users.fetch(request.body.id);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        await botUser.settings.sync();
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const updated = await botUser.settings.update(request.body.data, { action: 'overwrite' });
-        const errored = Boolean(updated.errors.length);
-        if (errored)
-            this.client.emit('error', `${botUser.username}[${botUser.id}] failed updating user configs via dashboard with error:\n${util_1.inspect(updated.errors)}`);
-        return response.end(dashboard_hooks_1.RESPONSES.UPDATED[Number(!errored)]);
+        try {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            await botUser.settings.sync();
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            await botUser.settings.update(request.body.data, { action: 'overwrite' });
+            return response.end(dashboard_hooks_1.RESPONSES.UPDATED[1]);
+        }
+        catch (error) {
+            this.client.emit('error', `${botUser.username}[${botUser.id}] failed updating user configs via dashboard with error:\n${util_1.inspect(error)}`);
+            return response.end(dashboard_hooks_1.RESPONSES.UPDATED[0]);
+        }
     }
 }
 exports.default = default_1;
