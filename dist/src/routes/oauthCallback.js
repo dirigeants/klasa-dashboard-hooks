@@ -28,6 +28,9 @@ class default_1 extends dashboard_hooks_1.Route {
         }
         const body = await res.json();
         const user = await this.client.dashboardUsers.fetch(body.access_token);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        await user.settings.sync();
         return response.json({
             access_token: dashboard_hooks_1.encrypt({
                 token: body.access_token,

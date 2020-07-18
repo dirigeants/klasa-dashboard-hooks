@@ -25,6 +25,9 @@ class default_1 extends dashboard_hooks_1.Route {
         const botUser = await this.client.users.fetch(request.body.id);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
+        await botUser.settings.sync();
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         const updated = await botUser.settings.update(request.body.data, { action: 'overwrite' });
         const errored = Boolean(updated.errors.length);
         if (errored)

@@ -15,6 +15,9 @@ class default_1 extends dashboard_hooks_1.Route {
             return response.end(dashboard_hooks_1.RESPONSES.UPDATED[0]);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
+        await botGuild.settings.sync();
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         const updated = await botGuild.settings.update(request.body.data, { action: 'overwrite' });
         const errored = Boolean(updated.errors.length);
         if (errored)

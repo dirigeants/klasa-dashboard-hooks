@@ -8,7 +8,6 @@ class DashboardUserStore extends core_1.DataStore {
         token = `Bearer ${token}`;
         const user = await node_fetch_1.default('https://discordapp.com/api/users/@me', { headers: { Authorization: token } })
             .then(result => result.json());
-        await this.client.users.fetch(user.id);
         user.guilds = await node_fetch_1.default('https://discordapp.com/api/users/@me/guilds', { headers: { Authorization: token } })
             .then(result => result.json());
         // eslint-disable-next-line dot-notation
