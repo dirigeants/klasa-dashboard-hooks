@@ -1,6 +1,6 @@
 import { Cache } from '@klasa/cache';
 import { DashboardGuild, OAuthGuildData } from './DashboardGuild';
-import { Client, User } from '@klasa/core';
+import { Client, extender } from '@klasa/core';
 import type { APIUserData } from '@klasa/dapi-types';
 
 export interface DashboardUserData extends APIUserData {
@@ -11,7 +11,7 @@ export interface DashboardUserData extends APIUserData {
  * Represents an OAuth User.
  *@since 0.0.1
  */
-export class DashboardUser extends User {
+export class DashboardUser extends extender.get('User') {
 
 	/**
 	 * The cache of OAuth Guilds this OAuth User is in.
