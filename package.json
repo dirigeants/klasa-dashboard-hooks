@@ -46,7 +46,7 @@
     "eslint-config-klasa": "dirigeants/klasa-lint",
     "nyc": "^15.0.1",
     "source-map-support": "^0.5.19",
-    "typedoc": "^0.17.7",
+    "typedoc": "^0.19.1",
     "typescript": "^3.9.3"
   },
   "engines": {
