@@ -27,7 +27,7 @@
     "docs:html": "typedoc --inputFiles src --mode modules --out docs"
   },
   "dependencies": {
-    "@types/node-fetch": "1.6.9",
+    "@types/node-fetch": "2.5.10",
     "@klasa/utils": "^0.0.8",
     "@klasa/duration": "^0.0.3",
     "node-fetch": "^2.6.0"
