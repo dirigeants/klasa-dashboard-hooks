@@ -1,0 +1,51 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: eslint
+    versions:
+    - 7.18.0
+    - 7.19.0
+    - 7.20.0
+    - 7.21.0
+    - 7.22.0
+    - 7.23.0
+    - 7.24.0
+  - dependency-name: typedoc
+    versions:
+    - 0.20.19
+    - 0.20.20
+    - 0.20.21
+    - 0.20.22
+    - 0.20.23
+    - 0.20.24
+    - 0.20.25
+    - 0.20.26
+    - 0.20.27
+    - 0.20.28
+    - 0.20.29
+    - 0.20.30
+    - 0.20.31
+    - 0.20.32
+    - 0.20.33
+    - 0.20.34
+    - 0.20.35
+  - dependency-name: "@types/node-fetch"
+    versions:
+    - 2.5.8
+    - 2.5.9
+  - dependency-name: typescript
+    versions:
+    - 4.1.3
+    - 4.1.4
+    - 4.1.5
+    - 4.2.2
+    - 4.2.3
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    versions:
+    - 4.13.0
